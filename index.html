@@ -394,6 +394,11 @@
             from { box-shadow: inset 0 0 40px rgba(255, 0, 60, 0.1); }
             to { box-shadow: inset 0 0 120px rgba(255, 0, 60, 0.4); }
         }
+        @keyframes text-blink {
+            0% { opacity: 1; text-shadow: 0 0 20px #f3ff00, 0 0 30px #f3ff00; }
+            50% { opacity: 0.2; text-shadow: none; }
+            100% { opacity: 1; text-shadow: 0 0 20px #f3ff00, 0 0 30px #f3ff00; }
+        }
 
         /* Mobile Restriction */
         #mobile-warning {
@@ -459,7 +464,18 @@
             box-shadow: 0 5px 15px rgba(243, 255, 0, 0.1);
         }
         .ach-item.unlocked::before { content: '🏆'; opacity: 0.8; text-shadow: 0 0 10px #f3ff00; }
-        .ach-item.unlocked:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(243, 255, 0, 0.3); border-color: #fff; }
+        .ach-item.unlocked:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(243, 255, 0, 0.3); border-color: #fff; cursor: pointer; }
+        
+        .ach-item.active-title { border-color: #00f3ff; background: rgba(0, 243, 255, 0.15); box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); transform: scale(1.02); }
+        .ach-item.active-title::after { content: '✔️ EQUIPADO'; position: absolute; top: -10px; left: -25px; background: #00f3ff; color: #000; padding: 20px 25px 5px 25px; font-size: 0.6rem; transform: rotate(-45deg); font-weight: 900; }
+
+        .ach-tooltip {
+            display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); z-index: 10;
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            padding: 15px; box-sizing: border-box; opacity: 0; transition: opacity 0.3s;
+        }
+        .ach-item:hover .ach-tooltip { display: flex; opacity: 1; }
 
         .ach-title { font-weight: 900; color: #fff; margin-bottom: 8px; font-size: 1.1rem; letter-spacing: 1px; }
         .ach-item.unlocked .ach-title { color: #f3ff00; text-shadow: 0 0 8px #f3ff00; }
@@ -540,10 +556,16 @@
         <div id="start-overlay">
             <div class="start-container">
                 <div class="system-status">SYSTEM_STATUS: ONLINE</div>
-                <div id="player-title" style="color: #00f3ff; font-size: 0.9rem; font-weight: bold; letter-spacing: 6px; margin-bottom: -5px; text-shadow: 0 0 15px #00f3ff; text-transform: uppercase;">BIENVENIDO, RECLUTA</div>
+                <div id="player-title" style="color: #00f3ff; font-size: 0.9rem; font-weight: bold; letter-spacing: 6px; margin-bottom: -5px; text-shadow: 0 0 15px #00f3ff; text-transform: uppercase;">[RECLUTA] JUGADOR</div>
                 <h2 data-i18n="title_main">VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span></h2>
                 
-                <div class="lang-flags" style="margin-top: 25px;">
+                <div style="margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <input type="text" id="player-name-input" maxlength="15" placeholder="TU NOMBRE" style="background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.4); color: #00f3ff; padding: 12px 20px; font-size: 1.2rem; font-family: 'Inter', sans-serif; text-align: center; font-weight: bold; letter-spacing: 4px; border-radius: 4px; outline: none; box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.1), 0 0 10px rgba(0, 243, 255, 0.2); text-transform: uppercase; width: 220px; transition: all 0.3s;" onfocus="this.style.boxShadow='inset 0 0 20px rgba(0, 243, 255, 0.4), 0 0 20px rgba(0, 243, 255, 0.6)'; this.style.borderColor='#00f3ff';" onblur="this.style.boxShadow='inset 0 0 15px rgba(0, 243, 255, 0.1), 0 0 10px rgba(0, 243, 255, 0.2)'; this.style.borderColor='rgba(0,243,255,0.4)';">
+                    <button onclick="updatePlayerTitle(true)" style="background: rgba(0, 243, 255, 0.1); border: 1px solid #00f3ff; color: #00f3ff; padding: 12px 15px; font-size: 1rem; cursor: pointer; border-radius: 4px; font-weight: bold; transition: all 0.2s;" onmouseover="this.style.background='#00f3ff'; this.style.color='#000';" onmouseout="this.style.background='rgba(0, 243, 255, 0.1)'; this.style.color='#00f3ff';">OK</button>
+                    <span id="name-saved-check" style="color: #39ff14; font-size: 1.2rem; font-weight: bold; opacity: 0; transition: opacity 0.3s; margin-left: -5px;">✓</span>
+                </div>
+
+                <div class="lang-flags" style="margin-top: 15px;">
                     <button class="flag-btn es active" onclick="setLanguage('es')">[ ES ]</button>
                     <button class="flag-btn en" onclick="setLanguage('en')">[ EN ]</button>
                 </div>
@@ -668,7 +690,10 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 35px; text-align: center;">
+                <div style="margin-top: 30px; text-align: center;">
+                    <div id="visit-counter" style="color: #00f3ff; font-family: 'Inter', sans-serif; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 25px; text-shadow: 0 0 10px rgba(0, 243, 255, 0.4); text-transform: uppercase;">
+                        <span data-i18n="visit_counter">ERES EL VIAJERO NÚMERO:</span> <strong id="visit-number" style="font-size: 1.3rem; color: #fff; text-shadow: 0 0 15px #fff; margin-left: 5px;">...</strong>
+                    </div>
                     <div style="color: #fff; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 12px; opacity: 0.7;" data-i18n="support_txt">APOYA EL PROYECTO:</div>
                     <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
                         <a href="https://ko-fi.com/tu_usuario" target="_blank" class="donate-btn" data-i18n="donate_kofi">☕ KO-FI</a>
@@ -751,7 +776,7 @@
                 <li class="ranking-item"><span>9. <b>---</b></span> <span>---</span></li>
                 <li class="ranking-item"><span>10. <b>---</b></span> <span>---</span></li>
             </ul>
-            <div id="ranking-status" style="font-size: 0.9rem; color: rgba(255,255,255,0.5); text-align: center; padding: 15px; margin-bottom: 10px; font-weight: bold; letter-spacing: 2px;" data-i18n="ranking_conn">CONECTANDO...</div>
+            <div id="ranking-status" style="font-size: 1.1rem; color: #f3ff00; text-align: center; padding: 15px; margin-bottom: 20px; font-weight: 900; letter-spacing: 5px; animation: text-blink 1.5s infinite ease-in-out; text-transform: uppercase;" data-i18n="ranking_conn">CONECTANDO...</div>
         </div>
 
 
@@ -778,7 +803,7 @@
         es: {
             title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
             btn_achievements: '🏆 LOGROS', btn_instructions: '📋 INSTRUCCIONES', btn_ranking: '👑 RANKING', ach_modal_title: 'REGISTRO Y TÍTULOS', ach_unlocked: '¡LOGRO DESBLOQUEADO!', ach_reward_lbl: 'TÍTULO:',
-            support_txt: 'APOYA EL PROYECTO:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL',
+            support_txt: 'APOYA EL PROYECTO:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'ERES EL VIAJERO NÚMERO:',
             ui_resources: 'RECURSOS:', ui_energy: 'ENERGÍA:', ui_kills: 'Bajas:', ui_time: 'Tiempo:', ui_waves: 'OLEADAS:',
             tut_defenses_title: 'DEFENSAS', tut_orb_click: 'CLIC:', tut_orb_desc: 'Orbe de energía. Ataque rápido y letal.',
             tut_grav_click: 'CTRL+CLIC:', tut_grav_desc: 'Gravitón. Ralentiza y atrae enemigos.',
@@ -806,7 +831,7 @@
         en: {
             title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
             btn_achievements: '🏆 ACHIEVEMENTS', btn_instructions: '📋 INSTRUCTIONS', btn_ranking: '👑 RANKING', ach_modal_title: 'MILESTONES & TITLES', ach_unlocked: 'ACHIEVEMENT UNLOCKED!', ach_reward_lbl: 'TITLE:',
-            support_txt: 'SUPPORT THE PROJECT:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL',
+            support_txt: 'SUPPORT THE PROJECT:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'YOU ARE VOYAGER NUMBER:',
             ui_resources: 'RESOURCES:', ui_energy: 'ENERGY:', ui_kills: 'Kills:', ui_time: 'Time:', ui_waves: 'WAVES:',
             tut_defenses_title: 'DEFENSES', tut_orb_click: 'CLICK:', tut_orb_desc: 'Energy Orb. Fast & lethal attack.',
             tut_grav_click: 'CTRL+CLICK:', tut_grav_desc: 'Graviton. Slows & pulls enemies.',
@@ -838,7 +863,6 @@
         { id: 'graviton_master', es: 'Campo de Singularidad', en: 'Singularity Field', d_es: 'Construye tu primer Gravitón táctico.', d_en: 'Build your first tactical Graviton.', r_es: 'Táctico', r_en: 'Tactician', check: () => gravitones.length > 0 },
         { id: 'wave_5', es: 'Defensor Novato', en: 'Novice Defender', d_es: 'Resiste la tormenta espacial hasta la Oleada 5.', d_en: 'Resist the space storm until Wave 5.', r_es: 'Guardia', r_en: 'Guard', check: () => currentWave >= 5 },
         { id: 'planet_1', es: 'Poder Incremental', en: 'Incremental Power', d_es: 'Desbloquea tu primera mejora de Nivel 1 (100 bajas).', d_en: 'Unlock your first Level 1 enhancement (100 kills).', r_es: 'Soldado', r_en: 'Soldier', check: () => totalKills >= 100 },
-        { id: 'first_mega', es: 'Festival de Munición', en: 'Ammo Festival', d_es: 'Acumula un medidor táctico para detonar un MEGA-SHOT.', d_en: 'Accumulate a tactical meter to detonate a MEGA-SHOT.', r_es: 'Artillero', r_en: 'Gunner', check: () => burstKills >= 15 || (totalKills > 800 && burstKills >= 10) },
         { id: 'first_haste', es: 'Sobrecarga Absoluta', en: 'Absolute Overload', d_es: 'Desata el poder de Sobrecarga [1] por primera vez.', d_en: 'Unleash the Overload power [1] for the first time.', r_es: 'Berserker', r_en: 'Berserker', check: () => hasteTimer > 0 },
         { id: 'first_heal', es: 'Mantenimiento Crítico', en: 'Critical Maintenance', d_es: 'Ejecuta una Reparación de urgencia [2] en el núcleo.', d_en: 'Execute an emergency Repair [2] on the core.', r_es: 'Ingeniero', r_en: 'Engineer', check: () => healMessageTimer > 0 },
         { id: 'combo_10', es: 'Combo Maestro', en: 'Combo Master', d_es: 'Alcanza un Combo x10 seguido para bonificaciones Rc masivas.', d_en: 'Reach a continuous x10 Combo for massive Rc bonuses.', r_es: 'Especialista', r_en: 'Specialist', check: () => comboCount >= 10 },
@@ -849,11 +873,15 @@
         { id: 'void_commander', es: 'Comandante del Vacío', en: 'Void Commander', d_es: 'Demuestra resistencia extrema superando las 2000 bajas.', d_en: 'Show extreme endurance by surpassing 2000 kills.', r_es: 'Mito', r_en: 'Myth', check: () => totalKills >= 2000 },
         { id: 'wave_15', es: 'Veterano de Guerra', en: 'War Veteran', d_es: 'Resiste el asedio incesante hasta alcanzar la Oleada 15.', d_en: 'Endure the relentless siege until reaching Wave 15.', r_es: 'Veterano', r_en: 'Veteran', check: () => currentWave >= 15 },
         { id: 'rich_boy', es: 'Magnate de Energía', en: 'Energy Tycoon', d_es: 'Acumula un asombroso total de 1500 Rc al mismo tiempo.', d_en: 'Accumulate an astonishing total of 1500 Rc simultaneously.', r_es: 'Magnate', r_en: 'Tycoon', check: () => mana >= 1500 },
+        { id: 'rc_hoarder', es: 'Acaparador de Energía', en: 'Energy Hoarder', d_es: 'Guarda celosamente 3000 de Rc sin gastarlo.', d_en: 'Zealously hoard 3000 Rc without spending it.', r_es: 'Coleccionista', r_en: 'Collector', check: () => mana >= 3000 },
+        { id: 'rc_singularity', es: 'Singularidad Neón', en: 'Neon Singularity', d_es: 'Conviértete en un pozo de energía pura alcanzando 5000 Rc.', d_en: 'Become a well of pure energy reaching 5000 Rc.', r_es: 'Estrella Púlsar', r_en: 'Pulsar Star', check: () => mana >= 5000 },
         { id: 'combo_25', es: 'Carnicería Neón', en: 'Neon Carnage', d_es: 'Encadena un frenético Combo x25 aniquilando enemigos.', d_en: 'Chain a frantic x25 Combo annihilating enemies.', r_es: 'Verdugo', r_en: 'Executioner', check: () => comboCount >= 25 },
         { id: 'max_orbs', es: 'Arquitecto de Luz', en: 'Light Architect', d_es: 'Mantén desplegados 10 orbes de ataque simultáneos.', d_en: 'Keep 10 attack orbs deployed simultaneously.', r_es: 'Arquitecto', r_en: 'Architect', check: () => orbes.length >= 10 },
         { id: 'max_gravs', es: 'Señor de la Gravedad', en: 'Gravity Lord', d_es: 'Crea 4 potentes anomalías gravitatorias simultáneamente.', d_en: 'Create 4 powerful gravitational anomalies simultaneously.', r_es: 'Controlador', r_en: 'Controller', check: () => gravitones.length >= 4 },
         { id: 'elite_massacre', es: 'Exterminador de Élite', en: 'Elite Exterminator', d_es: 'Liquida hasta 50 temibles Drones Élite a lo largo de tu misión.', d_en: 'Eliminate up to 50 fearsome Elite Drones during your mission.', r_es: 'Cazador', r_en: 'Hunter', check: () => elitesKilled >= 50 },
-        { id: 'god_slayer', es: 'Azote Divino', en: 'Divine Scourge', d_es: 'Desafía todas las probabilidades y destruye 3 Jefes Masivos.', d_en: 'Defy all odds and destroy 3 Massive Bosses.', r_es: 'Deidad', r_en: 'Deity', check: () => bossesKilled >= 3 }
+        { id: 'god_slayer', es: 'Azote Divino', en: 'Divine Scourge', d_es: 'Desafía todas las probabilidades y destruye 3 Jefes Masivos.', d_en: 'Defy all odds and destroy 3 Massive Bosses.', r_es: 'Deidad', r_en: 'Deity', check: () => bossesKilled >= 3 },
+        { id: 'void_god', es: 'Dios del Vacío', en: 'Void God', d_es: 'Demuestra tu divinidad aniquilando a 4000 enemigos.', d_en: 'Show your divinity by annihilating 4000 enemies.', r_es: 'Dios', r_en: 'God', check: () => totalKills >= 4000 },
+        { id: 'void_entity', es: 'Entidad Cósmica', en: 'Cosmic Entity', d_es: 'Conviértete en uno con el Vacío y alcanza las 7500 bajas.', d_en: 'Become one with the Void and reach 7500 kills.', r_es: 'Trascendido', r_en: 'Transcendent', check: () => totalKills >= 7500 }
     ];
 
     let unlockedAchievements = JSON.parse(localStorage.getItem('void_achievements')) || [];
@@ -906,34 +934,89 @@
         playSound('shoot');
     }
 
+    let activeTitleId = localStorage.getItem('void_active_title') || null;
+
+    function selectTitle(id) {
+        if (!unlockedAchievements.includes(id)) return;
+        activeTitleId = id;
+        localStorage.setItem('void_active_title', id);
+        updatePlayerTitle();
+        renderAchievements();
+        playSound('build');
+    }
+
     function renderAchievements() {
         const list = document.getElementById('achievements-list');
         list.innerHTML = '';
         ACHIEVEMENTS.forEach(ach => {
             const isUnlocked = unlockedAchievements.includes(ach.id);
+            const isActive = activeTitleId === ach.id;
             const title = ach[currentLang];
-            const desc = isUnlocked ? ach['d_' + currentLang] : '???';
-            const reward = isUnlocked ? ach['r_' + currentLang] : '???';
-            list.innerHTML += `<div class="ach-item ${isUnlocked ? 'unlocked' : ''}">
+            // En el HUD siempre se ve "???" si está bloqueado, pero en el Tooltip revelamos cómo conseguirlo
+            const descHUD = isUnlocked ? ach['d_' + currentLang] : '???';
+            const rewardHUD = isUnlocked ? ach['r_' + currentLang] : '???';
+            const descReal = ach['d_' + currentLang];
+            const rewardReal = ach['r_' + currentLang];
+            
+            list.innerHTML += `<div class="ach-item ${isUnlocked ? 'unlocked' : ''} ${isActive ? 'active-title' : ''}" ${isUnlocked ? `onclick="selectTitle('${ach.id}')"` : ''}>
+                <div class="ach-tooltip">
+                    <strong style="color:#00f3ff; margin-bottom:5px;">[ ${rewardReal.toUpperCase()} ]</strong>
+                    <span style="font-size:0.85rem; color:#fff;">${descReal}</span>
+                    ${isUnlocked ? '<br><span style="color:#f3ff00; font-size:0.7rem; margin-top:5px;">CLIC PARA EQUIPAR</span>' : '<br><span style="color:#ff003c; font-size:0.7rem; margin-top:5px;">BLOQUEADO</span>'}
+                </div>
                 <div class="ach-title">${title}</div>
-                <div class="ach-desc">${desc}</div>
-                <div class="ach-reward">${i18n[currentLang].ach_reward_lbl} ${reward}</div>
+                <div class="ach-desc">${descHUD}</div>
+                <div class="ach-reward">${i18n[currentLang].ach_reward_lbl} ${rewardHUD}</div>
             </div>`;
         });
     }
 
-    function updatePlayerTitle() {
-        let titleObj = null;
-        for (let i = ACHIEVEMENTS.length - 1; i >= 0; i--) {
-            if (unlockedAchievements.includes(ACHIEVEMENTS[i].id)) {
-                titleObj = ACHIEVEMENTS[i];
-                break;
+    const BAD_WORDS = ['FUCK', 'SHIT', 'PUTA', 'PUTO', 'BITCH', 'ASSHOLE', 'CUNT', 'DICK', 'POLLA', 'COJONES', 'MIERDA', 'PENDEJO', 'CABRON', 'GILIPOLLAS', 'MARICON', 'ZORRA', 'NIGGA', 'NIGGER', 'SLUT', 'WHORE'];
+
+    function updatePlayerTitle(clickedBtn = false) {
+        const nameInput = document.getElementById('player-name-input');
+        let pName = nameInput ? nameInput.value.trim().toUpperCase() : "";
+        
+        // Profanity filter
+        if (pName) {
+            let isBad = false;
+            for (let word of BAD_WORDS) {
+                if (pName.includes(word)) { isBad = true; break; }
+            }
+            if (isBad) {
+                pName = "ANONYMOUS";
+                if (nameInput) nameInput.value = pName;
             }
         }
+
+        if (!pName && nameInput && !document.activeElement.isSameNode(nameInput) && !clickedBtn) {
+            pName = localStorage.getItem('void_player_name') || (currentLang === 'es' ? 'JUGADOR' : 'PLAYER');
+            if (pName !== 'JUGADOR' && pName !== 'PLAYER') nameInput.value = pName;
+        } else if (pName) {
+            localStorage.setItem('void_player_name', pName);
+        } else {
+            pName = currentLang === 'es' ? 'JUGADOR' : 'PLAYER';
+        }
+
+        if (clickedBtn) {
+            playSound('build');
+            const check = document.getElementById('name-saved-check');
+            if (check) {
+                check.style.opacity = '1';
+                setTimeout(() => check.style.opacity = '0', 2000);
+            }
+        }
+
+        let titleObj = ACHIEVEMENTS.find(a => a.id === activeTitleId);
+        if (!titleObj && unlockedAchievements.length > 0) {
+            titleObj = ACHIEVEMENTS.find(a => a.id === unlockedAchievements[unlockedAchievements.length - 1]);
+            activeTitleId = titleObj ? titleObj.id : null;
+        }
+        
         const t = document.getElementById('player-title');
         if (t) {
             const rankStr = titleObj ? titleObj['r_' + currentLang] : (currentLang === 'es' ? 'RECLUTA' : 'RECRUIT');
-            t.innerText = (currentLang === 'es' ? 'BIENVENIDO, ' : 'WELCOME, ') + rankStr;
+            t.innerText = `[${rankStr.toUpperCase()}] ${pName}`;
         }
     }
 
@@ -1431,17 +1514,28 @@
             this.opacity = 0.2 + (layer * 0.2);
         }
         update() {
-            this.y += this.speed;
+            let currentSpeed = this.speed;
+            if (hasteTimer > 0) currentSpeed *= 6; // Sobrecarga warp speed
+            this.y += currentSpeed;
             if (this.y > canvas.height) {
                 this.y = -10;
                 this.x = Math.random() * canvas.width;
             }
         }
         draw() {
-            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
+            if (hasteTimer > 0) {
+                ctx.strokeStyle = `rgba(180, 0, 255, ${this.opacity})`;
+                ctx.lineWidth = this.size;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x, this.y - this.speed * 12);
+                ctx.stroke();
+            } else {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
     }
 
@@ -1854,10 +1948,18 @@
         return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
     }
 
-    function saveHistory(kills, wave, duration) {
+    function getFullPlayerName() {
+        const pName = localStorage.getItem('void_player_name') || (currentLang === 'es' ? 'JUGADOR' : 'PLAYER');
+        let titleObj = ACHIEVEMENTS.find(a => a.id === activeTitleId);
+        if (!titleObj && unlockedAchievements.length > 0) titleObj = ACHIEVEMENTS.find(a => a.id === unlockedAchievements[unlockedAchievements.length - 1]);
+        const rankStr = titleObj ? titleObj['r_' + currentLang] : (currentLang === 'es' ? 'RECLUTA' : 'RECRUIT');
+        return `[${rankStr.toUpperCase()}] ${pName}`;
+    }
+
+    function saveHistory(identity, kills, wave, duration) {
         let history = JSON.parse(localStorage.getItem('td_history') || '[]');
-        history.unshift({ kills, wave, duration, date: new Date().toLocaleTimeString() });
-        history = history.slice(0, 3); localStorage.setItem('td_history', JSON.stringify(history));
+        history.unshift({ identity, kills, wave, duration, date: new Date().toLocaleTimeString() });
+        history = history.slice(0, 5); localStorage.setItem('td_history', JSON.stringify(history));
         let record = parseInt(localStorage.getItem('td_record') || '0');
         if (kills > record) localStorage.setItem('td_record', kills.toString());
     }
@@ -1866,7 +1968,7 @@
         const history = JSON.parse(localStorage.getItem('td_history') || '[]');
         const record = localStorage.getItem('td_record') || '0';
         let html = `<li style="border-bottom: 2px solid #f3ff00; margin-bottom: 15px; padding-bottom: 10px; color: #fff;">🏆 <strong>${i18n[currentLang].history_record} <span style="color: #f3ff00; text-shadow: 0 0 10px #f3ff00;">${record}</span> ${i18n[currentLang].mega_kills}</strong></li>`;
-        html += history.map(h => `<li style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 0;"><span style="color: #f3ff00; opacity: 0.8;">${h.date}</span>: ${i18n[currentLang].history_waves} <span style="color: #00f3ff;">${h.wave}</span>, <span style="color: #39ff14;">${h.kills}</span> ${i18n[currentLang].mega_kills}</li>`).join('');
+        html += history.map(h => `<li style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 0; display:flex; justify-content: space-between; align-items: center;"><span style="color: #f3ff00; opacity: 0.8; font-size: 0.8rem;">${h.date}</span> <span style="color: #00f3ff; font-weight: bold; font-size: 0.9rem;">${h.identity || '???'}</span> <span><span style="color: #39ff14; font-weight:bold;">${h.kills}</span> Kills (Oleada ${h.wave})</span></li>`).join('');
         historyList.innerHTML = html || `<li>${i18n[currentLang].history_empty}</li>`;
     }
 
@@ -1928,7 +2030,7 @@
         gameOver = true; const duration = formatTime(gameTime);
         overlay.style.display = 'flex';
         overlayStats.innerHTML = `${i18n[currentLang].stats_kills} <strong>${totalKills}</strong> | ${i18n[currentLang].stats_wave} <strong>${currentWave}</strong><br>${i18n[currentLang].stats_survived} <strong>${duration}</strong>`;
-        saveHistory(totalKills, currentWave, duration); displayHistory();
+        saveHistory(getFullPlayerName(), totalKills, currentWave, duration); displayHistory();
     }
 
     function resetGame() {
@@ -2240,7 +2342,7 @@
         }
 
         // Spawn Items (Frecuencia aumentada v1.3.1)
-        if (frameCount % 3600 === 0 && frameCount > 0) triggerCoreShockwave();
+        if (frameCount % 5400 === 0 && frameCount > 0) triggerCoreShockwave();
 
         // Carga de habilidades
         if (charge1 < MAX_CHARGE_1) {
@@ -2267,7 +2369,12 @@
             updateUI(); 
         }
 
-        if (frameCount % 1000 === 0) { currentWave++; mana += 12; updateUI(); }
+        if (frameCount % 1000 === 0) { 
+            currentWave++; 
+            mana += 12; 
+            updateUI(); 
+            milestoneNotice = { text: i18n[currentLang].stats_wave.toUpperCase() + " " + currentWave, timer: 120 };
+        }
 
         for (let i = enemies.length - 1; i >= 0; i--) {
             if (enemies[i].update()) { enemies.splice(i, 1); continue; }
@@ -2281,8 +2388,12 @@
                 lastKillTime = now;
 
                 if (comboCount >= COMBO_THRESHOLD && comboCount % COMBO_THRESHOLD === 0) {
-                    mana += 10;
-                    floatingTexts.push(new FloatingText(enemies[i].x, enemies[i].y - 20, `${i18n[currentLang].combo} x${comboCount} +10 Rc`, NEON.YELLOW));
+                    let comboRc = 5;
+                    let comboColor = NEON.YELLOW;
+                    if (comboCount >= 20) { comboRc = 15; comboColor = NEON.RED; }
+                    else if (comboCount >= 10) { comboRc = 10; comboColor = NEON.PURPLE; }
+                    mana += comboRc;
+                    floatingTexts.push(new FloatingText(enemies[i].x, enemies[i].y - 20, `${i18n[currentLang].combo} x${comboCount} +${comboRc} Rc`, comboColor));
                     playSound('ability');
                 }
 
@@ -2301,7 +2412,10 @@
                     playSound('ability');
                 }
 
-                const reward = enemies[i].isElite ? 15 : (enemies[i].isMini ? 2 : 5);
+                let reward = enemies[i].isElite ? 15 : (enemies[i].isMini ? 2 : 5);
+                if (comboCount >= 20 && !enemies[i].isMini) reward += 2;
+                else if (comboCount >= 10 && !enemies[i].isMini) reward += 1;
+
                 if (enemies[i].isElite) elitesKilled++;
                 if (enemies[i].isBoss) bossesKilled++;
 
@@ -2438,6 +2552,19 @@
             ctx.restore();
         }
 
+        // Critical Danger Vignette
+        if (villageLives <= 5 && !gameOver && isStarted) {
+            ctx.save();
+            const dangerIntensity = 1 - (villageLives / 6); // Se hace más intenso cuantas menos vidas
+            const pulse = Math.sin(frameCount * 0.1) * 0.5 + 0.5; // Pulso de 0 a 1
+            const gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, canvas.height/3, canvas.width/2, canvas.height/2, canvas.width/1.2);
+            gradient.addColorStop(0, 'rgba(255, 0, 60, 0)');
+            gradient.addColorStop(1, `rgba(255, 0, 60, ${dangerIntensity * 0.5 * pulse + 0.1})`);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(-20, -20, canvas.width+40, canvas.height+40);
+            ctx.restore();
+        }
+
         ctx.restore();
     }
     
@@ -2446,6 +2573,25 @@
     displayHistory();
     updateUI();
     menuAnimate();
+
+    // Hit Counter Logic (Unique)
+    const savedCount = localStorage.getItem('void_visit_count');
+    const hasVisited = localStorage.getItem('void_visited');
+    
+    if (hasVisited && savedCount) {
+        document.getElementById('visit-number').innerText = savedCount;
+    } else {
+        fetch('https://api.counterapi.dev/v1/voidprotocol/visits/up')
+            .then(response => response.json())
+            .then(data => {
+                const countStr = data.count || '???';
+                const vDisplay = document.getElementById('visit-number');
+                if (vDisplay) vDisplay.innerText = countStr;
+                localStorage.setItem('void_visited', 'true');
+                localStorage.setItem('void_visit_count', countStr);
+            })
+            .catch(err => console.log('Counter API error:', err));
+    }
 </script>
     <!-- Mobile Warning -->
     <div id="mobile-warning">
