@@ -25,6 +25,7 @@
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
             display: flex;
+            width: 100%;
             justify-content: space-around;
             align-items: center;
             border-bottom: 2px solid #00f3ff;
@@ -35,6 +36,10 @@
         .stat-item {
             font-size: 1.2rem;
             font-weight: 700;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .stat-label {
@@ -47,6 +52,9 @@
 
         .stat-value {
             color: #fff;
+            font-variant-numeric: tabular-nums;
+            min-width: 50px;
+            text-align: left;
         }
 
         #game-container {
@@ -914,6 +922,42 @@
         document.getElementById('ranking-modal').style.display = 'flex';
         initAudio();
         if (typeof audioCtx !== 'undefined' && audioCtx && audioEnabled) playSound('build');
+
+        const rStatus = document.getElementById('ranking-status');
+        const rList = document.querySelector('.ranking-list');
+        rStatus.style.display = 'block';
+        rStatus.innerText = i18n[currentLang].ranking_conn || 'CONECTANDO...';
+        rList.innerHTML = '';
+
+        fetch("https://void-protocol-94302-default-rtdb.europe-west1.firebasedatabase.app/ranking.json")
+            .then(res => res.json())
+            .then(data => {
+                rStatus.style.display = 'none';
+                if (!data) return renderRankingTop([]);
+                const arr = Object.values(data);
+                arr.sort((a,b) => b.kills - a.kills);
+                renderRankingTop(arr);
+            })
+            .catch(err => {
+                rStatus.innerText = 'API ERROR';
+                rStatus.style.animation = 'none';
+                rStatus.style.color = '#ff003c';
+            });
+    }
+
+    function renderRankingTop(arr) {
+        const top10 = arr.slice(0, 10);
+        const rList = document.querySelector('.ranking-list');
+        let html = '';
+        for (let i = 0; i < 10; i++) {
+            if (i < top10.length) {
+                const p = top10[i];
+                html += `<li class="ranking-item" style="border-bottom: 1px solid rgba(0, 243, 255, 0.2); justify-content: space-between; padding: 10px 0;"><span><strong style="color:#f3ff00; margin-right: 10px;">${i+1}.</strong> <b style="color:#00f3ff; font-family:'Inter',sans-serif; text-shadow: 0 0 10px rgba(0,243,255,0.4); text-transform:uppercase;">${p.identity || '???'}</b></span> <span><span style="color:#39ff14; font-weight:bold; font-size: 1.2rem; text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);">${p.kills}</span> <span style="font-size:0.7rem; color:rgba(255,255,255,0.5);">(${p.wave})</span></span></li>`;
+            } else {
+                html += `<li class="ranking-item" style="border-bottom: 1px solid rgba(255,255,255,0.05); justify-content: space-between; padding: 10px 0;"><span><strong style="color:rgba(255,255,255,0.2); margin-right: 10px;">${i+1}.</strong> <b style="color:rgba(255,255,255,0.2);">---</b></span> <span style="color:rgba(255,255,255,0.2);">---</span></li>`;
+            }
+        }
+        rList.innerHTML = html;
     }
 
     function closeRankingModal() {
@@ -1962,6 +2006,14 @@
         history = history.slice(0, 5); localStorage.setItem('td_history', JSON.stringify(history));
         let record = parseInt(localStorage.getItem('td_record') || '0');
         if (kills > record) localStorage.setItem('td_record', kills.toString());
+
+        // Subir récord a Firebase si hubo kills
+        if (kills > 0) {
+            fetch("https://void-protocol-94302-default-rtdb.europe-west1.firebasedatabase.app/ranking.json", {
+                method: "POST",
+                body: JSON.stringify({ identity, kills, wave, timestamp: Date.now() })
+            }).catch(e => console.log('Firebase error:', e));
+        }
     }
 
     function displayHistory() {
