@@ -1133,7 +1133,10 @@
     let audioCtx = null;
     let audioEnabled = true;
     function initAudio() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext({ latencyHint: 'interactive' });
+        }
         if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
