@@ -1245,6 +1245,29 @@
     let gameTime = 0;
     let shakeAmount = 0;
     let animationId = null; // To handle loop safety
+    let bgWorker = null;
+    try {
+        const workerCode = `let t; self.onmessage = e => { if (e.data === 'start') { clearInterval(t); t = setInterval(()=>self.postMessage('t'), 1000/60); } if (e.data === 'stop') { clearInterval(t); } };`;
+        bgWorker = new Worker(URL.createObjectURL(new Blob([workerCode], {type: 'application/javascript'})));
+        bgWorker.onmessage = () => {
+            if (isStarted && !isPaused && !gameOver && document.hidden) {
+                animate(performance.now(), true);
+            }
+        };
+    } catch(e) { console.log('AFK NO SUPPORT'); }
+
+    document.addEventListener('visibilitychange', () => {
+        if (!isStarted || isPaused || gameOver) return;
+        if (document.hidden) {
+            if (bgWorker) bgWorker.postMessage('start');
+        } else {
+            if (bgWorker) { bgWorker.postMessage('stop'); }
+            lastTime = performance.now() - (1000/60); // Resync
+            cancelAnimationFrame(animationId);
+            animate(performance.now());
+        }
+    });
+
     let lastTime = 0;
     let pendingShockwave = false;
     let isPaused = false;
@@ -2299,14 +2322,17 @@
         ctx.shadowBlur = 0;
     }
 
-    function animate(currentTime) {
+    function animate(currentTime, fromWorker = false) {
         if (gameOver || !isStarted || isPaused) return;
-        animationId = requestAnimationFrame(animate);
+        
+        if (!document.hidden && !fromWorker) {
+            animationId = requestAnimationFrame(animate);
+        }
         
         if (!currentTime) currentTime = performance.now();
         const elapsed = currentTime - lastTime;
-        if (elapsed < fpsInterval) return;
-        lastTime = currentTime - (elapsed % fpsInterval);
+        if (elapsed < fpsInterval && !fromWorker) return;
+        lastTime = fromWorker ? currentTime : currentTime - (elapsed % fpsInterval);
 
         frameCount++; gameTime = Date.now() - startTime;
         timerDisplay.innerText = formatTime(gameTime);
