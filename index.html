@@ -1465,7 +1465,7 @@
     const PROTECTION_RADIUS = 120;
     const ORBE_BASE_COST = 15;
     const GRAVITON_BASE_COST = 60;
-    const MAX_RC = 1500;
+    const MAX_RC = 3000;
     const ORBE_RANGE = 180;
     const ORBE_COOLDOWN = 45; 
     const GRAVITY_RANGE = 240; 
@@ -2681,9 +2681,9 @@
 
         // Autoreparación Eliminada para balanceo
 
-        // Generación de mana pasivo (Reducido para balanceo)
-        if (frameCount % 30 === 0) { 
-            mana += (totalKills >= 100) ? 1 : 0.5; 
+        // Generación de mana pasivo (Reajustado para mejor flujo)
+        if (frameCount % 20 === 0) { 
+            mana += (totalKills >= 100) ? 2 : 1; 
             updateUI(); 
         }
 
