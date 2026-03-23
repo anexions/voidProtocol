@@ -448,7 +448,7 @@
 
         #achievements-list {
             flex-grow: 1; overflow-y: auto; padding: 30px; 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; align-content: start;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 20px; align-content: start;
         }
 
         /* Custom Scrollbar for achievements */
@@ -523,6 +523,15 @@
         }
         .paypal-btn:hover {
             background: rgba(0, 156, 222, 0.3); box-shadow: 0 0 20px rgba(0, 156, 222, 0.6); border-color: #00f3ff;
+        }
+
+        @media (max-width: 1366px) {
+            #achievements-modal { width: 90%; left: 5%; top: 5%; height: 90%; }
+            #achievements-list { padding: 20px; gap: 15px; }
+            #achievements-header { font-size: 1.5rem; padding: 15px 25px; }
+            .ach-item { padding: 15px; }
+            .ach-title { font-size: 1rem; }
+            .ach-desc { font-size: 0.8rem; }
         }
 
         @media (max-width: 1024px), (pointer: coarse) {
@@ -2532,6 +2541,7 @@
 
                 // mana += reward; // Se suma a través de las partículas
                 manaParticles.push(new ManaParticle(enemies[i].x, enemies[i].y, reward));
+                floatingTexts.push(new FloatingText(enemies[i].x, enemies[i].y, '+' + reward + ' Rc', NEON.BLUE));
                 
                 playSound('explosion');
                 createExplosion(enemies[i].x, enemies[i].y, enemies[i].color, enemies[i].isElite ? 20 : 10);
