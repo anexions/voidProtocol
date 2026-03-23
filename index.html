@@ -1470,7 +1470,7 @@
     const ORBE_COOLDOWN = 45; 
     const GRAVITY_RANGE = 240; 
     const PROJECTILE_BASE_SPEED = 12;
-    const ORBE_LIFESPAN = 30 * 60; // 30 Segundos (Aumentado de 10s para menos tedio)
+    const ORBE_LIFESPAN = 15 * 60; // 15 Segundos (Re-balanceado de 30s)
     let coreLastLives = 10;
 
     // Clases
@@ -1805,6 +1805,9 @@
     function menuAnimate() {
         if (isStarted) return;
         requestAnimationFrame(menuAnimate);
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset Transform
+        ctx.globalAlpha = 1; // Reset Alpha
+        ctx.shadowBlur = 0; // Reset Shadow
         ctx.fillStyle = NEON.BG; 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         backgroundStars.forEach(star => { star.update(); star.draw(); });
@@ -2300,7 +2303,12 @@
         document.getElementById('ability-1').style.opacity = 0.2;
         document.getElementById('ability-2').style.opacity = 0.2;
         
-        startOverlay.style.display = 'flex';
+        // Reset Visuals
+        glitchTimer = 0; flashTimer = 0; shakeAmount = 0; 
+        corePulse = { r: 0, a: 0 }; milestoneNotice = null; healMessageTimer = 0;
+        pendingShockwave = false; shockwaveActive = false;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.globalAlpha = 1; ctx.shadowBlur = 0;
         menuAnimate();
     }
 
@@ -2592,6 +2600,9 @@
             if (shakeAmount < 0.5) shakeAmount = 0;
         }
 
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset Transform
+        ctx.globalAlpha = 1; // Reset Alpha
+        ctx.shadowBlur = 0; // Reset Shadow
         ctx.fillStyle = NEON.BG; 
         ctx.globalCompositeOperation = 'source-over';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
