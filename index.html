@@ -772,17 +772,23 @@
                 <span data-i18n="ranking_title">RANKING ONLINE</span>
                 <button class="close-btn" onclick="closeRankingModal()">×</button>
             </div>
+            <div id="ranking-columns" style="display: flex; padding: 15px 55px 5px 35px; color: rgba(255,255,255,0.6); font-size: 0.9rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+                <span style="flex: 0 0 50px;">#</span>
+                <span style="flex: 1;" data-i18n="ranking_col_name">NOMBRE - TÍTULO</span>
+                <span style="flex: 0 0 120px; text-align: center;" data-i18n="ranking_col_wave">OLEADA</span>
+                <span style="flex: 0 0 100px; text-align: right;" data-i18n="ranking_col_kills">BAJAS</span>
+            </div>
             <ul class="ranking-list">
-                <li class="ranking-item"><span>1. <b style="color:#00f3ff">---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>2. <b>---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>3. <b>---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>4. <b>---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>5. <b>---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>6. <b>---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>7. <b>---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>8. <b>---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>9. <b>---</b></span> <span>---</span></li>
-                <li class="ranking-item"><span>10. <b>---</b></span> <span>---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">1.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">2.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">3.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">4.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">5.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">6.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">7.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">8.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">9.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">10.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
             </ul>
             <div id="ranking-status" style="font-size: 1.1rem; color: #f3ff00; text-align: center; padding: 15px; margin-bottom: 20px; font-weight: 900; letter-spacing: 5px; animation: text-blink 1.5s infinite ease-in-out; text-transform: uppercase;" data-i18n="ranking_conn">CONECTANDO...</div>
         </div>
@@ -827,6 +833,7 @@
             cost_15: 'Coste: 15 Rc', cost_60: 'Coste: 60 Rc', cost_free: 'Coste: 0 Rc',
             mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ACCESO DENEGADO ⚠️', mobile_sub: 'ESTE SISTEMA REQUIERE UNA TERMINAL DE ESCRITORIO (PC) PARA SU EJECUCIÓN.',
             mega_kills: 'Bajas', ranking_title: 'RANKING ONLINE', ranking_conn: 'CONECTANDO...',
+            ranking_col_name: 'NOMBRE - TÍTULO', ranking_col_wave: 'OLEADA', ranking_col_kills: 'BAJAS',
             gameover_title: 'NÚCLEO DESTRUIDO', gameover_history: 'Historial Reciente:', gameover_retry: 'Nueva Partida',
             pause_phrases: ["Bien, tómate tu tiempo...", "Genial, ahora puedes ver dónde colocar un orbe.", "¿Mucho estrés? Respira hondo.", "Tranquilo, el enjambre no se irá a ninguna parte.", "Pausando para un trago de agua, excelente táctica.", "Es un buen momento para replantear tu estrategia.", "No te preocupes, el núcleo te esperará.", "Yo te sostengo la partida mientras descansas el pulgar.", "¿Se te quemaron las retinas con el neón? Pestañea un poco.", "¿Buscando un tutorial en YouTube en medio de la partida?", "Tómate un respiro, esos extraterrestres son duros.", "Planificando el próximo movimiento maestro, ¿eh?", "Hasta los comandantes supremos necesitan ir al baño."],
             audio_on: '🔊 AUDIO: ON', audio_off: '🔇 AUDIO: OFF', ui_visible: 'UI: VISIBLE', ui_hidden: 'UI: OCULTA',
@@ -855,6 +862,7 @@
             cost_15: 'Cost: 15 Rc', cost_60: 'Cost: 60 Rc', cost_free: 'Cost: 0 Rc',
             mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ACCESS DENIED ⚠️', mobile_sub: 'THIS SYSTEM REQUIRES A DESKTOP TERMINAL (PC) TO OPERATE.',
             mega_kills: 'Kills', ranking_title: 'GLOBAL RANKING', ranking_conn: 'CONNECTING...',
+            ranking_col_name: 'NAME - TITLE', ranking_col_wave: 'WAVE', ranking_col_kills: 'KILLS',
             gameover_title: 'CORE DESTROYED', gameover_history: 'Recent History:', gameover_retry: 'Play Again',
             pause_phrases: ["Good, take your time...", "Nice time to plan your next orb.", "Hydrate! Good tactic.", "The swarm isn't going anywhere.", "Need a breather? Take it.", "Recalculating vectors...", "The Core will wait.", "I'll hold the line while you rest your thumb.", "Neon burned your retinas? Blink.", "Looking for a YouTube walkthrough?", "Take a breath, those aliens are tough.", "Planning your next master move?", "Even supreme commanders need bathroom breaks."],
             audio_on: '🔊 AUDIO: ON', audio_off: '🔇 AUDIO: OFF', ui_visible: 'UI: VISIBLE', ui_hidden: 'UI: HIDDEN',
@@ -952,9 +960,19 @@
         for (let i = 0; i < 10; i++) {
             if (i < top10.length) {
                 const p = top10[i];
-                html += `<li class="ranking-item" style="border-bottom: 1px solid rgba(0, 243, 255, 0.2); justify-content: space-between; padding: 10px 0;"><span><strong style="color:#f3ff00; margin-right: 10px;">${i+1}.</strong> <b style="color:#00f3ff; font-family:'Inter',sans-serif; text-shadow: 0 0 10px rgba(0,243,255,0.4); text-transform:uppercase;">${p.identity || '???'}</b></span> <span><span style="color:#39ff14; font-weight:bold; font-size: 1.2rem; text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);">${p.kills}</span> <span style="font-size:0.7rem; color:rgba(255,255,255,0.5);">(${p.wave})</span></span></li>`;
+                html += `<li class="ranking-item">
+                    <span style="flex: 0 0 50px;">${i+1}.</span>
+                    <span style="flex: 1;"><b style="color:#00f3ff; font-family:'Inter',sans-serif; text-shadow: 0 0 10px rgba(0,243,255,0.4); text-transform:uppercase;">${p.identity || '???'}</b></span>
+                    <span style="flex: 0 0 120px; text-align: center; color: rgba(255,255,255,0.8);">${p.wave}</span>
+                    <span style="flex: 0 0 100px; text-align: right; color:#39ff14; font-weight:bold; font-size: 1.2rem; text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);">${p.kills}</span>
+                </li>`;
             } else {
-                html += `<li class="ranking-item" style="border-bottom: 1px solid rgba(255,255,255,0.05); justify-content: space-between; padding: 10px 0;"><span><strong style="color:rgba(255,255,255,0.2); margin-right: 10px;">${i+1}.</strong> <b style="color:rgba(255,255,255,0.2);">---</b></span> <span style="color:rgba(255,255,255,0.2);">---</span></li>`;
+                html += `<li class="ranking-item" style="border-color: rgba(255,255,255,0.05);">
+                    <span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">${i+1}.</span>
+                    <span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span>
+                    <span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span>
+                    <span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span>
+                </li>`;
             }
         }
         rList.innerHTML = html;
