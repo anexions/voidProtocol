@@ -1398,7 +1398,7 @@
     let projectiles = [];
     let orbShockwaves = [];
     let floatingTexts = [];
-    let charge1 = 0; const MAX_CHARGE_1 = 1500; // 25s
+    let charge1 = 0; const MAX_CHARGE_1 = 900; // 15s (Rebalanceado de 1500)
     let charge2 = 0; const MAX_CHARGE_2 = 2400; // 40s
     let shockwaveActive = false;
     let shockwaveRadius = 0;
@@ -1470,7 +1470,7 @@
     const ORBE_COOLDOWN = 45; 
     const GRAVITY_RANGE = 240; 
     const PROJECTILE_BASE_SPEED = 12;
-    const ORBE_LIFESPAN = 10 * 60; // 10 Segundos
+    const ORBE_LIFESPAN = 30 * 60; // 30 Segundos (Aumentado de 10s para menos tedio)
     let coreLastLives = 10;
 
     // Clases
@@ -1968,7 +1968,6 @@
     class Orbe { // Anteriormente Mage
         constructor(x, y) { 
             this.x = x; this.y = y; this.radius = 20; this.cooldown = 0; 
-            this.lifetime = 600; // 10s
             this.lifetime = ORBE_LIFESPAN;
         }
         update(isMegaShot) {
@@ -2033,9 +2032,9 @@
         const distToVillage = Math.sqrt((getVillagePos().x - x) ** 2 + (getVillagePos().y - y) ** 2);
         
         if (!overlaps && distToVillage > 100) {
-            const currentCost = ORBE_BASE_COST + (currentWave - 1) * 5;
-            if (mana >= currentCost) {
-                mana -= currentCost; 
+            const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 2; // Inflación reducida (de 5 a 2)
+            if (mana >= currentOrbCost) {
+                mana -= currentOrbCost; 
                 orbes.push(new Orbe(x, y)); 
                 playSound('build');
                 updateUI();
@@ -2062,7 +2061,7 @@
                              gravitones.some(g => Math.sqrt((g.x - mouseX) ** 2 + (g.y - mouseY) ** 2) < 40);
             const distToVillage = Math.sqrt((getVillagePos().x - mouseX) ** 2 + (getVillagePos().y - mouseY) ** 2);
             if (!overlaps && distToVillage > 100) {
-                const currentCost = GRAVITON_BASE_COST + (currentWave - 1) * 15;
+                const currentCost = GRAVITON_BASE_COST + (currentWave - 1) * 5; // Inflación reducida (de 15 a 5)
                 if (mana >= currentCost) {
                     if ((orbes.length + gravitones.length) >= MAX_UNITS) {
                         floatingTexts.push(new FloatingText(mouseX, mouseY, "MÁX UNIDADES", NEON.RED));
@@ -2196,8 +2195,8 @@
         manaDisplay.innerText = mana; 
         
         // Actualizar costes en el HUD
-        const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 5;
-        const currentGravitonCost = GRAVITON_BASE_COST + (currentWave - 1) * 15;
+        const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 2;
+        const currentGravitonCost = GRAVITON_BASE_COST + (currentWave - 1) * 5;
         
         const orbCostEl = document.querySelector('#unit-orb .unit-cost');
         const gravCostEl = document.querySelector('#unit-grav .unit-cost');
@@ -2209,13 +2208,13 @@
 
         const orbUnit = document.getElementById('unit-orb');
         if (orbUnit) {
-            if (mana >= ORBE_BASE_COST + (currentWave - 1) * 5) orbUnit.classList.add('ready-build');
+            if (mana >= ORBE_BASE_COST + (currentWave - 1) * 2) orbUnit.classList.add('ready-build');
             else orbUnit.classList.remove('ready-build');
         }
 
         const gravUnit = document.getElementById('unit-grav');
         if (gravUnit) {
-            if (mana >= GRAVITON_BASE_COST + (currentWave - 1) * 15) gravUnit.classList.add('ready-build');
+            if (mana >= GRAVITON_BASE_COST + (currentWave - 1) * 5) gravUnit.classList.add('ready-build');
             else gravUnit.classList.remove('ready-build');
         }
 
@@ -2632,7 +2631,7 @@
             else orbes[i].draw();
         }
 
-        const spawnRate = Math.max(40, 200 - currentWave * 10);
+        const spawnRate = Math.max(30, 120 - currentWave * 8); // Ritmo más rápido (base 120, antes 200)
         if (frameCount % spawnRate === 0) {
             let type = 'regular';
             const roll = Math.random();
@@ -2732,7 +2731,7 @@
                     playSound('ability');
                 }
 
-                let reward = enemies[i].isElite ? 15 : (enemies[i].isMini ? 2 : 5);
+                let reward = enemies[i].isElite ? 25 : (enemies[i].isMini ? 3 : 8); // Recompensas aumentadas
                 if (comboCount >= 20 && !enemies[i].isMini) reward += 2;
                 else if (comboCount >= 10 && !enemies[i].isMini) reward += 1;
 
