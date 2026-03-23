@@ -550,7 +550,7 @@
         </div>
         <div class="stat-item">
             <span class="stat-label" data-i18n="ui_energy">ENERGÍA:</span>
-            <span class="stat-value" id="lives-display">20</span>
+            <span class="stat-value" id="lives-display">10</span>
         </div>
         <div class="stat-item">
             <span class="stat-label" data-i18n="ui_kills">Bajas:</span>
@@ -893,7 +893,7 @@
         { id: 'combo_10', es: 'Combo Maestro', en: 'Combo Master', d_es: 'Alcanza un Combo x10 seguido para bonificaciones Rc masivas.', d_en: 'Reach a continuous x10 Combo for massive Rc bonuses.', r_es: 'Especialista', r_en: 'Specialist', check: () => comboCount >= 10 },
         { id: 'neon_treasury', es: 'Tesoro Neón', en: 'Neon Treasury', d_es: 'Conserva al menos 500 Rc simultáneamente.', d_en: 'Hold at least 500 Rc simultaneously.', r_es: 'Banquero', r_en: 'Banker', check: () => mana >= 500 },
         { id: 'elite_hunter', es: 'Caza-Élites', en: 'Elite Hunter', d_es: 'Elimina a 10 enemigos de tipo Élite (barra amarilla) en una sola incursión.', d_en: 'Eliminate 10 Elite-type enemies (yellow bar) in a single raid.', r_es: 'Cazarrecompensas', r_en: 'Bounty Hunter', check: () => elitesKilled >= 10 },
-        { id: 'level_5', es: 'Cúpula Intocable', en: 'Untouchable Dome', d_es: 'Alcanza el nivel 5 de alcance supremo (500 bajas) sin haber recibido daños en la energía.', d_en: 'Reach supreme range level 5 (500 kills) without taking core energy damage.', r_es: 'Comandante', r_en: 'Commander', check: () => totalKills >= 500 && villageLives >= 20 },
+        { id: 'level_5', es: 'Cúpula Intocable', en: 'Untouchable Dome', d_es: 'Alcanza el nivel 5 de alcance supremo (500 bajas) sin haber recibido daños en la energía.', d_en: 'Reach supreme range level 5 (500 kills) without taking core energy damage.', r_es: 'Comandante', r_en: 'Commander', check: () => totalKills >= 500 && villageLives >= 10 },
         { id: 'boss_slayer', es: 'Matagigantes Cósmico', en: 'Cosmic Giant Slayer', d_es: 'Resiste lo suficiente y asiste a la destrucción del primer Jefe Masivo.', d_en: 'Survive long enough and witness the destruction of the first Massive Boss.', r_es: 'Leyenda Viva', r_en: 'Living Legend', check: () => bossesKilled >= 1 },
         { id: 'void_commander', es: 'Comandante del Vacío', en: 'Void Commander', d_es: 'Demuestra resistencia extrema superando las 2000 bajas.', d_en: 'Show extreme endurance by surpassing 2000 kills.', r_es: 'Mito', r_en: 'Myth', check: () => totalKills >= 2000 },
         { id: 'wave_15', es: 'Veterano de Guerra', en: 'War Veteran', d_es: 'Resiste el asedio incesante hasta alcanzar la Oleada 15.', d_en: 'Endure the relentless siege until reaching Wave 15.', r_es: 'Veterano', r_en: 'Veteran', check: () => currentWave >= 15 },
@@ -1244,7 +1244,7 @@
 
     // Variables de Juego
     let mana = 100;
-    let villageLives = 20;
+    let villageLives = 10;
     let totalKills = 0;
     let burstKills = 0; // Gatilla Mega-Shot cada 15 bajas
     let currentWave = 1;
@@ -1969,7 +1969,19 @@
         return p[Math.floor(Math.random() * p.length)];
     }
 
+    let secretBuffer = "";
+    window.isBossSpeedX3 = false;
+
     window.addEventListener('keydown', (e) => {
+        if (e.key && e.key.length === 1) {
+            secretBuffer += e.key.toUpperCase();
+            if (secretBuffer.length > 15) secretBuffer = secretBuffer.slice(-15);
+            if (secretBuffer.includes("MARIOADMIN")) {
+                secretBuffer = "";
+                activateBossTerminal();
+            }
+        }
+
         if (e.code === 'KeyE') {
             if (isStarted && !gameOver) {
                 toggleUI();
@@ -2115,7 +2127,7 @@
         document.getElementById('sidebar-ui').style.display = 'none';
         overlay.style.display = 'none';
         
-        mana = 100; villageLives = 20; totalKills = 0; burstKills = 0; currentWave = 1;
+        mana = 100; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1;
         enemies = []; orbes = []; gravitones = []; projectiles = []; floatingTexts = []; hasteTimer = 0;
         healMessageTimer = 0; elitesKilled = 0; bossesKilled = 0;
         charge1 = 0; charge2 = 0; comboCount = 0; lastKillTime = 0;
@@ -2126,6 +2138,39 @@
         
         startOverlay.style.display = 'flex';
         menuAnimate();
+    }
+
+    function activateBossTerminal() {
+        if (window.isBossSpeedX3 === undefined) window.isBossSpeedX3 = false;
+        
+        const action = prompt(
+            "⚡ BOSS TERMINAL ACTIVATED ⚡\n\n" +
+            "1: Resetear Ranking Global\n" +
+            "2: Resetear Contador de Visitas\n" +
+            "3: Activar/Desactivar Velocidad x3\n" +
+            "4: Añadir +10,000 Recursos (Cheat)\n\n" +
+            "Elige una opción (1-4):"
+        );
+
+        if (action === "1") {
+            fetch("https://void-protocol-94302-default-rtdb.europe-west1.firebasedatabase.app/ranking.json", { 
+                method: "PUT", body: "{}" 
+            }).then(() => alert("✅ Ranking limpiado con éxito."));
+        } else if (action === "2") {
+            fetch('https://api.counterapi.dev/v1/voidprotocol/visits/set?count=0')
+            .then(() => { 
+                localStorage.removeItem('void_visited'); 
+                localStorage.removeItem('void_visit_count'); 
+                alert("✅ Visitas reseteadas a 0. Recarga la página para ver los cambios."); 
+            });
+        } else if (action === "3") {
+            window.isBossSpeedX3 = !window.isBossSpeedX3;
+            alert("⏩ Velocidad x3: " + (window.isBossSpeedX3 ? "ACTIVADA" : "DESACTIVADA"));
+        } else if (action === "4") {
+            mana += 10000;
+            if (typeof updateUI === 'function') updateUI();
+            alert("💰 +10,000 Rc añadidos.");
+        }
     }
 
     function toggleInstructions() {
@@ -2145,7 +2190,7 @@
 
     function resetGame() {
         if (animationId) cancelAnimationFrame(animationId);
-        mana = 100; villageLives = 20; totalKills = 0; burstKills = 0; currentWave = 1;
+        mana = 100; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1;
         enemies = []; orbes = []; gravitones = []; projectiles = []; floatingTexts = []; orbShockwaves = []; hasteTimer = 0;
         healMessageTimer = 0; elitesKilled = 0; bossesKilled = 0;
         charge1 = 0; charge2 = 0; comboCount = 0; lastKillTime = 0;
@@ -2360,6 +2405,9 @@
         const elapsed = currentTime - lastTime;
         if (elapsed < fpsInterval && !fromWorker) return;
         lastTime = fromWorker ? currentTime : currentTime - (elapsed % fpsInterval);
+
+        const logicLoops = window.isBossSpeedX3 ? 3 : 1;
+        for (let loopStep = 0; loopStep < logicLoops; loopStep++) {
 
         frameCount++; gameTime = Date.now() - startTime;
         timerDisplay.innerText = formatTime(gameTime);
@@ -2687,6 +2735,8 @@
         }
 
         ctx.restore();
+        
+        } // End logic loops
     }
     
     // Inicializar idioma por defecto cargando el DOM dinámicamente
