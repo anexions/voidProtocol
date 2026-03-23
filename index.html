@@ -360,6 +360,9 @@
         }
         .flag-btn.es { border-color: #ffcc00; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
         .flag-btn.en { border-color: #0044ff; box-shadow: 0 0 15px rgba(0, 68, 255, 0.4); }
+        .flag-btn.fr { border-color: #fff; box-shadow: 0 0 15px rgba(0, 85, 164, 0.4); }
+        .flag-btn.ru { border-color: #d52b1e; box-shadow: 0 0 15px rgba(0, 57, 166, 0.4); }
+        .flag-btn.pt { border-color: #009c3b; box-shadow: 0 0 15px rgba(255, 223, 0, 0.4); }
         .flag-btn:hover { transform: scale(1.1); }
         .flag-btn.active { opacity: 1; transform: scale(1.05); background: rgba(255,255,255,0.1); }
         .flag-btn:not(.active) { opacity: 0.3; }
@@ -585,6 +588,9 @@
                 <div class="lang-flags" style="margin-top: 15px;">
                     <button class="flag-btn es active" onclick="setLanguage('es')">[ ES ]</button>
                     <button class="flag-btn en" onclick="setLanguage('en')">[ EN ]</button>
+                    <button class="flag-btn fr" onclick="setLanguage('fr')">[ FR ]</button>
+                    <button class="flag-btn ru" onclick="setLanguage('ru')">[ RU ]</button>
+                    <button class="flag-btn pt" onclick="setLanguage('pt')">[ PT ]</button>
                 </div>
 
                 <div class="start-controls-main">
@@ -852,6 +858,95 @@
             history_record: 'RÉCORD:', history_waves: 'Oleadas', history_empty: 'No hay registros previos.',
             perks: ["", "DAÑO Y MANÁ x2", "RÁFAGA DE FUEGO", "GRAVEDAD LETAL", "NÚCLEO EXPLOSIVO", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "REPARACIÓN AUTO", "ANIQUILACIÓN TOTAL"]
         },
+        fr: {
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
+            btn_achievements: '🏆 SUCCÈS', btn_instructions: '📋 INSTRUCTIONS', btn_ranking: '👑 CLASSEMENT', ach_modal_title: 'REGISTRE DES TITRES', ach_unlocked: 'SUCCÈS DÉVERROUILLÉ!', ach_reward_lbl: 'TITRE:',
+            support_txt: 'SOUTENIR LE PROJET:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'VOUS ÊTES LE VOYAGEUR:',
+            ui_resources: 'RESSOURCES:', ui_energy: 'ÉNERGIE:', ui_kills: 'Élimin.:', ui_time: 'Temps:', ui_waves: 'VAGUES:',
+            tut_defenses_title: 'DÉFENSES', tut_orb_click: 'CLIC:', tut_orb_desc: 'Orbe d\'énergie. Attaque rapide.',
+            tut_grav_click: 'CTRL+CLIC:', tut_grav_desc: 'Graviton. Ralentit et attire.',
+            tut_mega: 'MÉGA-TIR:', tut_mega_desc: 'Auto /15 kills. Tir total.',
+            tut_threats_title: 'MENACES', tut_nemesis: 'NEMESIS:', tut_nemesis_desc: 'Essaim basique.',
+            tut_elite: 'ÉLITE:', tut_elite_desc: 'Grands et tenaces.', tut_frag: 'FRAGMENT:', tut_frag_desc: 'Se divise en 2 à mort.',
+            tut_powers_title: 'POUVOIRS', tut_haste: 'SURCHARGE:', tut_haste_desc: 'Cadence de tir max.',
+            tut_heal: 'RÉPARER:', tut_heal_desc: 'Restaura l\'énergie du Noyau.',
+            tut_pause: 'PAUSE:', tut_pause_desc: 'Options audio.',
+            tut_clean: 'INTERFACE:', tut_clean_desc: 'Affiche/Masque l\'interface.',
+            tut_start: 'LANCER LA MISSION',
+            pause_title: 'PAUSE', pause_resume: 'REPRENDRE', pause_restart: 'RECOMMENCER', pause_menu: 'MENU PRINCIPAL',
+            tut_briefing: 'MISSION BRIEFING // INITIALISATION...',
+            tut_mana_info: '⚠️ PROTOCOLO Rc: TOUTE ACTION CONSOMME DES RESSOURCES. ÉLIMINEZ DES ENNEMIS.',
+            cost_15: 'Coût: 15 Rc', cost_60: 'Coût: 60 Rc', cost_free: 'Coût: 0 Rc',
+            mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ACCÈS REFUSÉ ⚠️', mobile_sub: 'NÉCESSITE UN PC.',
+            mega_kills: 'Kills', ranking_title: 'CLASSEMENT MONDIAL', ranking_conn: 'CONNEXION...',
+            ranking_col_name: 'NOM - TITRE', ranking_col_wave: 'VAGUE', ranking_col_kills: 'KILLS',
+            gameover_title: 'NOYYAU DÉTRUIT', gameover_history: 'Historique Récent:', gameover_retry: 'Nouvelle Partie',
+            pause_phrases: ["Prenez votre temps...", "Respirez profondément.", "Le Noyau vous attendra.", "Les commandants ont besoin de pauses."],
+            audio_on: '🔊 AUDIO: ON', audio_off: '🔇 AUDIO: OFF', ui_visible: 'UI: VISIBLE', ui_hidden: 'UI: MASQUÉ',
+            shake_on: '📹 SECOUSSE: ON', shake_off: '📹 SECOUSSE: OFF',
+            plus_energy: '+1 ÉNERGIE', nemesis_warning: '⚠️ NÉMÉSIS DIVINA DÉTECTÉE ⚠️', combo: 'COMBO',
+            stats_kills: 'Élimin.:', stats_wave: 'Vague:', stats_survived: 'Survécu:',
+            history_record: 'RECORD:', history_waves: 'Vagues', history_empty: 'Aucun record précédent.',
+            perks: ["", "DÉGÂTS & MANA x2", "TIR RAPIDE", "GRAVITÉ LÉTALE", "NOYAU EXPLOSIF", "PORTÉE SUPRÊME", "SURCHARGE CRITIQUE", "RÉPARATION AUTO", "ANNIHILATION TOTALE"]
+        },
+        ru: {
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
+            btn_achievements: '🏆 ДОСТИЖЕНИЯ', btn_instructions: '📋 ИНСТРУКЦИИ', btn_ranking: '👑 РЕЙТИНГ', ach_modal_title: 'РЕЕСТР ТИТУЛОВ', ach_unlocked: 'ДОСТИЖЕНИЕ РАЗБЛОКИРОВАНО!', ach_reward_lbl: 'ТИТУЛ:',
+            support_txt: 'ПОДДЕРЖАТЬ ПРОЕКТ:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'ВЫ ПУТЕШЕСТВЕННИК НОМЕР:',
+            ui_resources: 'РЕСУРСЫ:', ui_energy: 'ЭНЕРГИЯ:', ui_kills: 'Убийства:', ui_time: 'Время:', ui_waves: 'ВОЛНЫ:',
+            tut_defenses_title: 'ЗАЩИТА', tut_orb_click: 'КЛИК:', tut_orb_desc: 'Сфера энергии. Быстрая атака.',
+            tut_grav_click: 'CTRL+КЛИК:', tut_grav_desc: 'Гравитон. Замедляет.',
+            tut_mega: 'МЕГА-ВЫСТРЕЛ:', tut_mega_desc: 'Авто за 15 убийств.',
+            tut_threats_title: 'УГРОЗЫ', tut_nemesis: 'НЕМЕЗИДА:', tut_nemesis_desc: 'Базовый рой.',
+            tut_elite: 'ЭЛИТА:', tut_elite_desc: 'Крупные и прочные.', tut_frag: 'ОСКОЛОК:', tut_frag_desc: 'Делится на 2.',
+            tut_powers_title: 'СПОСОБНОСТИ', tut_haste: 'ПЕРЕГРУЗКА:', tut_haste_desc: 'Макс. скорость.',
+            tut_heal: 'РЕМОНТ:', tut_heal_desc: 'Восстанавливает энергию.', tut_pause: 'ПАУЗА:', tut_pause_desc: 'Аудио и настройки.',
+            tut_clean: 'ИНТЕРФЕЙС:', tut_clean_desc: 'Скрыть/Показать интерфейс.', tut_start: 'НАЧАТЬ МИССИЮ',
+            pause_title: 'ПАУЗА', pause_resume: 'ПРОДОЛЖИТЬ', pause_restart: 'ПЕРЕЗАГРУЗИТЬ', pause_menu: 'МЕНЮ',
+            tut_briefing: 'МИССИЯ // ИНИЦИАЛИЗАЦИЯ...',
+            tut_mana_info: '⚠️ ПРОТОКОЛ Rc: ДЕЙСТВИЯ РАСХОДУЮТ РЕСУРСЫ. УНИЧТОЖАЙТЕ ВРАГОВ.',
+            cost_15: 'Цена: 15 Rc', cost_60: 'Цена: 60 Rc', cost_free: 'Цена: 0 Rc',
+            mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ДОСТУП ЗАПРЕЩЕН ⚠️', mobile_sub: 'СИСТЕМА ТРЕБУЕТ ПК.',
+            mega_kills: 'Убийств', ranking_title: 'МИРОВОЙ РЕЙТИНГ', ranking_conn: 'ПОДКЛЮЧЕНИЕ...',
+            ranking_col_name: 'ИМЯ - ТИТУЛ', ranking_col_wave: 'ВОЛНА', ranking_col_kills: 'УБИЙСТВА',
+            gameover_title: 'ЯДРО РАЗРУШЕНО', gameover_history: 'История:', gameover_retry: 'Новая игра',
+            pause_phrases: ["Сделайте глубокий вдох.", "Отличная тактика - выпить воды.", "Ядро подождет.", "Всем нужен перерыв."],
+            audio_on: '🔊 АУДИО: ВКЛ', audio_off: '🔇 АУДИО: ВЫКЛ', ui_visible: 'UI: ВИДИМЫЙ', ui_hidden: 'UI: СКРЫТЫЙ',
+            shake_on: '📹 ТРЯСКА: ВКЛ', shake_off: '📹 ТРЯСКА: ВЫКЛ',
+            plus_energy: '+1 ЭНЕРГИЯ', nemesis_warning: '⚠️ БОЖЕСТВЕННАЯ НЕМЕЗИДА ⚠️', combo: 'КОМБО',
+            stats_kills: 'Убийства:', stats_wave: 'Волна:', stats_survived: 'Выживание:',
+            history_record: 'РЕКОРД:', history_waves: 'Волны', history_empty: 'Нет рекордов.',
+            perks: ["", "УРОН И МАНА x2", "БЫСТРЫЙ ОГОНЬ", "СМЕРТЕЛЬНАЯ ГРАВИТАЦИЯ", "ВЗРЫВНОЕ ЯДРО", "ВЫСШИЙ РАДИУС", "КРИТ. ПЕРЕГРУЗКА", "АВТОРЕМОНТ", "ПОЛНОЕ УНИЧТОЖЕНИЕ"]
+        },
+        pt: {
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
+            btn_achievements: '🏆 CONQUISTAS', btn_instructions: '📋 INSTRUÇÕES', btn_ranking: '👑 RANKING', ach_modal_title: 'REGISTRO DE TÍTULOS', ach_unlocked: 'CONQUISTA DESBLOQUEADA!', ach_reward_lbl: 'TÍTULO:',
+            support_txt: 'APOIE O PROJETO:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'VOCÊ É O VIAJANTE NÚMERO:',
+            ui_resources: 'RECURSOS:', ui_energy: 'ENERGIA:', ui_kills: 'Abates:', ui_time: 'Tempo:', ui_waves: 'ONDAS:',
+            tut_defenses_title: 'DEFESAS', tut_orb_click: 'CLIQUE:', tut_orb_desc: 'Orbe de energia. Ataque letal.',
+            tut_grav_click: 'CTRL+CLIQUE:', tut_grav_desc: 'Graviton. Atrasa e puxa.',
+            tut_mega: 'MEGA-TIRO:', tut_mega_desc: 'Auto a cada 15 abates.',
+            tut_threats_title: 'AMEAÇAS', tut_nemesis: 'NEMESIS:', tut_nemesis_desc: 'Enxame básico.',
+            tut_elite: 'ELITE:', tut_elite_desc: 'Maiores e difíceis.', tut_frag: 'FRAGMENTO:', tut_frag_desc: 'Divide-se em 2 ao morrer.',
+            tut_powers_title: 'PODERES', tut_haste: 'SOBRECARGA:', tut_haste_desc: 'Cadência máxima de tiro.',
+            tut_heal: 'REPARAR:', tut_heal_desc: 'Restaura energia do Núcleo.', tut_pause: 'PAUSA:', tut_pause_desc: 'Pausa e opções.',
+            tut_clean: 'INTERFACE:', tut_clean_desc: 'Oculta/Mostra painéis.', tut_start: 'INICIAR MISSÃO',
+            pause_title: 'PAUSA', pause_resume: 'RETOMAR', pause_restart: 'REINICIAR', pause_menu: 'MENU',
+            tut_briefing: 'MISSÃO // INICIALIZANDO...',
+            tut_mana_info: '⚠️ PROTOCOLO Rc: TODA AÇÃO CONSOME RECURSOS. ELIMINE INIMIGOS PARA REABASTECER.',
+            cost_15: 'Custo: 15 Rc', cost_60: 'Custo: 60 Rc', cost_free: 'Custo: 0 Rc',
+            mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ACESSO NEGADO ⚠️', mobile_sub: 'ESTE SISTEMA REQUER UM PC.',
+            mega_kills: 'Abates', ranking_title: 'RANKING GLOBAL', ranking_conn: 'CONECTANDO...',
+            ranking_col_name: 'NOME - TÍTULO', ranking_col_wave: 'ONDA', ranking_col_kills: 'ABATES',
+            gameover_title: 'NÚCLEO DESTRUÍDO', gameover_history: 'Histórico Recente:', gameover_retry: 'Jogar Novamente',
+            pause_phrases: ["Beba uma água, ótima tática.", "O Núcleo vai esperar por você.", "Calculando próximos movimentos.", "Respire fundo."],
+            audio_on: '🔊 ÁUDIO: ON', audio_off: '🔇 ÁUDIO: OFF', ui_visible: 'UI: VISÍVEL', ui_hidden: 'UI: OCULTA',
+            shake_on: '📹 TREMOR: ON', shake_off: '📹 TREMOR: OFF',
+            plus_energy: '+1 ENERGIA', nemesis_warning: '⚠️ NÊMESIS DIVINA DETECTADA ⚠️', combo: 'COMBO',
+            stats_kills: 'Abates:', stats_wave: 'Onda:', stats_survived: 'Sobreviveu:',
+            history_record: 'RECORDE:', history_waves: 'Ondas', history_empty: 'Sem registros.',
+            perks: ["", "DANO E MANA x2", "TIRO RÁPIDO", "GRAVIDADE LETAL", "NÚCLEO EXPLOSIVO", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "REPARO AUTO", "ANIQUILAÇÃO TOTAL"]
+        },
         en: {
             title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
             btn_achievements: '🏆 ACHIEVEMENTS', btn_instructions: '📋 INSTRUCTIONS', btn_ranking: '👑 RANKING', ach_modal_title: 'MILESTONES & TITLES', ach_unlocked: 'ACHIEVEMENT UNLOCKED!', ach_reward_lbl: 'TITLE:',
@@ -884,29 +979,29 @@
     };
 
     const ACHIEVEMENTS = [
-        { id: 'first_blood', es: 'Primer Contacto', en: 'First Contact', d_es: 'Elimina a tu primer dron enemigo (Némesis).', d_en: 'Eliminate your first enemy drone (Nemesis).', r_es: 'Tripulante', r_en: 'Crewman', check: () => totalKills >= 1 },
-        { id: 'graviton_master', es: 'Campo de Singularidad', en: 'Singularity Field', d_es: 'Construye tu primer Gravitón táctico.', d_en: 'Build your first tactical Graviton.', r_es: 'Táctico', r_en: 'Tactician', check: () => gravitones.length > 0 },
-        { id: 'wave_5', es: 'Defensor Novato', en: 'Novice Defender', d_es: 'Resiste la tormenta espacial hasta la Oleada 5.', d_en: 'Resist the space storm until Wave 5.', r_es: 'Guardia', r_en: 'Guard', check: () => currentWave >= 5 },
-        { id: 'planet_1', es: 'Poder Incremental', en: 'Incremental Power', d_es: 'Desbloquea tu primera mejora de Nivel 1 (100 bajas).', d_en: 'Unlock your first Level 1 enhancement (100 kills).', r_es: 'Soldado', r_en: 'Soldier', check: () => totalKills >= 100 },
-        { id: 'first_haste', es: 'Sobrecarga Absoluta', en: 'Absolute Overload', d_es: 'Desata el poder de Sobrecarga [1] por primera vez.', d_en: 'Unleash the Overload power [1] for the first time.', r_es: 'Berserker', r_en: 'Berserker', check: () => hasteTimer > 0 },
-        { id: 'first_heal', es: 'Mantenimiento Crítico', en: 'Critical Maintenance', d_es: 'Ejecuta una Reparación de urgencia [2] en el núcleo.', d_en: 'Execute an emergency Repair [2] on the core.', r_es: 'Ingeniero', r_en: 'Engineer', check: () => healMessageTimer > 0 },
-        { id: 'combo_10', es: 'Combo Maestro', en: 'Combo Master', d_es: 'Alcanza un Combo x10 seguido para bonificaciones Rc masivas.', d_en: 'Reach a continuous x10 Combo for massive Rc bonuses.', r_es: 'Especialista', r_en: 'Specialist', check: () => comboCount >= 10 },
-        { id: 'neon_treasury', es: 'Tesoro Neón', en: 'Neon Treasury', d_es: 'Conserva al menos 500 Rc simultáneamente.', d_en: 'Hold at least 500 Rc simultaneously.', r_es: 'Banquero', r_en: 'Banker', check: () => mana >= 500 },
-        { id: 'elite_hunter', es: 'Caza-Élites', en: 'Elite Hunter', d_es: 'Elimina a 10 enemigos de tipo Élite (barra amarilla) en una sola incursión.', d_en: 'Eliminate 10 Elite-type enemies (yellow bar) in a single raid.', r_es: 'Cazarrecompensas', r_en: 'Bounty Hunter', check: () => elitesKilled >= 10 },
-        { id: 'level_5', es: 'Cúpula Intocable', en: 'Untouchable Dome', d_es: 'Alcanza el nivel 5 de alcance supremo (500 bajas) sin haber recibido daños en la energía.', d_en: 'Reach supreme range level 5 (500 kills) without taking core energy damage.', r_es: 'Comandante', r_en: 'Commander', check: () => totalKills >= 500 && villageLives >= 10 },
-        { id: 'boss_slayer', es: 'Matagigantes Cósmico', en: 'Cosmic Giant Slayer', d_es: 'Resiste lo suficiente y asiste a la destrucción del primer Jefe Masivo.', d_en: 'Survive long enough and witness the destruction of the first Massive Boss.', r_es: 'Leyenda Viva', r_en: 'Living Legend', check: () => bossesKilled >= 1 },
-        { id: 'void_commander', es: 'Comandante del Vacío', en: 'Void Commander', d_es: 'Demuestra resistencia extrema superando las 2000 bajas.', d_en: 'Show extreme endurance by surpassing 2000 kills.', r_es: 'Mito', r_en: 'Myth', check: () => totalKills >= 2000 },
-        { id: 'wave_15', es: 'Veterano de Guerra', en: 'War Veteran', d_es: 'Resiste el asedio incesante hasta alcanzar la Oleada 15.', d_en: 'Endure the relentless siege until reaching Wave 15.', r_es: 'Veterano', r_en: 'Veteran', check: () => currentWave >= 15 },
-        { id: 'rich_boy', es: 'Magnate de Energía', en: 'Energy Tycoon', d_es: 'Acumula un asombroso total de 1500 Rc al mismo tiempo.', d_en: 'Accumulate an astonishing total of 1500 Rc simultaneously.', r_es: 'Magnate', r_en: 'Tycoon', check: () => mana >= 1500 },
-        { id: 'rc_hoarder', es: 'Acaparador de Energía', en: 'Energy Hoarder', d_es: 'Guarda celosamente 3000 de Rc sin gastarlo.', d_en: 'Zealously hoard 3000 Rc without spending it.', r_es: 'Coleccionista', r_en: 'Collector', check: () => mana >= 3000 },
-        { id: 'rc_singularity', es: 'Singularidad Neón', en: 'Neon Singularity', d_es: 'Conviértete en un pozo de energía pura alcanzando 5000 Rc.', d_en: 'Become a well of pure energy reaching 5000 Rc.', r_es: 'Estrella Púlsar', r_en: 'Pulsar Star', check: () => mana >= 5000 },
-        { id: 'combo_25', es: 'Carnicería Neón', en: 'Neon Carnage', d_es: 'Encadena un frenético Combo x25 aniquilando enemigos.', d_en: 'Chain a frantic x25 Combo annihilating enemies.', r_es: 'Verdugo', r_en: 'Executioner', check: () => comboCount >= 25 },
-        { id: 'max_orbs', es: 'Arquitecto de Luz', en: 'Light Architect', d_es: 'Mantén desplegados 10 orbes de ataque simultáneos.', d_en: 'Keep 10 attack orbs deployed simultaneously.', r_es: 'Arquitecto', r_en: 'Architect', check: () => orbes.length >= 10 },
-        { id: 'max_gravs', es: 'Señor de la Gravedad', en: 'Gravity Lord', d_es: 'Crea 4 potentes anomalías gravitatorias simultáneamente.', d_en: 'Create 4 powerful gravitational anomalies simultaneously.', r_es: 'Controlador', r_en: 'Controller', check: () => gravitones.length >= 4 },
-        { id: 'elite_massacre', es: 'Exterminador de Élite', en: 'Elite Exterminator', d_es: 'Liquida hasta 50 temibles Drones Élite a lo largo de tu misión.', d_en: 'Eliminate up to 50 fearsome Elite Drones during your mission.', r_es: 'Cazador', r_en: 'Hunter', check: () => elitesKilled >= 50 },
-        { id: 'god_slayer', es: 'Azote Divino', en: 'Divine Scourge', d_es: 'Desafía todas las probabilidades y destruye 3 Jefes Masivos.', d_en: 'Defy all odds and destroy 3 Massive Bosses.', r_es: 'Deidad', r_en: 'Deity', check: () => bossesKilled >= 3 },
-        { id: 'void_god', es: 'Dios del Vacío', en: 'Void God', d_es: 'Demuestra tu divinidad aniquilando a 4000 enemigos.', d_en: 'Show your divinity by annihilating 4000 enemies.', r_es: 'Dios', r_en: 'God', check: () => totalKills >= 4000 },
-        { id: 'void_entity', es: 'Entidad Cósmica', en: 'Cosmic Entity', d_es: 'Conviértete en uno con el Vacío y alcanza las 7500 bajas.', d_en: 'Become one with the Void and reach 7500 kills.', r_es: 'Trascendido', r_en: 'Transcendent', check: () => totalKills >= 7500 }
+        { id: 'first_blood', es: 'Primer Contacto', en: 'First Contact', d_es: 'Elimina a tu primer dron enemigo (Némesis).', d_en: 'Eliminate your first enemy drone (Nemesis).', r_es: 'Tripulante', r_en: 'Crewman', fr: 'Premier Sang', d_fr: 'Éliminez votre premier drone ennemi.', r_fr: 'Équipier', ru: 'Первая Кровь', d_ru: 'Уничтожьте первый вражеский дрон.', r_ru: 'Экипаж', pt: 'Primeiro Contato', d_pt: 'Elimine seu primeiro drone inimigo.', r_pt: 'Tripulante', check: () => totalKills >= 1 },
+        { id: 'graviton_master', es: 'Campo de Singularidad', en: 'Singularity Field', d_es: 'Construye tu primer Gravitón táctico.', d_en: 'Build your first tactical Graviton.', r_es: 'Táctico', r_en: 'Tactician', fr: 'Champ de Singularité', d_fr: 'Construisez votre premier Graviton.', r_fr: 'Tacticien', ru: 'Сингулярность', d_ru: 'Постройте первый Гравитон.', r_ru: 'Тактик', pt: 'Campo de Singularidade', d_pt: 'Construa seu primeiro Graviton tático.', r_pt: 'Tático', check: () => gravitones.length > 0 },
+        { id: 'wave_5', es: 'Defensor Novato', en: 'Novice Defender', d_es: 'Resiste la tormenta espacial hasta la Oleada 5.', d_en: 'Resist the space storm until Wave 5.', r_es: 'Guardia', r_en: 'Guard', fr: 'Défenseur Novice', d_fr: 'Résistez jusqu\'à la Vague 5.', r_fr: 'Garde', ru: 'Новичок Защитник', d_ru: 'Доживите до 5-й Волны.', r_ru: 'Страж', pt: 'Defensor Novato', d_pt: 'Resista à tempestade até a Onda 5.', r_pt: 'Guarda', check: () => currentWave >= 5 },
+        { id: 'planet_1', es: 'Poder Incremental', en: 'Incremental Power', d_es: 'Desbloquea tu primera mejora de Nivel 1 (100 bajas).', d_en: 'Unlock your first Level 1 enhancement (100 kills).', r_es: 'Soldado', r_en: 'Soldier', fr: 'Puissance Incrémentale', d_fr: 'Débloquez l\'amélioration max.', r_fr: 'Soldat', ru: 'Инкрементальная Сила', d_ru: 'Разблокируйте улушение.', r_ru: 'Солдат', pt: 'Poder Incremental', d_pt: 'Desbloqueie a melhoria de Nível 1.', r_pt: 'Soldado', check: () => totalKills >= 100 },
+        { id: 'first_haste', es: 'Sobrecarga Absoluta', en: 'Absolute Overload', d_es: 'Desata el poder de Sobrecarga [1] por primera vez.', d_en: 'Unleash the Overload power [1] for the first time.', r_es: 'Berserker', r_en: 'Berserker', fr: 'Surcharge Absolue', d_fr: 'Déclenchez la Surcharge [1].', r_fr: 'Berserker', ru: 'Абсолютная Перегрузка', d_ru: 'Используйте Перегрузку [1].', r_ru: 'Берсерк', pt: 'Sobrecarga Absoluta', d_pt: 'Ative a Sobrecarga [1] pela primeira vez.', r_pt: 'Berserker', check: () => hasteTimer > 0 },
+        { id: 'first_heal', es: 'Mantenimiento Crítico', en: 'Critical Maintenance', d_es: 'Ejecuta una Reparación de urgencia [2] en el núcleo.', d_en: 'Execute an emergency Repair [2] on the core.', r_es: 'Ingeniero', r_en: 'Engineer', fr: 'Maintenance Critique', d_fr: 'Exécutez une Réparation d\'urgence.', r_fr: 'Ingénieur', ru: 'Критическое Обслуживание', d_ru: 'Используйте Экстренный Ремонт.', r_ru: 'Инженер', pt: 'Manutenção Crítica', d_pt: 'Execute um Reparo de emergência.', r_pt: 'Engenheiro', check: () => healMessageTimer > 0 },
+        { id: 'combo_10', es: 'Combo Maestro', en: 'Combo Master', d_es: 'Alcanza un Combo x10 seguido para bonificaciones Rc masivas.', d_en: 'Reach a continuous x10 Combo for massive Rc bonuses.', r_es: 'Especialista', r_en: 'Specialist', fr: 'Maître des Combos', d_fr: 'Atteignez un Combo x10.', r_fr: 'Spécialiste', ru: 'Мастер Комбо', d_ru: 'Достигните Комбо x10.', r_ru: 'Специалист', pt: 'Mestre do Combo', d_pt: 'Alcance um Combo x10 seguido.', r_pt: 'Especialista', check: () => comboCount >= 10 },
+        { id: 'neon_treasury', es: 'Tesoro Neón', en: 'Neon Treasury', d_es: 'Conserva al menos 500 Rc simultáneamente.', d_en: 'Hold at least 500 Rc simultaneously.', r_es: 'Banquero', r_en: 'Banker', fr: 'Trésor Néon', d_fr: 'Conservez 500 Rc simultanément.', r_fr: 'Banquier', ru: 'Неоновая Казна', d_ru: 'Сохраните 500 Rc.', r_ru: 'Банкир', pt: 'Tesouro Neon', d_pt: 'Mantenha pelo menos 500 Rc simultaneamente.', r_pt: 'Bancário', check: () => mana >= 500 },
+        { id: 'elite_hunter', es: 'Caza-Élites', en: 'Elite Hunter', d_es: 'Elimina a 10 enemigos de tipo Élite (barra amarilla) en una sola incursión.', d_en: 'Eliminate 10 Elite-type enemies (yellow bar) in a single raid.', r_es: 'Cazarrecompensas', r_en: 'Bounty Hunter', fr: 'Chasseur d\'Élite', d_fr: 'Éliminez 10 unités d\'Élite.', r_fr: 'Chasseur', ru: 'Охотник на Элиту', d_ru: 'Уничтожьте 10 Элитных врагов.', r_ru: 'Охотник', pt: 'Caça-Elites', d_pt: 'Elimine 10 inimigos Elite em uma incursão.', r_pt: 'Caçador', check: () => elitesKilled >= 10 },
+        { id: 'level_5', es: 'Cúpula Intocable', en: 'Untouchable Dome', d_es: 'Alcanza el nivel 5 de alcance supremo (500 bajas) sin haber recibido daños en la energía.', d_en: 'Reach supreme range level 5 (500 kills) without taking core energy damage.', r_es: 'Comandante', r_en: 'Commander', fr: 'Dôme Intouchable', d_fr: '500 élimin. sans dégâts sur le Noyau.', r_fr: 'Commandant', ru: 'Неприкасаемый Купол', d_ru: '500 убийств без урона ядру.', r_ru: 'Командир', pt: 'Cúpula Intocável', d_pt: '500 abates sem o Núcleo receber danos.', r_pt: 'Comandante', check: () => totalKills >= 500 && villageLives >= 10 },
+        { id: 'boss_slayer', es: 'Matagigantes Cósmico', en: 'Cosmic Giant Slayer', d_es: 'Resiste lo suficiente y asiste a la destrucción del primer Jefe Masivo.', d_en: 'Survive long enough and witness the destruction of the first Massive Boss.', r_es: 'Leyenda Viva', r_en: 'Living Legend', fr: 'Tueur de Géants', d_fr: 'Assistez à la destruction d\'un Boss.', r_fr: 'Légende', ru: 'Убийца Гигантов', d_ru: 'Уничтожьте первого Босса.', r_ru: 'Легенда', pt: 'Matador Cósmico', d_pt: 'Veja a destruição do primeiro Chefe.', r_pt: 'Lenda', check: () => bossesKilled >= 1 },
+        { id: 'void_commander', es: 'Comandante del Vacío', en: 'Void Commander', d_es: 'Demuestra resistencia extrema superando las 2000 bajas.', d_en: 'Show your divinity by annihilating 4000 enemies.', r_es: 'Mito', r_en: 'Myth', fr: 'Commandant du Vide', d_fr: 'Dépassez 2000 éliminations.', r_fr: 'Mythe', ru: 'Командир Пустоты', d_ru: 'Превысьте 2000 убийств.', r_ru: 'Миф', pt: 'Comandante Vazio', d_pt: 'Ultrapasse 2000 abates.', r_pt: 'Mito', check: () => totalKills >= 2000 },
+        { id: 'wave_15', es: 'Veterano de Guerra', en: 'War Veteran', d_es: 'Resiste el asedio incesante hasta alcanzar la Oleada 15.', d_en: 'Endure the relentless siege until Wave 15.', r_es: 'Veterano', r_en: 'Veteran', fr: 'Vétéran de Guerre', d_fr: 'Résistez jusqu\'à la Vague 15.', r_fr: 'Vétéran', ru: 'Ветеран Войны', d_ru: 'Доживите до 15 Войны.', r_ru: 'Ветеран', pt: 'Veterano', d_pt: 'Resista até a Onda 15.', r_pt: 'Veterano', check: () => currentWave >= 15 },
+        { id: 'rich_boy', es: 'Magnate de Energía', en: 'Energy Tycoon', d_es: 'Acumula un asombroso total de 1500 Rc al mismo tiempo.', d_en: 'Accumulate an astonishing total of 1500 Rc simultaneously.', r_es: 'Magnate', r_en: 'Tycoon', fr: 'Magnat de l\'Énergie', d_fr: 'Cumulez 1500 Rc.', r_fr: 'Magnat', ru: 'Магнат Энергии', d_ru: 'Накопите 1500 Rc.', r_ru: 'Магнат', pt: 'Magnata da Energia', d_pt: 'Acumule 1500 Rc.', r_pt: 'Magnata', check: () => mana >= 1500 },
+        { id: 'rc_hoarder', es: 'Acaparador de Energía', en: 'Energy Hoarder', d_es: 'Guarda celosamente 3000 de Rc sin gastarlo.', d_en: 'Zealously hoard 3000 Rc without spending it.', r_es: 'Coleccionista', r_en: 'Collector', fr: 'Accumulateur', d_fr: 'Gardez jalousement 3000 Rc.', r_fr: 'Collectionneur', ru: 'Накопитель', d_ru: 'Накопите 3000 Rc.', r_ru: 'Коллекционер', pt: 'Acumulador', d_pt: 'Guarde 3000 Rc sem gastar.', r_pt: 'Colecionador', check: () => mana >= 3000 },
+        { id: 'rc_singularity', es: 'Singularidad Neón', en: 'Neon Singularity', d_es: 'Conviértete en un pozo de energía pura alcanzando 5000 Rc.', d_en: 'Become a well of pure energy reaching 5000 Rc.', r_es: 'Estrella Púlsar', r_en: 'Pulsar Star', fr: 'Singularité', d_fr: 'Devenez une source avec 5000 Rc.', r_fr: 'Étoile', ru: 'Сингулярность', d_ru: 'Соберите 5000 Rc.', r_ru: 'Звезда', pt: 'Singularidade', d_pt: 'Transforme-se com 5000 Rc.', r_pt: 'Estrela', check: () => mana >= 5000 },
+        { id: 'combo_25', es: 'Carnicería Neón', en: 'Neon Carnage', d_es: 'Encadena un frenético Combo x25 aniquilando enemigos.', d_en: 'Chain a frantic x25 Combo annihilating enemies.', r_es: 'Verdugo', r_en: 'Executioner', fr: 'Carnage Néon', d_fr: 'Atteignez un Combo x25.', r_fr: 'Bourreau', ru: 'Неоновая Резня', d_ru: 'Достигните Комбо x25.', r_ru: 'Палач', pt: 'Carnificina Neon', d_pt: 'Alcance um Combo x25.', r_pt: 'Carrasco', check: () => comboCount >= 25 },
+        { id: 'max_orbs', es: 'Arquitecto de Luz', en: 'Light Architect', d_es: 'Mantén desplegados 10 orbes de ataque simultáneos.', d_en: 'Keep 10 attack orbs deployed simultaneously.', r_es: 'Arquitecto', r_en: 'Architect', fr: 'Architecte', d_fr: 'Maintenez 10 orbes déployés.', r_fr: 'Architecte', ru: 'Архитектор', d_ru: 'Держите 10 сфер активными.', r_ru: 'Архитектор', pt: 'Arquiteto', d_pt: 'Mantenha 10 orbes ativos simultaneamente.', r_pt: 'Arquiteto', check: () => orbes.length >= 10 },
+        { id: 'max_gravs', es: 'Señor de la Gravedad', en: 'Gravity Lord', d_es: 'Crea 4 potentes anomalías gravitatorias simultáneamente.', d_en: 'Create 4 powerful gravitational anomalies simultaneously.', r_es: 'Controlador', r_en: 'Controller', fr: 'Seigneur', d_fr: 'Créez 4 gravitons.', r_fr: 'Contrôleur', ru: 'Повелитель', d_ru: 'Создайте 4 гравитона.', r_ru: 'Контроллер', pt: 'Senhor da Gravidade', d_pt: 'Crie 4 gravitons ativos.', r_pt: 'Controlador', check: () => gravitones.length >= 4 },
+        { id: 'elite_massacre', es: 'Exterminador de Élite', en: 'Elite Exterminator', d_es: 'Liquida hasta 50 temibles Drones Élite a lo largo de tu misión.', d_en: 'Eliminate up to 50 fearsome Elite Drones during your mission.', r_es: 'Cazador', r_en: 'Hunter', fr: 'Exterminateur', d_fr: 'Liquidez 50 Drones Élite.', r_fr: 'Chasseur', ru: 'Истребитель', d_ru: 'Уничтожьте 50 Элитных.', r_ru: 'Охотник', pt: 'Exterminador', d_pt: 'Liquide 50 Inimigos de Elite.', r_pt: 'Caçador', check: () => elitesKilled >= 50 },
+        { id: 'god_slayer', es: 'Azote Divino', en: 'Divine Scourge', d_es: 'Desafía todas las probabilidades y destruye 3 Jefes Masivos.', d_en: 'Defy all odds and destroy 3 Massive Bosses.', r_es: 'Deidad', r_en: 'Deity', fr: 'Fléau Divin', d_fr: 'Détruisez 3 Boss Massifs.', r_fr: 'Divinité', ru: 'Бич Богов', d_ru: 'Уничтожьте 3 Босса.', r_ru: 'Божество', pt: 'Açougueiro', d_pt: 'Destrua 3 Chefes Massivos.', r_pt: 'Divindade', check: () => bossesKilled >= 3 },
+        { id: 'void_god', es: 'Dios del Vacío', en: 'Void God', d_es: 'Demuestra tu divinidad aniquilando a 4000 enemigos.', d_en: 'Show your divinity by annihilating 4000 enemies.', r_es: 'Dios', r_en: 'God', fr: 'Dieu du Vide', d_fr: 'Annihilez 4000 ennemis.', r_fr: 'Dieu', ru: 'Бог Пустоты', d_ru: 'Уничтожьте 4000 врагов.', r_ru: 'Бог', pt: 'Deus do Vazio', d_pt: 'Aniquile 4000 inimigos.', r_pt: 'Deus', check: () => totalKills >= 4000 },
+        { id: 'void_entity', es: 'Entidad Cósmica', en: 'Cosmic Entity', d_es: 'Conviértete en uno con el Vacío y alcanza las 7500 bajas.', d_en: 'Become one with the Void and reach 7500 kills.', r_es: 'Trascendido', r_en: 'Transcendent', fr: 'Entité Cosmique', d_fr: 'Atteignez 7500 éliminations.', r_fr: 'Transcendant', ru: 'Космическая Сущность', d_ru: 'Достигните 7500 убийств.', r_ru: 'Превосходный', pt: 'Entidade Cósmica', d_pt: 'Alcance 7500 abates.', r_pt: 'Transcendente', check: () => totalKills >= 7500 }
     ];
 
     let unlockedAchievements = JSON.parse(localStorage.getItem('void_achievements')) || [];
@@ -2769,6 +2864,9 @@
         <div class="lang-flags" style="margin-bottom: 30px; position: absolute; top: 40px;">
             <button class="flag-btn es active" onclick="setLanguage('es')">[ ES ]</button>
             <button class="flag-btn en" onclick="setLanguage('en')">[ EN ]</button>
+            <button class="flag-btn fr" onclick="setLanguage('fr')">[ FR ]</button>
+            <button class="flag-btn ru" onclick="setLanguage('ru')">[ RU ]</button>
+            <button class="flag-btn pt" onclick="setLanguage('pt')">[ PT ]</button>
         </div>
         <div class="warning-box">
             <h1 data-i18n="mobile_title">VOID PROTOCOL</h1>
