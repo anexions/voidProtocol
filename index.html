@@ -398,12 +398,45 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 500;
             box-shadow: inset 0 0 100px rgba(255, 0, 60, 0);
-            transition: box-shadow 0.5s;
+            transition: box-shadow 1s ease;
         }
-        .vignette-active { animation: vignette-pulse 1s infinite alternate ease-in-out; }
-        @keyframes vignette-pulse {
-            from { box-shadow: inset 0 0 40px rgba(255, 0, 60, 0.1); }
-            to { box-shadow: inset 0 0 120px rgba(255, 0, 60, 0.4); }
+        #health-vignette.vignette-active {
+            box-shadow: inset 0 0 200px rgba(255, 0, 60, 0.6);
+            animation: vignette-pulse 2s infinite alternate;
+        }
+        @keyframes vignette-pulse { from { opacity: 0.6; } to { opacity: 1; } }
+
+        /* Haste Modern Announcement */
+        #haste-announcement {
+            position: fixed; top: 25%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+            z-index: 1000; pointer-events: none; display: none; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+            padding: 30px 60px; background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(15px); border: 2px solid rgba(243, 255, 0, 0.5);
+            border-radius: 4px; box-shadow: 0 0 50px rgba(243, 255, 0, 0.2), inset 0 0 20px rgba(243, 255, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0;
+        }
+        #haste-announcement.active { display: flex; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .haste-title {
+            font-size: 3.5rem; font-weight: 900; color: #f3ff00; letter-spacing: 15px;
+            margin: 0; text-shadow: 0 0 20px rgba(243, 255, 0, 0.8); position: relative;
+        }
+        .haste-title::before, .haste-title::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8;
+        }
+        #haste-announcement.active .haste-title::before { animation: glitch-anim 0.3s infinite; color: #00f3ff; z-index: -1; }
+        #haste-announcement.active .haste-title::after { animation: glitch-anim 0.25s infinite reverse; color: #ff00ff; z-index: -2; }
+        @keyframes glitch-anim {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+        .haste-subtitle {
+            font-size: 1rem; color: #fff; letter-spacing: 8px; text-transform: uppercase; margin-top: 15px; opacity: 0.9;
+            font-weight: bold; background: rgba(243, 255, 0, 0.1); padding: 5px 20px; border-radius: 20px;
         }
         @keyframes text-blink {
             0% { opacity: 1; text-shadow: 0 0 20px #f3ff00, 0 0 30px #f3ff00; }
@@ -543,9 +576,12 @@
     </style>
 </head>
 <body>
-    <div id="crt-overlay"></div>
     <div id="health-vignette"></div>
-
+    <div id="haste-announcement">
+        <h1 class="haste-title" data-text="OVERDRIVE">OVERDRIVE</h1>
+        <div class="haste-subtitle" id="haste-subtitle">SISTEMAS AL LÍMITE</div>
+    </div>
+    <div id="crt-overlay"></div>
     <div id="ui-panel" style="display: none;">
         <div class="stat-item">
             <span class="stat-label" data-i18n="ui_resources">RECURSOS:</span>
@@ -616,7 +652,7 @@
                                 <div class="guide-text">
                                     <b data-i18n="tut_orb_click">CLIC: ORBE ENERGÍA</b>
                                     <span data-i18n="tut_orb_desc">Ataque rápido y letal.</span>
-                                    <div class="cost-tag" data-i18n="cost_15">Coste: 15 Rc</div>
+                                    <div class="cost-tag"><span data-i18n="cost_lbl">Coste:</span> <span id="tut-orb-cost">15</span> Rc + <span data-i18n="inflation_lbl">Inflación</span></div>
                                 </div>
                             </div>
                             <div class="guide-item">
@@ -630,7 +666,7 @@
                                 <div class="guide-text">
                                     <b data-i18n="tut_grav_click">CTRL+CLIC: GRAVITÓN</b>
                                     <span data-i18n="tut_grav_desc">Ralentiza y atrae enemigos.</span>
-                                    <div class="cost-tag" data-i18n="cost_60">Coste: 60 Rc</div>
+                                    <div class="cost-tag"><span data-i18n="cost_lbl">Coste:</span> <span id="tut-grav-cost">60</span> Rc + <span data-i18n="inflation_lbl">Inflación</span></div>
                                 </div>
                             </div>
                         </div>
@@ -689,13 +725,13 @@
                             <div class="guide-item">
                                 <div class="guide-icon" style="border:none;">
                                     <svg viewBox="0 0 40 40" width="32" height="32">
-                                        <polygon points="20,6 34,20 20,34 6,20" fill="none" stroke="#ff0055" stroke-width="3" style="filter: drop-shadow(0px 0px 4px #ff0055);" />
-                                        <rect x="18" y="18" width="4" height="4" fill="#ff0055" />
+                                        <circle cx="20" cy="22" r="14" fill="none" stroke="#00f3ff" stroke-width="3" style="filter: drop-shadow(0px 0px 8px #00f3ff);" />
+                                        <circle cx="20" cy="22" r="6" fill="#00f3ff" />
                                     </svg>
                                 </div>
                                 <div class="guide-text">
-                                    <b data-i18n="tut_heal">REPARACIÓN [2]</b>
-                                    <span data-i18n="tut_heal_desc">Restaura energía al Núcleo.</span>
+                                    <b data-i18n="tut_emp">PULSO EMP</b>
+                                    <span data-i18n="tut_emp_desc">Aturde enemigos al recibir daño.</span>
                                 </div>
                             </div>
                             <div class="guide-item">
@@ -755,13 +791,7 @@
                     </svg>
                 </div>
                 
-                <div id="ability-2" class="sidebar-unit">
-                    <div class="sidebar-text-top" style="color: #ff003c;">[2] REPARACIÓN</div>
-                    <svg class="ability-icon" viewBox="0 0 40 40">
-                        <polygon points="20,6 34,20 20,34 6,20" fill="none" stroke="#ff003c" stroke-width="3" style="filter: drop-shadow(0px 0px 8px #ff003c);" />
-                        <rect x="18" y="18" width="4" height="4" fill="#ff003c" />
-                    </svg>
-                </div>
+                <!-- Habilidad 2 Elimada para balanceo -->
             </div>
             
             <!-- Right Line -->
@@ -772,7 +802,7 @@
             <h1 id="overlay-title" data-i18n="gameover_title">NÚCLEO DESTRUIDO</h1>
             <div id="overlay-stats" style="margin-bottom: 30px; font-size: 1.3rem; line-height: 1.8; font-weight: bold; color: rgba(255,255,255,0.8); text-shadow: 0 0 10px rgba(255,255,255,0.3);"></div>
             <div id="history-panel" style="background: rgba(255, 0, 60, 0.05); border: 1px solid rgba(255, 0, 60, 0.2); border-radius: 8px; padding: 25px; margin-bottom: 40px; text-align: left; max-height: 250px; overflow-y: auto; width: 600px; box-shadow: inset 0 0 30px rgba(255,0,60,0.1);">
-                <h3 style="margin-top: 0; color: #ff003c; font-size: 1.1rem; text-shadow: 0 0 10px rgba(255, 0, 60, 0.5); border-bottom: 1px solid rgba(255, 0, 60, 0.2); padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 3px;" data-i18n="gameover_history">HISTORIAL RECIENTE</h3>
+                <h3 style="margin-top: 0; color: #ff003c; font-size: 1.1rem; text-shadow: 0 0 10px rgba(255, 0, 60, 0.5); border-bottom: 1px solid rgba(255, 0, 60, 0.2); padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 3px;" data-i18n="gameover_history">HISTORIAL RECENTE</h3>
                 <ul id="history-list" style="list-style: none; padding: 0; font-family: monospace; font-size: 1rem; color: #ccc;"></ul>
             </div>
             <div style="display: flex; gap: 30px; justify-content: center; margin-top: 10px;">
@@ -799,7 +829,7 @@
                 <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">3.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
                 <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">4.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
                 <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">5.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
-                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">6.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
+                <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">6.</span><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">6.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
                 <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">7.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
                 <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">8.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
                 <li class="ranking-item" style="border-color: rgba(255,255,255,0.05);"><span style="flex: 0 0 50px; color: rgba(255,255,255,0.2); text-shadow: none;">9.</span><span style="flex: 1;"><b style="color:rgba(255,255,255,0.2); text-shadow: none;">---</b></span><span style="flex: 0 0 120px; text-align: center; color:rgba(255,255,255,0.2);">---</span><span style="flex: 0 0 100px; text-align: right; color:rgba(255,255,255,0.2);">---</span></li>
@@ -839,13 +869,14 @@
             tut_mega: 'MEGA-SHOT:', tut_mega_desc: 'Auto cada 15 bajas. Disparo total.',
             tut_threats_title: 'AMENAZAS', tut_nemesis: 'NÉMESIS:', tut_nemesis_desc: 'Enjambre básico. No los dejes pasar.',
             tut_elite: 'ELITE:', tut_elite_desc: 'Más grandes y resistentes. Prioridad.', tut_frag: 'FRAGMENTO:', tut_frag_desc: 'Se divide en 2 al ser destruido.',
-            tut_powers_title: 'PODERES', tut_haste: 'SOBRECARGA:', tut_haste_desc: 'Máxima velocidad de disparo.',
-            tut_heal: 'REPARAR:', tut_heal_desc: 'Restaura energía al Núcleo.', tut_pause: 'PAUSA:', tut_pause_desc: 'Pausa y opciones de audio.',
+            tut_powers_title: 'SYSTÉMES NÚCLEO', tut_haste: 'SOBRECARGA:', tut_haste_desc: 'Máxima velocidad de disparo.',
+            tut_emp: 'PULSO EMP:', tut_emp_desc: 'Aturde enemigos al recibir daño.', tut_pause: 'PAUSA:', tut_pause_desc: 'Pausa y opciones de audio.',
             tut_clean: 'INTERFAZ:', tut_clean_desc: 'Oculta/Muestra las armas.', tut_start: 'COMENZAR MISIÓN',
+            cost_lbl: 'Coste:', inflation_lbl: 'Inflación',
             pause_title: 'PAUSA', pause_resume: 'REANUDAR', pause_restart: 'REINICIAR', pause_menu: 'MENÚ PRINCIPAL',
             tut_briefing: 'BRIEFING DE MISIÓN // INICIALIZANDO...',
             tut_mana_info: '⚠️ PROTOCOLO Rc: TODA ACCIÓN CONSUME RECURSOS. ELIMINA ENEMIGOS PARA REABASTECER TUS RECURSOS.',
-            cost_15: 'Coste: 15 Rc', cost_60: 'Coste: 60 Rc', cost_free: 'Coste: 0 Rc',
+            cost_free: 'Coste: 0 Rc',
             mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ACCESO DENEGADO ⚠️', mobile_sub: 'ESTE SISTEMA REQUIERE UNA TERMINAL DE ESCRITORIO (PC) PARA SU EJECUCIÓN.',
             mega_kills: 'Bajas', ranking_title: 'RANKING ONLINE', ranking_conn: 'CONECTANDO...',
             ranking_col_name: 'NOMBRE - TÍTULO', ranking_col_wave: 'OLEADA', ranking_col_kills: 'BAJAS',
@@ -853,10 +884,10 @@
             pause_phrases: ["Bien, tómate tu tiempo...", "Genial, ahora puedes ver dónde colocar un orbe.", "¿Mucho estrés? Respira hondo.", "Tranquilo, el enjambre no se irá a ninguna parte.", "Pausando para un trago de agua, excelente táctica.", "Es un buen momento para replantear tu estrategia.", "No te preocupes, el núcleo te esperará.", "Yo te sostengo la partida mientras descansas el pulgar.", "¿Se te quemaron las retinas con el neón? Pestañea un poco.", "¿Buscando un tutorial en YouTube en medio de la partida?", "Tómate un respiro, esos extraterrestres son duros.", "Planificando el próximo movimiento maestro, ¿eh?", "Hasta los comandantes supremos necesitan ir al baño."],
             audio_on: '🔊 AUDIO: ON', audio_off: '🔇 AUDIO: OFF', ui_visible: 'UI: VISIBLE', ui_hidden: 'UI: OCULTA',
             shake_on: '📹 TEMBLOR: ON', shake_off: '📹 TEMBLOR: OFF',
-            plus_energy: '+1 ENERGÍA', nemesis_warning: '⚠️ NÉMESIS DIVINA DETECTADA ⚠️', combo: 'COMBO',
+            plus_energy: '+1 ENERGÍA', haste_msg: 'VELOCIDAD MÁXIMA', nemesis_warning: '⚠️ ADVERTENCIA: SE DETECTA UNA FIRMA DE ENERGÍA HOSTIL ENORME ⚠️', combo: 'COMBO',
             stats_kills: 'Bajas:', stats_wave: 'Oleada:', stats_survived: 'Resistido:',
             history_record: 'RÉCORD:', history_waves: 'Oleadas', history_empty: 'No hay registros previos.',
-            perks: ["", "DAÑO Y MANÁ x2", "RÁFAGA DE FUEGO", "GRAVEDAD LETAL", "NÚCLEO EXPLOSIVO", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "REPARACIÓN AUTO", "ANIQUILACIÓN TOTAL"]
+            perks: ["", "DAÑO Y MANÁ x2", "RÁFAGA DE FUEGO", "GRAVEDAD LETAL", "PULSO EMP", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "RECURSOS MAX", "ANIQUILACIÓN TOTAL"]
         },
         fr: {
             title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
@@ -868,15 +899,16 @@
             tut_mega: 'MÉGA-TIR:', tut_mega_desc: 'Auto /15 kills. Tir total.',
             tut_threats_title: 'MENACES', tut_nemesis: 'NEMESIS:', tut_nemesis_desc: 'Essaim basique.',
             tut_elite: 'ÉLITE:', tut_elite_desc: 'Grands et tenaces.', tut_frag: 'FRAGMENT:', tut_frag_desc: 'Se divise en 2 à mort.',
-            tut_powers_title: 'POUVOIRS', tut_haste: 'SURCHARGE:', tut_haste_desc: 'Cadence de tir max.',
-            tut_heal: 'RÉPARER:', tut_heal_desc: 'Restaura l\'énergie du Noyau.',
+            tut_powers_title: 'SYSTÉMES NOYAU', tut_haste: 'SURCHARGE:', tut_haste_desc: 'Cadence de tir max.',
+            tut_emp: 'PULSION EMP:', tut_emp_desc: 'Étourdit les ennemis lors des dégâts.',
             tut_pause: 'PAUSE:', tut_pause_desc: 'Options audio.',
+            cost_lbl: 'Coût:', inflation_lbl: 'Inflation',
             tut_clean: 'INTERFACE:', tut_clean_desc: 'Affiche/Masque l\'interface.',
             tut_start: 'LANCER LA MISSION',
             pause_title: 'PAUSE', pause_resume: 'REPRENDRE', pause_restart: 'RECOMMENCER', pause_menu: 'MENU PRINCIPAL',
             tut_briefing: 'MISSION BRIEFING // INITIALISATION...',
             tut_mana_info: '⚠️ PROTOCOLO Rc: TOUTE ACTION CONSOMME DES RESSOURCES. ÉLIMINEZ DES ENNEMIS.',
-            cost_15: 'Coût: 15 Rc', cost_60: 'Coût: 60 Rc', cost_free: 'Coût: 0 Rc',
+            cost_free: 'Coût: 0 Rc',
             mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ACCÈS REFUSÉ ⚠️', mobile_sub: 'NÉCESSITE UN PC.',
             mega_kills: 'Kills', ranking_title: 'CLASSEMENT MONDIAL', ranking_conn: 'CONNEXION...',
             ranking_col_name: 'NOM - TITRE', ranking_col_wave: 'VAGUE', ranking_col_kills: 'KILLS',
@@ -884,10 +916,10 @@
             pause_phrases: ["Prenez votre temps...", "Respirez profondément.", "Le Noyau vous attendra.", "Les commandants ont besoin de pauses."],
             audio_on: '🔊 AUDIO: ON', audio_off: '🔇 AUDIO: OFF', ui_visible: 'UI: VISIBLE', ui_hidden: 'UI: MASQUÉ',
             shake_on: '📹 SECOUSSE: ON', shake_off: '📹 SECOUSSE: OFF',
-            plus_energy: '+1 ÉNERGIE', nemesis_warning: '⚠️ NÉMÉSIS DIVINA DÉTECTÉE ⚠️', combo: 'COMBO',
+            plus_energy: '+1 ÉNERGIE', haste_msg: 'VITESSE MAXIMALE', nemesis_warning: '⚠️ AVERTISSEMENT: SIGNATURE D\'ÉNERGIE HOSTILE MASSIVE DÉTECTÉE ⚠️', combo: 'COMBO',
             stats_kills: 'Élimin.:', stats_wave: 'Vague:', stats_survived: 'Survécu:',
             history_record: 'RECORD:', history_waves: 'Vagues', history_empty: 'Aucun record précédent.',
-            perks: ["", "DÉGÂTS & MANA x2", "TIR RAPIDE", "GRAVITÉ LÉTALE", "NOYAU EXPLOSIF", "PORTÉE SUPRÊME", "SURCHARGE CRITIQUE", "RÉPARATION AUTO", "ANNIHILATION TOTALE"]
+            perks: ["", "DÉGÂTS & MANA x2", "TIR RAPIDE", "GRAVITÉ LÉTALE", "PULSION EMP", "PORTÉE SUPRÊME", "SURCHARGE CRITIQUE", "RESSOURCES MAX", "ANNIHILATION TOTALE"]
         },
         ru: {
             title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
@@ -899,13 +931,14 @@
             tut_mega: 'МЕГА-ВЫСТРЕЛ:', tut_mega_desc: 'Авто за 15 убийств.',
             tut_threats_title: 'УГРОЗЫ', tut_nemesis: 'НЕМЕЗИДА:', tut_nemesis_desc: 'Базовый рой.',
             tut_elite: 'ЭЛИТА:', tut_elite_desc: 'Крупные и прочные.', tut_frag: 'ОСКОЛОК:', tut_frag_desc: 'Делится на 2.',
-            tut_powers_title: 'СПОСОБНОСТИ', tut_haste: 'ПЕРЕГРУЗКА:', tut_haste_desc: 'Макс. скорость.',
-            tut_heal: 'РЕМОНТ:', tut_heal_desc: 'Восстанавливает энергию.', tut_pause: 'ПАУЗА:', tut_pause_desc: 'Аудио и настройки.',
+            tut_powers_title: 'СИСТЕМЫ ЯДРА', tut_haste: 'ПЕРЕГРУЗКА:', tut_haste_desc: 'Макс. скорость.',
+            tut_emp: 'ЭМП ИМПУЛЬС:', tut_emp_desc: 'Оглушает врагов при уроне.', tut_pause: 'ПАУЗА:', tut_pause_desc: 'Аудио и настройки.',
+            cost_lbl: 'Цена:', inflation_lbl: 'Инфляция',
             tut_clean: 'ИНТЕРФЕЙС:', tut_clean_desc: 'Скрыть/Показать интерфейс.', tut_start: 'НАЧАТЬ МИССИЮ',
             pause_title: 'ПАУЗА', pause_resume: 'ПРОДОЛЖИТЬ', pause_restart: 'ПЕРЕЗАГРУЗИТЬ', pause_menu: 'МЕНЮ',
             tut_briefing: 'МИССИЯ // ИНИЦИАЛИЗАЦИЯ...',
             tut_mana_info: '⚠️ ПРОТОКОЛ Rc: ДЕЙСТВИЯ РАСХОДУЮТ РЕСУРСЫ. УНИЧТОЖАЙТЕ ВРАГОВ.',
-            cost_15: 'Цена: 15 Rc', cost_60: 'Цена: 60 Rc', cost_free: 'Цена: 0 Rc',
+            cost_free: 'Цена: 0 Rc',
             mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ДОСТУП ЗАПРЕЩЕН ⚠️', mobile_sub: 'СИСТЕМА ТРЕБУЕТ ПК.',
             mega_kills: 'Убийств', ranking_title: 'МИРОВОЙ РЕЙТИНГ', ranking_conn: 'ПОДКЛЮЧЕНИЕ...',
             ranking_col_name: 'ИМЯ - ТИТУЛ', ranking_col_wave: 'ВОЛНА', ranking_col_kills: 'УБИЙСТВА',
@@ -913,10 +946,10 @@
             pause_phrases: ["Сделайте глубокий вдох.", "Отличная тактика - выпить воды.", "Ядро подождет.", "Всем нужен перерыв."],
             audio_on: '🔊 АУДИО: ВКЛ', audio_off: '🔇 АУДИО: ВЫКЛ', ui_visible: 'UI: ВИДИМЫЙ', ui_hidden: 'UI: СКРЫТЫЙ',
             shake_on: '📹 ТРЯСКА: ВКЛ', shake_off: '📹 ТРЯСКА: ВЫКЛ',
-            plus_energy: '+1 ЭНЕРГИЯ', nemesis_warning: '⚠️ БОЖЕСТВЕННАЯ НЕМЕЗИДА ⚠️', combo: 'КОМБО',
+            plus_energy: '+1 ЭНЕРГИЯ', haste_msg: 'МАКСИМАЛЬНАЯ СКОРОСТЬ', nemesis_warning: '⚠️ ВНИМАНИЕ: ОБНАРУЖЕНА ОГРОМНАЯ ВРАЖДЕБНАЯ ЭНЕРГИЯ ⚠️', combo: 'КОМБО',
             stats_kills: 'Убийства:', stats_wave: 'Волна:', stats_survived: 'Выживание:',
             history_record: 'РЕКОРД:', history_waves: 'Волны', history_empty: 'Нет рекордов.',
-            perks: ["", "УРОН И МАНА x2", "БЫСТРЫЙ ОГОНЬ", "СМЕРТЕЛЬНАЯ ГРАВИТАЦИЯ", "ВЗРЫВНОЕ ЯДРО", "ВЫСШИЙ РАДИУС", "КРИТ. ПЕРЕГРУЗКА", "АВТОРЕМОНТ", "ПОЛНОЕ УНИЧТОЖЕНИЕ"]
+            perks: ["", "УРОН И МАНА x2", "БЫСТРЫЙ ОГОНЬ", "СМЕРТЕЛЬНАЯ ГРАВИТАЦИЯ", "ЭМП ИМПУЛЬС", "ВЫСШИЙ РАДИУС", "КРИТ. ПЕРЕГРУЗКА", "МАКС РЕСУРСЫ", "ПОЛНОЕ УНИЧТОЖЕНИЕ"]
         },
         pt: {
             title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
@@ -934,7 +967,7 @@
             pause_title: 'PAUSA', pause_resume: 'RETOMAR', pause_restart: 'REINICIAR', pause_menu: 'MENU',
             tut_briefing: 'MISSÃO // INICIALIZANDO...',
             tut_mana_info: '⚠️ PROTOCOLO Rc: TODA AÇÃO CONSOME RECURSOS. ELIMINE INIMIGOS PARA REABASTECER.',
-            cost_15: 'Custo: 15 Rc', cost_60: 'Custo: 60 Rc', cost_free: 'Custo: 0 Rc',
+            cost_free: 'Custo: 0 Rc',
             mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ACESSO NEGADO ⚠️', mobile_sub: 'ESTE SISTEMA REQUER UM PC.',
             mega_kills: 'Abates', ranking_title: 'RANKING GLOBAL', ranking_conn: 'CONECTANDO...',
             ranking_col_name: 'NOME - TÍTULO', ranking_col_wave: 'ONDA', ranking_col_kills: 'ABATES',
@@ -942,10 +975,10 @@
             pause_phrases: ["Beba uma água, ótima tática.", "O Núcleo vai esperar por você.", "Calculando próximos movimentos.", "Respire fundo."],
             audio_on: '🔊 ÁUDIO: ON', audio_off: '🔇 ÁUDIO: OFF', ui_visible: 'UI: VISÍVEL', ui_hidden: 'UI: OCULTA',
             shake_on: '📹 TREMOR: ON', shake_off: '📹 TREMOR: OFF',
-            plus_energy: '+1 ENERGIA', nemesis_warning: '⚠️ NÊMESIS DIVINA DETECTADA ⚠️', combo: 'COMBO',
+            plus_energy: '+1 ENERGIA', haste_msg: 'VELOCIDADE MÁXIMA', nemesis_warning: '⚠️ AVISO: ASSINATURA DE ENERGIA HOSTIL MASSIVA DETECTADA ⚠️', combo: 'COMBO',
             stats_kills: 'Abates:', stats_wave: 'Onda:', stats_survived: 'Sobreviveu:',
             history_record: 'RECORDE:', history_waves: 'Ondas', history_empty: 'Sem registros.',
-            perks: ["", "DANO E MANA x2", "TIRO RÁPIDO", "GRAVIDADE LETAL", "NÚCLEO EXPLOSIVO", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "REPARO AUTO", "ANIQUILAÇÃO TOTAL"]
+            perks: ["", "DANO E MANA x2", "TIRO RÁPIDO", "GRAVIDADE LETAL", "PULSO EMP", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "RECURSOS MAX", "ANIQUILAÇÃO TOTAL"]
         },
         en: {
             title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
@@ -957,13 +990,14 @@
             tut_mega: 'MEGA-SHOT:', tut_mega_desc: 'Auto per 15 kills. Screen clear.',
             tut_threats_title: 'THREATS', tut_nemesis: 'NEMESIS:', tut_nemesis_desc: 'Basic drone swarm. Pure spam.',
             tut_elite: 'ELITE:', tut_elite_desc: 'Larger & tougher. High priority.', tut_frag: 'SHARD:', tut_frag_desc: 'Splits into 2 upon destruction.',
-            tut_powers_title: 'POWERS', tut_haste: 'OVERLOAD:', tut_haste_desc: 'Maximum fire rate burst.',
-            tut_heal: 'REPAIR:', tut_heal_desc: 'Restores Core energy by 1.', tut_pause: 'PAUSE:', tut_pause_desc: 'Pause & audio settings.',
+            tut_powers_title: 'CORE SYSTEMS', tut_haste: 'OVERLOAD:', tut_haste_desc: 'Maximum fire rate burst.',
+            tut_emp: 'EMP BURST:', tut_emp_desc: 'Stuns enemies upon taking damage.', tut_pause: 'PAUSE:', tut_pause_desc: 'Pause & audio settings.',
+            cost_lbl: 'Cost:', inflation_lbl: 'Inflation',
             tut_clean: 'CLEAN UI:', tut_clean_desc: 'Hide/Show weapon panels.', tut_start: 'START MISSION',
             pause_title: 'PAUSED', pause_resume: 'RESUME', pause_restart: 'RESTART', pause_menu: 'MAIN MENU',
             tut_briefing: 'MISSION BRIEFING // INITIALIZING...',
             tut_mana_info: '⚠️ Rc PROTOCOL: EVERY ACTION CONSUMES RESOURCES. KILL ENEMIES TO REPLENISH YOUR RESOURCES.',
-            cost_15: 'Cost: 15 Rc', cost_60: 'Cost: 60 Rc', cost_free: 'Cost: 0 Rc',
+            cost_free: 'Cost: 0 Rc',
             mobile_title: 'VOID PROTOCOL', mobile_msg: '⚠️ ACCESS DENIED ⚠️', mobile_sub: 'THIS SYSTEM REQUIRES A DESKTOP TERMINAL (PC) TO OPERATE.',
             mega_kills: 'Kills', ranking_title: 'GLOBAL RANKING', ranking_conn: 'CONNECTING...',
             ranking_col_name: 'NAME - TITLE', ranking_col_wave: 'WAVE', ranking_col_kills: 'KILLS',
@@ -971,10 +1005,10 @@
             pause_phrases: ["Good, take your time...", "Nice time to plan your next orb.", "Hydrate! Good tactic.", "The swarm isn't going anywhere.", "Need a breather? Take it.", "Recalculating vectors...", "The Core will wait.", "I'll hold the line while you rest your thumb.", "Neon burned your retinas? Blink.", "Looking for a YouTube walkthrough?", "Take a breath, those aliens are tough.", "Planning your next master move?", "Even supreme commanders need bathroom breaks."],
             audio_on: '🔊 AUDIO: ON', audio_off: '🔇 AUDIO: OFF', ui_visible: 'UI: VISIBLE', ui_hidden: 'UI: HIDDEN',
             shake_on: '📹 SHAKE: ON', shake_off: '📹 SHAKE: OFF',
-            plus_energy: '+1 ENERGY', nemesis_warning: '⚠️ DIVINE NEMESIS DETECTED ⚠️', combo: 'COMBO',
+            plus_energy: '+1 ENERGY', haste_msg: 'MAXIMUM SPEED', nemesis_warning: '⚠️ WARNING: HUGE HOSTILE ENERGY SIGNATURE DETECTED ⚠️', combo: 'COMBO',
             stats_kills: 'Kills:', stats_wave: 'Wave:', stats_survived: 'Survived:',
             history_record: 'RECORD:', history_waves: 'Waves', history_empty: 'No previous records.',
-            perks: ["", "DMG & MANA x2", "RAPID FIRE", "LETHAL GRAVITY", "EXPLOSIVE CORE", "SUPREME RANGE", "CRITICAL OVERLOAD", "AUTO REPAIR", "TOTAL ANNIHILATION"]
+            perks: ["", "DMG & MANA x2", "RAPID FIRE", "LETHAL GRAVITY", "EMP BURST", "SUPREME RANGE", "CRITICAL OVERLOAD", "MAX RESOURCES", "TOTAL ANNIHILATION"]
         }
     };
 
@@ -984,7 +1018,7 @@
         { id: 'wave_5', es: 'Defensor Novato', en: 'Novice Defender', d_es: 'Resiste la tormenta espacial hasta la Oleada 5.', d_en: 'Resist the space storm until Wave 5.', r_es: 'Guardia', r_en: 'Guard', fr: 'Défenseur Novice', d_fr: 'Résistez jusqu\'à la Vague 5.', r_fr: 'Garde', ru: 'Новичок Защитник', d_ru: 'Доживите до 5-й Волны.', r_ru: 'Страж', pt: 'Defensor Novato', d_pt: 'Resista à tempestade até a Onda 5.', r_pt: 'Guarda', check: () => currentWave >= 5 },
         { id: 'planet_1', es: 'Poder Incremental', en: 'Incremental Power', d_es: 'Desbloquea tu primera mejora de Nivel 1 (100 bajas).', d_en: 'Unlock your first Level 1 enhancement (100 kills).', r_es: 'Soldado', r_en: 'Soldier', fr: 'Puissance Incrémentale', d_fr: 'Débloquez l\'amélioration max.', r_fr: 'Soldat', ru: 'Инкрементальная Сила', d_ru: 'Разблокируйте улушение.', r_ru: 'Солдат', pt: 'Poder Incremental', d_pt: 'Desbloqueie a melhoria de Nível 1.', r_pt: 'Soldado', check: () => totalKills >= 100 },
         { id: 'first_haste', es: 'Sobrecarga Absoluta', en: 'Absolute Overload', d_es: 'Desata el poder de Sobrecarga [1] por primera vez.', d_en: 'Unleash the Overload power [1] for the first time.', r_es: 'Berserker', r_en: 'Berserker', fr: 'Surcharge Absolue', d_fr: 'Déclenchez la Surcharge [1].', r_fr: 'Berserker', ru: 'Абсолютная Перегрузка', d_ru: 'Используйте Перегрузку [1].', r_ru: 'Берсерк', pt: 'Sobrecarga Absoluta', d_pt: 'Ative a Sobrecarga [1] pela primeira vez.', r_pt: 'Berserker', check: () => hasteTimer > 0 },
-        { id: 'first_heal', es: 'Mantenimiento Crítico', en: 'Critical Maintenance', d_es: 'Ejecuta una Reparación de urgencia [2] en el núcleo.', d_en: 'Execute an emergency Repair [2] on the core.', r_es: 'Ingeniero', r_en: 'Engineer', fr: 'Maintenance Critique', d_fr: 'Exécutez une Réparation d\'urgence.', r_fr: 'Ingénieur', ru: 'Критическое Обслуживание', d_ru: 'Используйте Экстренный Ремонт.', r_ru: 'Инженер', pt: 'Manutenção Crítica', d_pt: 'Execute um Reparo de emergência.', r_pt: 'Engenheiro', check: () => healMessageTimer > 0 },
+        { id: 'emp_master', es: 'Defensa Estática', en: 'Static Defense', d_es: 'Aturde a un grupo de enemigos con el Pulso EMP del núcleo.', d_en: 'Stun a group of enemies with the core EMP Burst.', r_es: 'Centinela', r_en: 'Sentinel', fr: 'Défense Statique', d_fr: 'Étourdissez avec EMP.', r_fr: 'Sentinelle', ru: 'Статическая Защита', d_ru: 'Оглушите врагов ЭМП.', r_ru: 'Часовой', pt: 'Defesa Estática', d_pt: 'Atordoe inimigos com o Pulso EMP.', r_pt: 'Sentinela', check: () => shockwaveActive && shockwaveRadius < 100 },
         { id: 'combo_10', es: 'Combo Maestro', en: 'Combo Master', d_es: 'Alcanza un Combo x10 seguido para bonificaciones Rc masivas.', d_en: 'Reach a continuous x10 Combo for massive Rc bonuses.', r_es: 'Especialista', r_en: 'Specialist', fr: 'Maître des Combos', d_fr: 'Atteignez un Combo x10.', r_fr: 'Spécialiste', ru: 'Мастер Комбо', d_ru: 'Достигните Комбо x10.', r_ru: 'Специалист', pt: 'Mestre do Combo', d_pt: 'Alcance um Combo x10 seguido.', r_pt: 'Especialista', check: () => comboCount >= 10 },
         { id: 'neon_treasury', es: 'Tesoro Neón', en: 'Neon Treasury', d_es: 'Conserva al menos 500 Rc simultáneamente.', d_en: 'Hold at least 500 Rc simultaneously.', r_es: 'Banquero', r_en: 'Banker', fr: 'Trésor Néon', d_fr: 'Conservez 500 Rc simultanément.', r_fr: 'Banquier', ru: 'Неоновая Казна', d_ru: 'Сохраните 500 Rc.', r_ru: 'Банкир', pt: 'Tesouro Neon', d_pt: 'Mantenha pelo menos 500 Rc simultaneamente.', r_pt: 'Bancário', check: () => mana >= 500 },
         { id: 'elite_hunter', es: 'Caza-Élites', en: 'Elite Hunter', d_es: 'Elimina a 10 enemigos de tipo Élite (barra amarilla) en una sola incursión.', d_en: 'Eliminate 10 Elite-type enemies (yellow bar) in a single raid.', r_es: 'Cazarrecompensas', r_en: 'Bounty Hunter', fr: 'Chasseur d\'Élite', d_fr: 'Éliminez 10 unités d\'Élite.', r_fr: 'Chasseur', ru: 'Охотник на Элиту', d_ru: 'Уничтожьте 10 Элитных врагов.', r_ru: 'Охотник', pt: 'Caça-Elites', d_pt: 'Elimine 10 inimigos Elite em uma incursão.', r_pt: 'Caçador', check: () => elitesKilled >= 10 },
@@ -1312,6 +1346,21 @@
         }
     }
 
+    function triggerEMPBurst() {
+        shockwaveActive = true;
+        shockwaveRadius = 0;
+        playSound('explosion');
+        floatingTexts.push(new FloatingText(canvas.width/2, canvas.height/2 - 50, "PULSO EMP", NEON.CYAN));
+        
+        // Aturdir a todos los enemigos cercanos (v1.5)
+        enemies.forEach(en => {
+            const dist = Math.sqrt((en.x - canvas.width/2)**2 + (en.y - (canvas.height-40))**2);
+            if (dist < 400) {
+                en.stunTimer = 180; // 3 segundos
+            }
+        });
+    }
+
     function playSound(type) {
         if (!audioEnabled || !audioCtx) return;
         const osc = audioCtx.createOscillator();
@@ -1354,6 +1403,7 @@
     let shockwaveActive = false;
     let shockwaveRadius = 0;
     let hasteTimer = 0;
+    const hasteAnnouncement = document.getElementById('haste-announcement');
     let healMessageTimer = 0;
     let milestoneNotice = null; // {text, timer}
     let particles = [];
@@ -1413,13 +1463,15 @@
 
     const getVillagePos = () => ({ x: canvas.width / 2, y: canvas.height - 40 });
     const PROTECTION_RADIUS = 120;
-    const ORBE_COST = 15;
-    const GRAVITON_COST = 60;
+    const ORBE_BASE_COST = 15;
+    const GRAVITON_BASE_COST = 60;
+    const MAX_RC = 1500;
     const ORBE_RANGE = 180;
     const ORBE_COOLDOWN = 45; 
     const GRAVITY_RANGE = 240; 
     const PROJECTILE_BASE_SPEED = 12;
     const ORBE_LIFESPAN = 10 * 60; // 10 Segundos
+    let coreLastLives = 10;
 
     // Clases
     class Enemy {
@@ -1430,6 +1482,7 @@
             this.isMini = (type === 'mini');
             this.isBoss = (type === 'boss');
             this.isHealer = (type === 'healer');
+            this.stunTimer = 0;
 
             this.radius = (12 + Math.random() * 5);
             if (this.isElite) this.radius *= 1.8;
@@ -1440,7 +1493,7 @@
             this.x = x !== undefined ? x : Math.random() * canvas.width;
             this.y = y !== undefined ? y : -50;
             
-            const baseSpeed = (wave < 15) ? (0.8 + (wave * 0.1)) : (2.3 + (wave - 15) * 0.03);
+            const baseSpeed = (wave < 15) ? (0.8 + (wave * 0.1)) : (2.3 + (wave - 15) * 0.12);
             const lateGameMult = (totalKills > 800) ? 1 + (totalKills - 800) * 0.001 : 1;
             this.speed = baseSpeed * lateGameMult;
 
@@ -1469,6 +1522,10 @@
         }
 
         update() {
+            if (this.stunTimer > 0) {
+                this.stunTimer--;
+                return false;
+            }
             // Guardar historial para estela (v1.3.2)
             this.history.push({x: this.x, y: this.y});
             if (this.history.length > 5) this.history.shift();
@@ -1536,13 +1593,14 @@
                 if (this.isHealer) return true; // Evapora inofensivamente sin dañar
 
                 villageLives -= (this.isElite ? 3 : 1);
-                shakeAmount = 40; // Trigger MASSIVE shake
-                glitchTimer = 20; // Trigger Glitch Effect
+                shakeAmount = 40; 
+                glitchTimer = 20; 
                 playSound('explosion');
-                // Partículas al impactar el núcleo
                 createExplosion(this.x, this.y, this.color, 15);
-                // Nivel 4 (>= 400 bajas): Explosión al recibir daño
-                if (totalKills >= 400 && !shockwaveActive) pendingShockwave = true;
+                
+                // Nuevo Pulso EMP (Sustituye a Onda de Choque)
+                triggerEMPBurst();
+                
                 updateUI();
                 return true; 
             }
@@ -1975,8 +2033,9 @@
         const distToVillage = Math.sqrt((getVillagePos().x - x) ** 2 + (getVillagePos().y - y) ** 2);
         
         if (!overlaps && distToVillage > 100) {
-            if (mana >= ORBE_COST) {
-                mana -= ORBE_COST; 
+            const currentCost = ORBE_BASE_COST + (currentWave - 1) * 5;
+            if (mana >= currentCost) {
+                mana -= currentCost; 
                 orbes.push(new Orbe(x, y)); 
                 playSound('build');
                 updateUI();
@@ -2003,12 +2062,13 @@
                              gravitones.some(g => Math.sqrt((g.x - mouseX) ** 2 + (g.y - mouseY) ** 2) < 40);
             const distToVillage = Math.sqrt((getVillagePos().x - mouseX) ** 2 + (getVillagePos().y - mouseY) ** 2);
             if (!overlaps && distToVillage > 100) {
-                if (mana >= GRAVITON_COST) {
+                const currentCost = GRAVITON_BASE_COST + (currentWave - 1) * 15;
+                if (mana >= currentCost) {
                     if ((orbes.length + gravitones.length) >= MAX_UNITS) {
                         floatingTexts.push(new FloatingText(mouseX, mouseY, "MÁX UNIDADES", NEON.RED));
                         return;
                     }
-                    mana -= GRAVITON_COST;
+                    mana -= currentCost;
                     gravitones.push(new Gravitón(mouseX, mouseY, currentWave));
                     playSound('build');
                     updateUI();
@@ -2104,48 +2164,58 @@
                 charge1 = 0; hasteTimer = 300;
                 playSound('ability');
                 document.getElementById('ability-1').classList.remove('ready-1');
+                if (hasteAnnouncement) {
+                    hasteAnnouncement.classList.add('active');
+                    document.getElementById('haste-subtitle').innerText = i18n[currentLang].haste_msg;
+                }
             }
-            if ((e.code === 'Digit2' || e.code === 'Numpad2') && charge2 >= MAX_CHARGE_2) {
-                charge2 = 0; villageLives++; updateUI();
-                playSound('ability');
-                healMessageTimer = 180;
-                document.getElementById('ability-2').classList.remove('ready-2');
-            }
+            // Habilidad 2 Elimada para balanceo
         }
     });
 
     // Desactivar menú contextual en el canvas opcional si prefieres usar el derecho para algo más adelante
     // canvas.oncontextmenu = (e) => e.preventDefault();
 
-    function triggerCoreShockwave() {
+    function triggerEMPBurst() {
         shockwaveActive = true;
         shockwaveRadius = 0;
-        shakeAmount = 60;
-        flashTimer = 8;
+        shakeAmount = 40;
+        flashTimer = 5;
         
-        // Clear all enemies (No reward in Hard Mode)
-        const count = enemies.length;
-        if (count > 0) {
-            totalKills += count;
-            burstKills += count;
-            enemies = [];
-            updateUI();
-        }
+        // El pulso EMP aturde a los enemigos cercanos pero no los mata
+        enemies.forEach(enemy => {
+            const dist = Math.sqrt((enemy.x - canvas.width/2)**2 + (enemy.y - (canvas.height - 40))**2);
+            if (dist < PROTECTION_RADIUS * 1.8) {
+                enemy.stunTimer = 120; // 2 segundos de aturdimiento
+            }
+        });
     }
 
     function updateUI() {
-        manaDisplay.innerText = mana; livesDisplay.innerText = Math.max(0, villageLives);
+        if (mana > MAX_RC) mana = MAX_RC;
+        manaDisplay.innerText = mana; 
+        
+        // Actualizar costes en el HUD
+        const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 5;
+        const currentGravitonCost = GRAVITON_BASE_COST + (currentWave - 1) * 15;
+        
+        const orbCostEl = document.querySelector('#unit-orb .unit-cost');
+        const gravCostEl = document.querySelector('#unit-grav .unit-cost');
+        if (orbCostEl) orbCostEl.innerText = currentOrbCost + ' Rc';
+        if (gravCostEl) gravCostEl.innerText = currentGravitonCost + ' Rc';
+
+        livesDisplay.innerText = Math.max(0, villageLives);
         killsDisplay.innerText = totalKills; waveDisplay.innerText = currentWave;
 
         const orbUnit = document.getElementById('unit-orb');
         if (orbUnit) {
-            if (mana >= ORBE_COST) orbUnit.classList.add('ready-build');
+            if (mana >= ORBE_BASE_COST + (currentWave - 1) * 5) orbUnit.classList.add('ready-build');
             else orbUnit.classList.remove('ready-build');
         }
 
         const gravUnit = document.getElementById('unit-grav');
         if (gravUnit) {
-            if (mana >= GRAVITON_COST) gravUnit.classList.add('ready-build');
+            if (mana >= GRAVITON_BASE_COST + (currentWave - 1) * 15) gravUnit.classList.add('ready-build');
             else gravUnit.classList.remove('ready-build');
         }
 
@@ -2568,7 +2638,7 @@
             const roll = Math.random();
             if (roll < 0.08) type = 'elite';
             else if (roll < 0.20) type = 'fragmenter';
-            else if (roll < 0.22) type = 'healer'; // 2% chance de curador
+            else if (roll < 0.205) type = 'healer'; // Reducido de 2% a 0.5%
             enemies.push(new Enemy(currentWave, type));
         }
 
@@ -2600,33 +2670,20 @@
             ctx.restore();
         }
 
-        // Spawn Items (Basado en reloj real)
-        if (gameTime - lastCoreShockwaveTime >= 90000 && gameTime > 1000) {
-            triggerCoreShockwave();
-            lastCoreShockwaveTime = gameTime;
-        }
+        // Pulso Automático Eliminado para balanceo
 
         // Carga de habilidades
         if (charge1 < MAX_CHARGE_1) {
             charge1++;
             if (charge1 >= MAX_CHARGE_1) document.getElementById('ability-1').classList.add('ready-1');
         }
-        if (charge2 < MAX_CHARGE_2) {
-            charge2++;
-            if (charge2 >= MAX_CHARGE_2) document.getElementById('ability-2').classList.add('ready-2');
-        }
+        // Habilidad 2 Desactivada
 
-        // Autoreparación (Nivel 7: 700 bajas)
-        if (totalKills >= 700 && frameCount % 2700 === 0) {
-            villageLives++;
-            updateUI();
-            floatingTexts.push(new FloatingText(canvas.width / 2, canvas.height - 40, i18n[currentLang].plus_energy, NEON.BLUE));
-            playSound('build');
-        }
+        // Autoreparación Eliminada para balanceo
 
-        // Generación de mana pasivo
-        if (frameCount % 15 === 0) { 
-            mana += (totalKills >= 100) ? 2 : 1; 
+        // Generación de mana pasivo (Reducido para balanceo)
+        if (frameCount % 30 === 0) { 
+            mana += (totalKills >= 100) ? 1 : 0.5; 
             updateUI(); 
         }
 
@@ -2766,19 +2823,12 @@
             ctx.restore();
         }
 
-        if (hasteTimer > 0) {
-            const intensity = Math.sin(frameCount * 0.15) * 0.5 + 0.5; // 0 a 1
-            ctx.save();
-            ctx.font = 'italic 900 40px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillStyle = NEON.YELLOW;
-            ctx.shadowBlur = 30 + intensity * 20;
-            ctx.shadowColor = NEON.YELLOW;
-            const scale = 1 + intensity * 0.05;
-            ctx.translate(canvas.width / 2, 150);
-            ctx.scale(scale, scale);
-            ctx.fillText('⚡ MÁXIMA POTENCIA ⚡', 0, 0);
-            ctx.restore();
+        if (hasteTimer > 0 && hasteAnnouncement) {
+            if (frameCount % 60 === 0) { // Check occasionally to avoid constant DOM calls if not needed, though classList.add is fine
+                 hasteAnnouncement.classList.add('active');
+            }
+        } else if (hasteAnnouncement) {
+            hasteAnnouncement.classList.remove('active');
         }
 
         if (healMessageTimer > 0) {
