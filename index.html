@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Void Protocol V NEUTRON - Defensa del Pueblo</title>
+    <title>Void Protocol V35 - Defensa del Pueblo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23050505'/><polygon points='32,10 54,32 32,54 10,32' fill='none' stroke='%2300f3ff' stroke-width='6'/><circle cx='32' cy='32' r='8' fill='%23ff00ff'/></svg>" type="image/svg+xml">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
@@ -148,8 +148,8 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0.6; filter: grayscale(100%);
         }
-        .sidebar-unit.ready-build, .sidebar-unit.ready-1, .sidebar-unit.ready-2, .sidebar-unit.ready-mega { opacity: 1; filter: grayscale(0%); transform: translateY(3px); text-shadow: 0 0 10px rgba(255,255,255,0.2); }
-        .sidebar-unit.ready-build .sidebar-text-top, .sidebar-unit.ready-1 .sidebar-text-top, .sidebar-unit.ready-2 .sidebar-text-top, .sidebar-unit.ready-mega .sidebar-text-top { color: #fff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
+        .sidebar-unit.ready-build, .sidebar-unit.ready-1, .sidebar-unit.ready-2, .sidebar-unit.ready-3, .sidebar-unit.ready-mega { opacity: 1; filter: grayscale(0%); transform: translateY(3px); text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .sidebar-unit.ready-build .sidebar-text-top, .sidebar-unit.ready-1 .sidebar-text-top, .sidebar-unit.ready-2 .sidebar-text-top, .sidebar-unit.ready-3 .sidebar-text-top, .sidebar-unit.ready-mega .sidebar-text-top { color: #fff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
         
         .sidebar-text-top {
             font-size: 0.75rem; font-weight: bold; color: rgba(255,255,255,0.4); margin-bottom: 12px;
@@ -635,7 +635,7 @@
             <div class="start-container">
                 <div class="system-status">SYSTEM_STATUS: ONLINE</div>
                 <div id="player-title" style="color: #00f3ff; font-size: 0.9rem; font-weight: bold; letter-spacing: 6px; margin-bottom: -5px; text-shadow: 0 0 15px #00f3ff; text-transform: uppercase;">[RECLUTA] JUGADOR</div>
-                <h2 data-i18n="title_main">VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span></h2>
+                <h2 data-i18n="title_main">VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V35</span></h2>
                 
                 <div style="margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
                     <input type="text" id="player-name-input" maxlength="15" placeholder="TU NOMBRE" style="background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.4); color: #00f3ff; padding: 12px 20px; font-size: 1.2rem; font-family: 'Inter', sans-serif; text-align: center; font-weight: bold; letter-spacing: 4px; border-radius: 4px; outline: none; box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.1), 0 0 10px rgba(0, 243, 255, 0.2); text-transform: uppercase; width: 220px; transition: all 0.3s;" onfocus="this.style.boxShadow='inset 0 0 20px rgba(0, 243, 255, 0.4), 0 0 20px rgba(0, 243, 255, 0.6)'; this.style.borderColor='#00f3ff';" onblur="this.style.boxShadow='inset 0 0 15px rgba(0, 243, 255, 0.1), 0 0 10px rgba(0, 243, 255, 0.2)'; this.style.borderColor='rgba(0,243,255,0.4)';">
@@ -747,13 +747,24 @@
                             <div class="guide-item">
                                 <div class="guide-icon" style="border:none;">
                                     <svg viewBox="0 0 40 40" width="32" height="32">
-                                        <circle cx="20" cy="22" r="14" fill="none" stroke="#00f3ff" stroke-width="3" style="filter: drop-shadow(0px 0px 8px #00f3ff);" />
-                                        <circle cx="20" cy="22" r="6" fill="#00f3ff" />
+                                        <circle cx="20" cy="20" r="14" fill="none" stroke="#00f3ff" stroke-width="3" style="filter: drop-shadow(0px 0px 4px #00f3ff);" />
+                                        <circle cx="20" cy="20" r="6" fill="#00f3ff" />
                                     </svg>
                                 </div>
                                 <div class="guide-text">
-                                    <b data-i18n="tut_emp">PULSO EMP</b>
-                                    <span data-i18n="tut_emp_desc">Aturde enemigos al recibir daño.</span>
+                                    <b data-i18n="tut_overdrive">OVERDRIVE [2]</b>
+                                    <span data-i18n="tut_overdrive_desc">Potencia el alcance de los gravitones.</span>
+                                </div>
+                            </div>
+                            <div class="guide-item">
+                                <div class="guide-icon" style="border:none;">
+                                    <svg viewBox="0 0 40 40" width="32" height="32">
+                                        <path d="M20 5 L22 15 L32 15 L24 22 L27 32 L20 25 L13 32 L16 22 L8 15 L18 15 Z" fill="#ff00ff" stroke="#fff" stroke-width="1" />
+                                    </svg>
+                                </div>
+                                <div class="guide-text">
+                                    <b data-i18n="tut_supernova">SUPERNOVA [3]</b>
+                                    <span data-i18n="tut_supernova_desc">Aniquilación total de la pantalla.</span>
                                 </div>
                             </div>
                             <div class="guide-item">
@@ -814,7 +825,7 @@
                 </div>
 
                 <div id="ability-2" class="sidebar-unit">
-                    <div class="sidebar-text-top" style="color: #00f3ff;">[2] SINGULARIDAD</div>
+                    <div class="sidebar-text-top" style="color: #00f3ff;">[2] OVERDRIVE</div>
                     <svg class="ability-icon" viewBox="0 0 40 40">
                         <circle cx="20" cy="20" r="14" fill="none" stroke="#00f3ff" stroke-width="3" style="filter: drop-shadow(0px 0px 8px #00f3ff);" />
                         <circle cx="20" cy="20" r="4" fill="#00f3ff" />
@@ -897,7 +908,7 @@
 <script>
     const i18n = {
         es: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V35</span>',
             btn_achievements: '🏆 LOGROS', btn_instructions: '📋 INSTRUCCIONES', btn_ranking: '👑 RANKING', ach_modal_title: 'REGISTRO Y TÍTULOS', ach_unlocked: '¡LOGRO DESBLOQUEADO!', ach_reward_lbl: 'TÍTULO:',
             support_txt: 'APOYA EL PROYECTO:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'ERES EL VIAJERO NÚMERO:',
             ui_resources: 'RECURSOS:', ui_energy: 'ENERGÍA:', ui_kills: 'Bajas:', ui_time: 'Tiempo:', ui_waves: 'OLEADAS:',
@@ -906,7 +917,9 @@
             tut_mega: 'MEGA-SHOT:', tut_mega_desc: 'Auto cada 15 bajas. Disparo total.',
             tut_threats_title: 'AMENAZAS', tut_nemesis: 'NÉMESIS:', tut_nemesis_desc: 'Enjambre básico. No los dejes pasar.',
             tut_elite: 'ELITE:', tut_elite_desc: 'Más grandes y resistentes. Prioridad.', tut_frag: 'FRAGMENTO:', tut_frag_desc: 'Se divide en 2 al ser destruido.',
-            tut_powers_title: 'SYSTÉMES NÚCLEO', tut_haste: 'SOBRECARGA:', tut_haste_desc: 'Máxima velocidad de disparo.',
+            tut_powers_title: 'SYSTÉMES NÚCLEO', tut_haste: 'SOBRECARGA [1]:', tut_haste_desc: 'Máxima velocidad de disparo.',
+            tut_overdrive: 'OVERDRIVE [2]:', tut_overdrive_desc: 'Potencia el alcance de los gravitones activos.',
+            tut_supernova: 'SUPERNOVA [3]:', tut_supernova_desc: 'Explosión total que aniquila la mayoría de enemigos.',
             tut_emp: 'PULSO EMP:', tut_emp_desc: 'Aturde enemigos al recibir daño.', tut_pause: 'PAUSA:', tut_pause_desc: 'Pausa y opciones de audio.',
             tut_clean: 'INTERFAZ:', tut_clean_desc: 'Oculta/Muestra las armas.', tut_start: 'COMENZAR MISIÓN',
             cost_lbl: 'Coste:', inflation_lbl: 'Inflación',
@@ -927,7 +940,7 @@
             perks: ["", "DAÑO Y MANÁ x2", "RÁFAGA DE FUEGO", "GRAVEDAD LETAL", "PULSO EMP", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "RECURSOS MAX", "ANIQUILACIÓN TOTAL"]
         },
         fr: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V35</span>',
             btn_achievements: '🏆 SUCCÈS', btn_instructions: '📋 INSTRUCTIONS', btn_ranking: '👑 CLASSEMENT', ach_modal_title: 'REGISTRE DES TITRES', ach_unlocked: 'SUCCÈS DÉVERROUILLÉ!', ach_reward_lbl: 'TITRE:',
             support_txt: 'SOUTENIR LE PROJET:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'VOUS ÊTES LE VOYAGEUR:',
             ui_resources: 'RESSOURCES:', ui_energy: 'ÉNERGIE:', ui_kills: 'Élimin.:', ui_time: 'Temps:', ui_waves: 'VAGUES:',
@@ -936,7 +949,9 @@
             tut_mega: 'MÉGA-TIR:', tut_mega_desc: 'Auto /15 kills. Tir total.',
             tut_threats_title: 'MENACES', tut_nemesis: 'NEMESIS:', tut_nemesis_desc: 'Essaim basique.',
             tut_elite: 'ÉLITE:', tut_elite_desc: 'Grands et tenaces.', tut_frag: 'FRAGMENT:', tut_frag_desc: 'Se divise en 2 à mort.',
-            tut_powers_title: 'SYSTÉMES NOYAU', tut_haste: 'SURCHARGE:', tut_haste_desc: 'Cadence de tir max.',
+            tut_powers_title: 'SYSTÉMES NOYAU', tut_haste: 'SURCHARGE [1]:', tut_haste_desc: 'Cadence de tir max.',
+            tut_overdrive: 'OVERDRIVE [2]:', tut_overdrive_desc: 'Booste la portée des gravitons.',
+            tut_supernova: 'SUPERNOVA [3]:', tut_supernova_desc: 'Explosion totale annihilant les ennemis.',
             tut_emp: 'PULSION EMP:', tut_emp_desc: 'Étourdit les ennemis lors des dégâts.',
             tut_pause: 'PAUSE:', tut_pause_desc: 'Options audio.',
             cost_lbl: 'Coût:', inflation_lbl: 'Inflation',
@@ -959,7 +974,7 @@
             perks: ["", "DÉGÂTS & MANA x2", "TIR RAPIDE", "GRAVITÉ LÉTALE", "PULSION EMP", "PORTÉE SUPRÊME", "SURCHARGE CRITIQUE", "RESSOURCES MAX", "ANNIHILATION TOTALE"]
         },
         ru: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V35</span>',
             btn_achievements: '🏆 ДОСТИЖЕНИЯ', btn_instructions: '📋 ИНСТРУКЦИИ', btn_ranking: '👑 РЕЙТИНГ', ach_modal_title: 'РЕЕСТР ТИТУЛОВ', ach_unlocked: 'ДОСТИЖЕНИЕ РАЗБЛОКИРОВАНО!', ach_reward_lbl: 'ТИТУЛ:',
             support_txt: 'ПОДДЕРЖАТЬ ПРОЕКТ:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'ВЫ ПУТЕШЕСТВЕННИК НОМЕР:',
             ui_resources: 'РЕСУРСЫ:', ui_energy: 'ЭНЕРГИЯ:', ui_kills: 'Убийства:', ui_time: 'Время:', ui_waves: 'ВОЛНЫ:',
@@ -968,7 +983,9 @@
             tut_mega: 'МЕГА-ВЫСТРЕЛ:', tut_mega_desc: 'Авто за 15 убийств.',
             tut_threats_title: 'УГРОЗЫ', tut_nemesis: 'НЕМЕЗИДА:', tut_nemesis_desc: 'Базовый рой.',
             tut_elite: 'ЭЛИТА:', tut_elite_desc: 'Крупные и прочные.', tut_frag: 'ОСКОЛОК:', tut_frag_desc: 'Делится на 2.',
-            tut_powers_title: 'СИСТЕМЫ ЯДРА', tut_haste: 'ПЕРЕГРУЗКА:', tut_haste_desc: 'Макс. скорость.',
+            tut_powers_title: 'СИСТЕМЫ ЯДРА', tut_haste: 'ПЕРЕГРУЗКА [1]:', tut_haste_desc: 'Макс. скорость.',
+            tut_overdrive: 'OVERDRIVE [2]:', tut_overdrive_desc: 'Увеличивает радиус гравитонов.',
+            tut_supernova: 'SUPERNOVA [3]:', tut_supernova_desc: 'Тотальный взрыв, уничтожающий всех.',
             tut_emp: 'ЭМП ИМПУЛЬС:', tut_emp_desc: 'Оглушает врагов при уроне.', tut_pause: 'ПАУЗА:', tut_pause_desc: 'Аудио и настройки.',
             cost_lbl: 'Цена:', inflation_lbl: 'Инфляция',
             tut_clean: 'ИНТЕРФЕЙС:', tut_clean_desc: 'Скрыть/Показать интерфейс.', tut_start: 'НАЧАТЬ МИССИЮ',
@@ -989,7 +1006,7 @@
             perks: ["", "УРОН И МАНА x2", "БЫСТРЫЙ ОГОНЬ", "СМЕРТЕЛЬНАЯ ГРАВИТАЦИЯ", "ЭМП ИМПУЛЬС", "ВЫСШИЙ РАДИУС", "КРИТ. ПЕРЕГРУЗКА", "МАКС РЕСУРСЫ", "ПОЛНОЕ УНИЧТОЖЕНИЕ"]
         },
         pt: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V35</span>',
             btn_achievements: '🏆 CONQUISTAS', btn_instructions: '📋 INSTRUÇÕES', btn_ranking: '👑 RANKING', ach_modal_title: 'REGISTRO DE TÍTULOS', ach_unlocked: 'CONQUISTA DESBLOQUEADA!', ach_reward_lbl: 'TÍTULO:',
             support_txt: 'APOIE O PROJETO:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'VOCÊ É O VIAJANTE NÚMERO:',
             ui_resources: 'RECURSOS:', ui_energy: 'ENERGIA:', ui_kills: 'Abates:', ui_time: 'Tempo:', ui_waves: 'ONDAS:',
@@ -998,7 +1015,9 @@
             tut_mega: 'MEGA-TIRO:', tut_mega_desc: 'Auto a cada 15 abates.',
             tut_threats_title: 'AMEAÇAS', tut_nemesis: 'NEMESIS:', tut_nemesis_desc: 'Enxame básico.',
             tut_elite: 'ELITE:', tut_elite_desc: 'Maiores e difíceis.', tut_frag: 'FRAGMENTO:', tut_frag_desc: 'Divide-se em 2 ao morrer.',
-            tut_powers_title: 'PODERES', tut_haste: 'SOBRECARGA:', tut_haste_desc: 'Cadência máxima de tiro.',
+            tut_powers_title: 'PODERES', tut_haste: 'SOBRECARGA [1]:', tut_haste_desc: 'Cadência máxima de tiro.',
+            tut_overdrive: 'OVERDRIVE [2]:', tut_overdrive_desc: 'Aumenta o alcance dos gravitons.',
+            tut_supernova: 'SUPERNOVA [3]:', tut_supernova_desc: 'Explosão total que aniquila os inimigos.',
             tut_heal: 'REPARAR:', tut_heal_desc: 'Restaura energia do Núcleo.', tut_pause: 'PAUSA:', tut_pause_desc: 'Pausa e opções.',
             tut_clean: 'INTERFACE:', tut_clean_desc: 'Oculta/Mostra painéis.', tut_start: 'INICIAR MISSÃO',
             pause_title: 'PAUSA', pause_resume: 'RETOMAR', pause_restart: 'REINICIAR', pause_menu: 'MENU',
@@ -1018,7 +1037,7 @@
             perks: ["", "DANO E MANA x2", "TIRO RÁPIDO", "GRAVIDADE LETAL", "PULSO EMP", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "RECURSOS MAX", "ANIQUILAÇÃO TOTAL"]
         },
         en: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V35</span>',
             btn_achievements: '🏆 ACHIEVEMENTS', btn_instructions: '📋 INSTRUCTIONS', btn_ranking: '👑 RANKING', ach_modal_title: 'MILESTONES & TITLES', ach_unlocked: 'ACHIEVEMENT UNLOCKED!', ach_reward_lbl: 'TITLE:',
             support_txt: 'SUPPORT THE PROJECT:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'YOU ARE VOYAGER NUMBER:',
             ui_resources: 'RESOURCES:', ui_energy: 'ENERGY:', ui_kills: 'Kills:', ui_time: 'Time:', ui_waves: 'WAVES:',
@@ -1027,7 +1046,9 @@
             tut_mega: 'MEGA-SHOT:', tut_mega_desc: 'Auto per 15 kills. Screen clear.',
             tut_threats_title: 'THREATS', tut_nemesis: 'NEMESIS:', tut_nemesis_desc: 'Basic drone swarm. Pure spam.',
             tut_elite: 'ELITE:', tut_elite_desc: 'Larger & tougher. High priority.', tut_frag: 'SHARD:', tut_frag_desc: 'Splits into 2 upon destruction.',
-            tut_powers_title: 'CORE SYSTEMS', tut_haste: 'OVERLOAD:', tut_haste_desc: 'Maximum fire rate burst.',
+            tut_powers_title: 'CORE SYSTEMS', tut_haste: 'OVERLOAD [1]:', tut_haste_desc: 'Maximum fire rate burst.',
+            tut_overdrive: 'OVERDRIVE [2]:', tut_overdrive_desc: 'Boosts active graviton range/pull.',
+            tut_supernova: 'SUPERNOVA [3]:', tut_supernova_desc: 'Total explosion clearing the screen.',
             tut_emp: 'EMP BURST:', tut_emp_desc: 'Stuns enemies upon taking damage.', tut_pause: 'PAUSE:', tut_pause_desc: 'Pause & audio settings.',
             cost_lbl: 'Cost:', inflation_lbl: 'Inflation',
             tut_clean: 'CLEAN UI:', tut_clean_desc: 'Hide/Show weapon panels.', tut_start: 'START MISSION',
@@ -1436,10 +1457,10 @@
     let orbShockwaves = [];
     let floatingTexts = [];
     let charge1 = 0; const MAX_CHARGE_1 = 900; 
-    let charge2 = 0; const MAX_CHARGE_2 = 1800; // 30s
-    let charge3 = 0; const MAX_CHARGE_3 = 3600; // 60s
-    const COST_SINGULARITY = 500;
-    const COST_SUPERNOVA = 1000;
+    let charge2 = 0; const MAX_CHARGE_2 = 1200; // 20s
+    let charge3 = 0; const MAX_CHARGE_3 = 2700; // 45s
+    const COST_OVERDRIVE = 300;
+    const COST_SUPERNOVA = 600;
     let shockwaveRadius = 0;
     let hasteTimer = 0;
     const hasteAnnouncement = document.getElementById('haste-announcement');
@@ -1609,19 +1630,17 @@
                 return false; 
             }
 
-            // Efecto de Gravedad de los Gravitonestact (v1.1)
-            const currentGravityRange = (totalKills >= 500) ? 360 : GRAVITY_RANGE;
+            // Efecto de Gravedad de los Gravitones (v1.1)
+            let baseGravityRange = (totalKills >= 500) ? 360 : GRAVITY_RANGE;
             
-            // Efecto de Gravedad de los Gravitones
             let gravityForce = { x: 0, y: 0 };
             let nearestGravitonForGravity = null;
-            let minDistForGravity = currentGravityRange;
+            let minDistForGravity = Infinity;
 
             gravitones.forEach(grav => {
-                const dx = grav.x - this.x;
-                const dy = grav.y - this.y;
-                const dist = Math.sqrt(dx*dx + dy*dy);
-                if (dist < minDistForGravity) {
+                const dist = Math.sqrt((grav.x - this.x)**2 + (grav.y - this.y)**2);
+                const currentRange = grav.boostTimer > 0 ? baseGravityRange * 2 : baseGravityRange;
+                if (dist < currentRange && dist < minDistForGravity) {
                     minDistForGravity = dist;
                     nearestGravitonForGravity = grav;
                 }
@@ -1639,7 +1658,8 @@
                 
                 // Fuerza de atracción escala con el late game para compensar la masa enemiga
                 const lateGamePull = (totalKills > 800) ? 1 + (totalKills - 800) * 0.002 : 1;
-                const pullStrength = (nearestGravitonForGravity.isSingularity ? 5.0 : 1.8) * lateGamePull;
+                let pullStrength = (nearestGravitonForGravity.isSingularity ? 5.0 : 1.8) * lateGamePull;
+                if (nearestGravitonForGravity.boostTimer > 0) pullStrength *= 2.5; 
                 
                 gravityForce.x = (dx / dist) * pullStrength;
                 gravityForce.y = (dy / dist) * pullStrength;
@@ -1780,9 +1800,11 @@
             this.color = NEON.BLUE;
             this.innerPulse = 0;
             this.isSingularity = false;
+            this.boostTimer = 0;
         }
         update() {
             this.lifetime--;
+            if (this.boostTimer > 0) this.boostTimer--;
             if (this.lifetime === 1) {
                 // Explosión final de gravitón
                 orbShockwaves.push(new OrbShockwave(this.x, this.y, 150));
@@ -2401,18 +2423,18 @@
                     hasteAnnouncement.classList.add('active');
                     document.getElementById('haste-subtitle').innerText = i18n[currentLang].haste_msg;
                 }
-            } else if ((e.code === 'Digit2' || e.code === 'Numpad2') && charge2 >= MAX_CHARGE_2 && mana >= COST_SINGULARITY) {
-                mana -= COST_SINGULARITY;
+            } else if ((e.code === 'Digit2' || e.code === 'Numpad2' || e.key === '2') && charge2 >= MAX_CHARGE_2 && mana >= COST_OVERDRIVE) {
+                mana -= COST_OVERDRIVE;
                 charge2 = 0;
                 document.getElementById('ability-2').classList.remove('ready-2');
-                // Singularity: Super Gravitón en el centro
-                const sing = new Gravitón(canvas.width/2, canvas.height/2);
-                sing.radius = 45; sing.lifetime = 600; // 10s
-                sing.isSingularity = true;
-                gravitones.push(sing);
+                // Gravity Overdrive: Potencia gravitones existentes
+                gravitones.forEach(g => {
+                    g.boostTimer = 300; // 5 segundos
+                });
+                shakeAmount = 25;
                 playSound('ability');
                 updateUI();
-            } else if ((e.code === 'Digit3' || e.code === 'Numpad3') && charge3 >= MAX_CHARGE_3 && mana >= COST_SUPERNOVA) {
+            } else if ((e.code === 'Digit3' || e.code === 'Numpad3' || e.key === '3') && charge3 >= MAX_CHARGE_3 && mana >= COST_SUPERNOVA) {
                 mana -= COST_SUPERNOVA;
                 charge3 = 0;
                 document.getElementById('ability-3').classList.remove('ready-3');
