@@ -22,25 +22,47 @@
 
         #ui-panel {
             height: 60px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(5, 5, 10, 0.8) 100%);
+            backdrop-filter: blur(15px);
             display: flex;
             width: 100%;
             justify-content: space-around;
             align-items: center;
             border-bottom: 2px solid #00f3ff;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+            box-shadow: 0 5px 25px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 243, 255, 0.1);
             z-index: 10;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #ui-panel::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 243, 255, 0.05) 0px, transparent 1px, transparent 2px);
+            pointer-events: none;
         }
 
         .stat-item {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            min-width: 180px;
+            min-width: 160px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
+            padding: 5px 15px;
+            border-left: 1px solid rgba(0, 243, 255, 0.2);
+            border-right: 1px solid rgba(0, 243, 255, 0.2);
         }
+
+        .stat-item::before, .stat-item::after {
+            content: ''; position: absolute; width: 8px; height: 8px;
+            border-color: #00f3ff; border-style: solid; opacity: 0.6;
+        }
+
+        .stat-item::before { top: 0; left: 0; border-width: 2px 0 0 2px; }
+        .stat-item::after { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
 
         .stat-label {
             color: #00f3ff;
@@ -1418,6 +1440,9 @@
     let shakeAmount = 0;
     let animationId = null; // To handle loop safety
     let bgWorker = null;
+    const offscreenCanvas = document.createElement('canvas');
+    const offCtx = offscreenCanvas.getContext('2d');
+
     try {
         const workerCode = `let t; self.onmessage = e => { if (e.data === 'start') { clearInterval(t); t = setInterval(()=>self.postMessage('t'), 1000/60); } if (e.data === 'stop') { clearInterval(t); } };`;
         bgWorker = new Worker(URL.createObjectURL(new Blob([workerCode], {type: 'application/javascript'})));
@@ -1800,6 +1825,52 @@
         }
     }
 
+    class Nebula {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.radius = Math.random() * 400 + 300;
+            // Colores complementarios al neón (azul, púrpura, magenta)
+            const colors = [
+                'rgba(0, 243, 255, 0.05)', 
+                'rgba(255, 0, 255, 0.05)', 
+                'rgba(100, 0, 255, 0.05)',
+                'rgba(0, 255, 100, 0.03)'
+            ];
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.speedX = (Math.random() - 0.5) * 0.2;
+            this.speedY = (Math.random() - 0.5) * 0.2;
+            this.pulse = Math.random() * Math.PI;
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.pulse += 0.005;
+            
+            if (this.x < -this.radius) this.x = canvas.width + this.radius;
+            if (this.x > canvas.width + this.radius) this.x = -this.radius;
+            if (this.y < -this.radius) this.y = canvas.height + this.radius;
+            if (this.y > canvas.height + this.radius) this.y = -this.radius;
+        }
+
+        draw() {
+            const currentRadius = this.radius + Math.sin(this.pulse) * 50;
+            const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, currentRadius);
+            gradient.addColorStop(0, this.color);
+            gradient.addColorStop(1, 'transparent');
+            
+            ctx.fillStyle = gradient;
+            ctx.globalCompositeOperation = 'screen';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, currentRadius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+        }
+    }
+
+    let nebulas = [];
+
     class BackgroundStar {
         constructor(layer) {
             this.x = Math.random() * canvas.width;
@@ -1837,6 +1908,10 @@
 
     function initStars() {
         backgroundStars = [];
+        nebulas = [];
+        // Inicializar Nebulosas
+        for (let i = 0; i < 5; i++) nebulas.push(new Nebula());
+
         // Capa Lejana (Lenta)
         for (let i = 0; i < 80; i++) backgroundStars.push(new BackgroundStar(0));
         // Capa Media
@@ -1854,7 +1929,11 @@
         ctx.shadowBlur = 0; // Reset Shadow
         ctx.fillStyle = NEON.BG; 
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Dibujar Fondo Profundo
+        nebulas.forEach(neb => { neb.update(); neb.draw(); });
         backgroundStars.forEach(star => { star.update(); star.draw(); });
+        
         ctx.strokeStyle = `rgba(0, 243, 255, 0.05)`; ctx.lineWidth = 1;
         for (let x = 0; x < canvas.width; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke(); }
         for (let y = 0; y < canvas.height; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke(); }
@@ -1897,14 +1976,18 @@
     class ManaParticle {
         constructor(x, y, value) {
             this.x = x; this.y = y; this.value = value;
-            this.target = { x: 150, y: 30 }; // Posición aproximada de RECURSOS en el UI
-            this.speed = 0.05;
-            this.life = 1.0;
+            this.target = { x: 100, y: 30 }; // Posición aproximada de RECURSOS en el UI reformado
+            this.speed = 0.04;
+            this.history = [];
         }
         update() {
-            // Suavizar movimiento hacia el UI
+            this.history.push({x: this.x, y: this.y});
+            if (this.history.length > 10) this.history.shift();
+
             this.x += (this.target.x - this.x) * this.speed;
             this.y += (this.target.y - this.y) * this.speed;
+            this.speed += 0.002;
+
             if (Math.abs(this.x - this.target.x) < 20 && Math.abs(this.y - this.target.y) < 20) {
                 mana += this.value;
                 triggerUIPop('mana-display');
@@ -1914,9 +1997,22 @@
             return false;
         }
         draw() {
-            ctx.shadowBlur = 10; ctx.shadowColor = NEON.BLUE;
+            // Estela de maná
+            ctx.save();
+            ctx.beginPath();
+            ctx.strokeStyle = NEON.BLUE;
+            ctx.lineWidth = 2;
+            this.history.forEach((pos, i) => {
+                ctx.globalAlpha = i / 10;
+                if (i === 0) ctx.moveTo(pos.x, pos.y);
+                else ctx.lineTo(pos.x, pos.y);
+            });
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.shadowBlur = 15; ctx.shadowColor = NEON.BLUE;
             ctx.fillStyle = NEON.BLUE;
-            ctx.beginPath(); ctx.arc(this.x, this.y, 3, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(this.x, this.y, 4, 0, Math.PI * 2); ctx.fill();
             ctx.shadowBlur = 0;
         }
     }
@@ -2350,7 +2446,13 @@
         initAudio();
         isStarted = true;
         startOverlay.style.display = 'none';
-        document.getElementById('ui-panel').style.display = 'flex';
+        
+        const uiPanel = document.getElementById('ui-panel');
+        uiPanel.style.display = 'flex';
+        uiPanel.style.transform = 'translateY(-100%)';
+        void uiPanel.offsetWidth;
+        uiPanel.style.transform = 'translateY(0)';
+
         document.getElementById('sidebar-ui').style.display = 'flex';
         startTime = Date.now();
         lastTime = performance.now();
@@ -2493,15 +2595,43 @@
         const currentPlanet = Math.min(Math.floor(totalKills / 100), 8);
         const coreColor = STAGE_COLORS[currentPlanet];
         const hexToRgb = (hex) => {
-            return `${parseInt(hex.slice(1,3), 16)}, ${parseInt(hex.slice(3,5), 16)}, ${parseInt(hex.slice(5,7), 16)}`;
+            const r = parseInt(hex.slice(1,3), 16);
+            const g = parseInt(hex.slice(3,5), 16);
+            const b = parseInt(hex.slice(5,7), 16);
+            return `${r}, ${g}, ${b}`;
         };
 
         const pulse = Math.sin(frameCount * 0.05) * 10;
         
+        // Anillos Orbitales Concéntricos (Evolución Visual)
+        if (currentPlanet >= 1) {
+            ctx.save();
+            ctx.translate(vPos.x, vPos.y);
+            const numRings = Math.min(currentPlanet, 4);
+            for (let i = 1; i <= numRings; i++) {
+                ctx.rotate(frameCount * 0.01 * (i % 2 === 0 ? 1 : -1));
+                ctx.strokeStyle = coreColor;
+                ctx.globalAlpha = 0.4 / i;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([20, 10 + i * 5]);
+                ctx.beginPath();
+                ctx.arc(0, 0, 50 + i * 15 + pulse, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Pequeños nodos en los anillos
+                ctx.fillStyle = coreColor;
+                ctx.beginPath();
+                ctx.arc(50 + i * 15 + pulse, 0, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.setLineDash([]);
+            ctx.restore();
+        }
+
         // Escudo Exterior
         ctx.shadowBlur = 40 + pulse; ctx.shadowColor = coreColor;
         ctx.strokeStyle = `rgba(${hexToRgb(coreColor)}, ${0.3 + pulse * 0.01})`;
-        ctx.lineWidth = 2 + currentPlanet; // Más grueso cada capa
+        ctx.lineWidth = 2 + currentPlanet; 
         ctx.beginPath();
         ctx.arc(vPos.x, vPos.y, PROTECTION_RADIUS + pulse + (currentPlanet * 5), 0, Math.PI * 2);
         ctx.stroke();
@@ -2509,9 +2639,8 @@
         // Núcleo Técnico
         ctx.save();
         ctx.translate(vPos.x, vPos.y);
-        ctx.rotate(frameCount * 0.01 * (1 + currentPlanet * 0.2)); // Rota más rápido
+        ctx.rotate(frameCount * 0.01 * (1 + currentPlanet * 0.2)); 
         
-        // Forma geométrica dinámica (más lados por nivel)
         ctx.strokeStyle = coreColor;
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -2525,7 +2654,6 @@
         ctx.closePath();
         ctx.stroke();
 
-        // Elementos Giratorios Interiores
         ctx.rotate(-frameCount * 0.03 * (1 + currentPlanet * 0.3));
         ctx.strokeStyle = '#fff'; 
         ctx.beginPath();
@@ -2534,7 +2662,7 @@
         
         ctx.restore();
 
-        // Puntos de Energía Estáticos (Más puntos cada nivel)
+        // Puntos de Energía Estáticos
         const energyPoints = 3 + currentPlanet;
         for (let i = 0; i < energyPoints; i++) {
             const angle = (i * Math.PI * 2) / energyPoints + (frameCount * 0.005);
@@ -2696,7 +2824,7 @@
             if (shakeEnabled) {
                 ctx.translate((Math.random() - 0.5) * shakeAmount, (Math.random() - 0.5) * shakeAmount);
             }
-            shakeAmount *= 0.94; // Fade más lento
+            shakeAmount *= 0.92; // Fade un poco más rápido
             if (shakeAmount < 0.5) shakeAmount = 0;
         }
 
@@ -2724,7 +2852,8 @@
             ctx.restore();
         }
         
-        // Dibujar Estrellas
+        // Dibujar Fondo Profundo
+        nebulas.forEach(neb => { neb.update(); neb.draw(); });
         backgroundStars.forEach(star => { star.update(); star.draw(); });
 
         ctx.strokeStyle = `rgba(0, 243, 255, 0.05)`; ctx.lineWidth = 1;
@@ -2965,11 +3094,28 @@
         // --- JUICE EFFECTS OVERLAYS ---
         if (glitchTimer > 0) {
             glitchTimer--;
+            
+            // Efecto Chromatic Aberration (Simulado rápido sin offscreen dual)
+            const offset = (Math.random() * glitchTimer * 0.5);
             ctx.save();
-            ctx.globalCompositeOperation = 'difference';
-            ctx.fillStyle = `rgba(${Math.random() > 0.5 ? '255,0,0' : '0,255,255'}, ${glitchTimer/40})`;
-            ctx.fillRect(-20, -20, canvas.width+40, canvas.height+40);
+            ctx.globalCompositeOperation = 'screen';
+            
+            // Capa Roja
+            ctx.globalAlpha = 0.5;
+            ctx.filter = 'drop-shadow(' + offset + 'px 0px 0px #ff0000)';
+            ctx.drawImage(canvas, 0, 0);
+            
+            // Capa Azul
+            ctx.filter = 'drop-shadow(-' + offset + 'px 0px 0px #00f3ff)';
+            ctx.drawImage(canvas, 0, 0);
+            
             ctx.restore();
+
+            // Overlay de interferencia
+            if (Math.random() > 0.8) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+                ctx.fillRect(0, Math.random() * canvas.height, canvas.width, 2);
+            }
         }
         
         if (flashTimer > 0) {
