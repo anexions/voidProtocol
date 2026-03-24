@@ -1514,9 +1514,12 @@
             this.color = NEON.RED;
             if (this.isElite) this.color = NEON.YELLOW;
             if (this.isFragmenter) this.color = NEON.PURPLE;
-            if (this.isMini) this.color = NEON.PURPLE; // Re-uso para consistencia
+            if (this.isMini) this.color = NEON.PURPLE; 
             if (this.isHealer) this.color = NEON.GREEN;
 
+            this.isShielded = (Math.random() < 0.15 + (wave * 0.01)); // Probabilidad de escudo escala con oleada
+            this.shieldStrength = this.isShielded ? 1.0 : 0;
+            
             this.hitTimer = 0;
             this.history = []; // Para estelas
         }
@@ -1543,6 +1546,20 @@
                 if (totalKills >= 300) {
                     this.health -= (this.isElite ? 2 : 1);
                 }
+                
+                // Drenaje de escudo por gravitón
+                if (this.isShielded) {
+                    this.shieldStrength -= 0.01;
+                    if (this.shieldStrength <= 0) this.isShielded = false;
+                }
+                
+                // Cosecha energética (1 Rc por segundo por enemigo)
+                if (frameCount % 60 === 0) {
+                    mana += 1;
+                    triggerUIPop('mana-display');
+                    floatingTexts.push(new FloatingText(this.x, this.y - 15, "+1 Rc (Harvest)", NEON.BLUE));
+                }
+                
                 return false; 
             }
 
@@ -1666,6 +1683,18 @@
             ctx.fillRect(this.x - barWidth/2, this.y - this.radius - 8, barWidth, 4);
             ctx.fillStyle = (this.isElite || this.isBoss) ? '#ffd700' : '#00ff00';
             ctx.fillRect(this.x - barWidth/2, this.y - this.radius - 8, barWidth * (this.health / this.maxHealth), 4);
+            
+            // Dibujar Escudo if active
+            if (this.isShielded) {
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.shieldStrength})`;
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius + 5, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.shieldStrength * 0.2})`;
+                ctx.fill();
+            }
         }
     }
 
@@ -1679,6 +1708,12 @@
         }
         update() {
             this.lifetime--;
+            if (this.lifetime === 1) {
+                // Explosión final de gravitón
+                orbShockwaves.push(new OrbShockwave(this.x, this.y, 150));
+                playSound('explosion');
+                shakeAmount = 20;
+            }
             return this.lifetime <= 0;
         }
         draw() {
@@ -1709,6 +1744,15 @@
             ctx.arc(this.x, this.y, this.radius - this.innerPulse, 0, Math.PI * 2);
             ctx.stroke();
             ctx.globalAlpha = 1;
+
+            // Nivel 4: Bonus de explosión final al morir (v1.6)
+            if (this.lifetime < 30) {
+               ctx.strokeStyle = '#fff';
+               ctx.lineWidth = 2;
+               ctx.beginPath();
+               ctx.arc(this.x, this.y, this.radius + (30 - this.lifetime) * 2, 0, Math.PI * 2);
+               ctx.stroke();
+            }
 
             // Centro latente
             ctx.fillStyle = color;
@@ -1904,7 +1948,7 @@
         }
         draw() {
             ctx.save(); ctx.globalAlpha = this.opacity; ctx.shadowBlur = 10; ctx.shadowColor = this.color;
-            ctx.fillStyle = this.color; ctx.font = 'bold 16px Inter'; ctx.textAlign = 'center';
+            ctx.fillStyle = this.color; ctx.font = `900 ${this.fontSize || '16px'} Inter`; ctx.textAlign = 'center';
             ctx.fillText(this.text, this.x, this.y); ctx.restore();
         }
     }
@@ -1927,20 +1971,56 @@
             this.damage = (baseDmg + (currentWave * 5) + planetDmgBonus + expansionBonus) * (this.isCritical ? 3 : 1);
             if (isMega) this.damage += currentWave * 5; // Extra scaling
             this.radius = isMega ? 7 : (this.isCritical ? 8 : 4);
+            this.isResonant = false;
             this.history = []; // Para estelas
         }
         update() {
             this.history.push({x: this.x, y: this.y});
             if (this.history.length > 8) this.history.shift();
 
+            // Detectar Resonancia al pasar por un Gravitón
+            if (!this.isResonant) {
+                gravitones.forEach(grav => {
+                    const dist = Math.sqrt((grav.x - this.x)**2 + (grav.y - this.y)**2);
+                    if (dist < grav.radius + 20) {
+                        this.isResonant = true;
+                        playSound('ability');
+                        this.damage *= 1.5;
+                    }
+                });
+            }
+
             if (!enemies.includes(this.target)) return true; 
             const dx = this.target.x - this.x; const dy = this.target.y - this.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < this.target.radius) { 
-                this.target.health -= this.damage; 
+                let finalDamage = this.damage;
+                if (this.target.isShielded && !this.isResonant) {
+                    finalDamage *= 0.2; // Escudo reduce daño normal
+                    createExplosion(this.x, this.y, '#fff', 2, 0.3);
+                }
+                
+                this.target.health -= finalDamage; 
                 this.target.hitTimer = 3;
+                
+                // Chain lightning resonant
+                if (this.isResonant && Math.random() < 0.2) {
+                    const others = enemies.filter(en => en !== this.target && Math.sqrt((en.x - this.x)**2 + (en.y - this.y)**2) < 150);
+                    if (others.length > 0) {
+                        const chainTarget = others[Math.floor(Math.random() * others.length)];
+                        chainTarget.health -= this.damage * 0.5;
+                        chainTarget.hitTimer = 3;
+                        ctx.beginPath();
+                        ctx.strokeStyle = NEON.BLUE;
+                        ctx.lineWidth = 2;
+                        ctx.moveTo(this.x, this.y);
+                        ctx.lineTo(chainTarget.x, chainTarget.y);
+                        ctx.stroke();
+                    }
+                }
+                
                 // Chispas de impacto
-                createExplosion(this.x, this.y, (this.isCritical ? NEON.GREEN : '#fff'), 4, 0.5);
+                createExplosion(this.x, this.y, (this.isResonant ? NEON.BLUE : (this.isCritical ? NEON.GREEN : '#fff')), 4, 0.5);
                 return true; 
             }
             this.x += (dx / dist) * this.speed; this.y += (dy / dist) * this.speed;
@@ -1948,7 +2028,8 @@
         }
         draw() {
             let color = this.isMega ? NEON.PURPLE : (hasteTimer > 0 ? NEON.YELLOW : '#fff');
-            if (this.isCritical) color = NEON.GREEN; // Color especial para críticos
+            if (this.isCritical) color = NEON.GREEN; 
+            if (this.isResonant) color = NEON.BLUE; // Resonancia sobreescribe color
             
             // Dibujar Estela (v1.3.2)
             ctx.save();
@@ -1990,10 +2071,14 @@
                     if (dist < minDist) { minDist = dist; nearest = enemy; }
                 });
                 if (nearest) { 
-                    projectiles.push(new Projectile(this.x, this.y, nearest)); 
-                    playSound('shoot');
-                    // Nivel 2 (>= 200 bajas): Disparo el doble de rápido
-                    this.cooldown = (totalKills >= 200) ? Math.floor(ORBE_COOLDOWN / 2) : ORBE_COOLDOWN; 
+                    // Coste por disparo (0.5 Rc)
+                    if (mana >= 0.5) {
+                        mana -= 0.5;
+                        projectiles.push(new Projectile(this.x, this.y, nearest)); 
+                        playSound('shoot');
+                        // Nivel 2 (>= 200 bajas): Disparo el doble de rápido
+                        this.cooldown = (totalKills >= 200) ? Math.floor(ORBE_COOLDOWN / 2) : ORBE_COOLDOWN; 
+                    }
                 }
             }
             return this.lifetime <= 0;
@@ -2035,7 +2120,7 @@
         const distToVillage = Math.sqrt((getVillagePos().x - x) ** 2 + (getVillagePos().y - y) ** 2);
         
         if (!overlaps && distToVillage > 100) {
-            const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 4; // Inflación 4
+            const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 8; // Inflación 8 (antes 4)
             if (mana >= currentOrbCost) {
                 mana -= currentOrbCost; 
                 orbes.push(new Orbe(x, y)); 
@@ -2198,8 +2283,8 @@
         manaDisplay.innerText = mana; 
         
         // Actualizar costes en el HUD
-        const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 4;
-        const currentGravitonCost = GRAVITON_BASE_COST + (currentWave - 1) * 15;
+        const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 8;
+        const currentGravitonCost = GRAVITON_BASE_COST + (currentWave - 1) * 20; // Inflación 20 (antes 15)
         
         const orbCostEl = document.querySelector('#unit-orb .unit-cost');
         const gravCostEl = document.querySelector('#unit-grav .unit-cost');
@@ -2706,11 +2791,7 @@
 
         // Autoreparación Eliminada para balanceo
 
-        // Generación de mana pasivo
-        if (frameCount % 50 === 0) { 
-            mana += 1; 
-            updateUI(); 
-        }
+        // Generación de mana pasivo ELIMINADA para balanceo
 
         // Progresión de oleada basada en bajas
         if (totalKills >= nextWaveThreshold) {
@@ -2733,12 +2814,16 @@
                 lastKillTime = now;
 
                 if (comboCount >= COMBO_THRESHOLD && comboCount % COMBO_THRESHOLD === 0) {
-                    let comboRc = 5;
+                    let comboRc = 4; // Reducido bonus combo (antes 5)
                     let comboColor = NEON.YELLOW;
-                    if (comboCount >= 20) { comboRc = 15; comboColor = NEON.RED; }
-                    else if (comboCount >= 10) { comboRc = 10; comboColor = NEON.PURPLE; }
+                    let comboSize = "16px";
+                    if (comboCount >= 20) { comboRc = 10; comboColor = NEON.RED; comboSize = "24px"; shakeAmount = 15; }
+                    else if (comboCount >= 10) { comboRc = 7; comboColor = NEON.PURPLE; comboSize = "20px"; shakeAmount = 5; }
                     mana += comboRc;
-                    floatingTexts.push(new FloatingText(enemies[i].x, enemies[i].y - 20, `${i18n[currentLang].combo} x${comboCount} +${comboRc} Rc`, comboColor));
+                    
+                    const ft = new FloatingText(enemies[i].x, enemies[i].y - 20, `${i18n[currentLang].combo} x${comboCount} +${comboRc} Rc`, comboColor);
+                    ft.fontSize = comboSize;
+                    floatingTexts.push(ft);
                     playSound('ability');
                 }
 
@@ -2757,7 +2842,7 @@
                     playSound('ability');
                 }
 
-                let reward = enemies[i].isElite ? 15 : (enemies[i].isMini ? 2 : 5); // Original
+                let reward = enemies[i].isElite ? 10 : (enemies[i].isMini ? 1 : 3); // Recompensas reducidas (antes 15, 2, 5)
                 if (comboCount >= 20 && !enemies[i].isMini) reward += 2;
                 else if (comboCount >= 10 && !enemies[i].isMini) reward += 1;
 
