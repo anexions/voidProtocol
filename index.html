@@ -1387,7 +1387,7 @@
     }
 
     // Variables de Juego
-    let mana = 120; // Antes 100
+    let mana = 150; // Antes 120
     let villageLives = 10;
     let totalKills = 0;
     let burstKills = 0; // Gatilla Mega-Shot cada 15 bajas
@@ -1553,11 +1553,11 @@
                     if (this.shieldStrength <= 0) this.isShielded = false;
                 }
                 
-                // Cosecha energética (1 Rc por segundo por enemigo)
+                // Cosecha energética (2 Rc por segundo por enemigo)
                 if (frameCount % 60 === 0) {
-                    mana += 1;
+                    mana += 2;
                     triggerUIPop('mana-display');
-                    floatingTexts.push(new FloatingText(this.x, this.y - 15, "+1 Rc (Harvest)", NEON.BLUE));
+                    floatingTexts.push(new FloatingText(this.x, this.y - 15, "+2 Rc (Harvest)", NEON.BLUE));
                 }
                 
                 return false; 
@@ -2071,9 +2071,9 @@
                     if (dist < minDist) { minDist = dist; nearest = enemy; }
                 });
                 if (nearest) { 
-                    // Coste por disparo (0.5 Rc)
-                    if (mana >= 0.5) {
-                        mana -= 0.5;
+                    // Coste por disparo (0.2 Rc)
+                    if (mana >= 0.2) {
+                        mana -= 0.2;
                         projectiles.push(new Projectile(this.x, this.y, nearest)); 
                         playSound('shoot');
                         // Nivel 2 (>= 200 bajas): Disparo el doble de rápido
@@ -2384,7 +2384,7 @@
         if (startOverlay) startOverlay.style.display = 'flex';
         
         // Reset Game State & Arrays
-        mana = 120; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1; nextWaveThreshold = 25;
+        mana = 150; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1; nextWaveThreshold = 25;
         enemies = []; orbes = []; gravitones = []; projectiles = []; 
         floatingTexts = []; orbShockwaves = []; hasteTimer = 0;
         particles = []; manaParticles = []; corpses = [];
@@ -2462,7 +2462,7 @@
 
     function resetGame() {
         if (animationId) cancelAnimationFrame(animationId);
-        mana = 120; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1;
+        mana = 150; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1;
         enemies = []; orbes = []; gravitones = []; projectiles = []; floatingTexts = []; orbShockwaves = []; hasteTimer = 0;
         healMessageTimer = 0; elitesKilled = 0; bossesKilled = 0;
         charge1 = 0; charge2 = 0; comboCount = 0; lastKillTime = 0;
@@ -2791,7 +2791,11 @@
 
         // Autoreparación Eliminada para balanceo
 
-        // Generación de mana pasivo ELIMINADA para balanceo
+        // Generación de mana pasivo (v1.7)
+        if (frameCount % 90 === 0) { 
+            mana += 1; 
+            updateUI(); 
+        }
 
         // Progresión de oleada basada en bajas
         if (totalKills >= nextWaveThreshold) {
