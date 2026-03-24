@@ -666,7 +666,7 @@
                                 <div class="guide-text">
                                     <b data-i18n="tut_grav_click">CTRL+CLIC: GRAVITÓN</b>
                                     <span data-i18n="tut_grav_desc">Ralentiza y atrae enemigos.</span>
-                                    <div class="cost-tag"><span data-i18n="cost_lbl">Coste:</span> <span id="tut-grav-cost">80</span> Rc + <span data-i18n="inflation_lbl">Inflación</span></div>
+                                    <div class="cost-tag"><span data-i18n="cost_lbl">Coste:</span> <span id="tut-grav-cost">65</span> Rc + <span data-i18n="inflation_lbl">Inflación</span></div>
                                 </div>
                             </div>
                         </div>
@@ -1387,7 +1387,7 @@
     }
 
     // Variables de Juego
-    let mana = 100;
+    let mana = 120; // Antes 100
     let villageLives = 10;
     let totalKills = 0;
     let burstKills = 0; // Gatilla Mega-Shot cada 15 bajas
@@ -1464,7 +1464,7 @@
     const getVillagePos = () => ({ x: canvas.width / 2, y: canvas.height - 40 });
     const PROTECTION_RADIUS = 120;
     const ORBE_BASE_COST = 15;
-    const GRAVITON_BASE_COST = 80;
+    const GRAVITON_BASE_COST = 65; // Antes 80
     const MAX_RC = 3000;
     const ORBE_RANGE = 180;
     const ORBE_COOLDOWN = 45; 
@@ -1517,7 +1517,7 @@
             if (this.isMini) this.color = NEON.PURPLE; 
             if (this.isHealer) this.color = NEON.GREEN;
 
-            this.isShielded = (Math.random() < 0.15 + (wave * 0.01)); // Probabilidad de escudo escala con oleada
+            this.isShielded = (currentWave >= 3) && (Math.random() < 0.15 + (wave * 0.01)); 
             this.shieldStrength = this.isShielded ? 1.0 : 0;
             
             this.hitTimer = 0;
@@ -2384,7 +2384,7 @@
         if (startOverlay) startOverlay.style.display = 'flex';
         
         // Reset Game State & Arrays
-        mana = 100; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1; nextWaveThreshold = 25;
+        mana = 120; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1; nextWaveThreshold = 25;
         enemies = []; orbes = []; gravitones = []; projectiles = []; 
         floatingTexts = []; orbShockwaves = []; hasteTimer = 0;
         particles = []; manaParticles = []; corpses = [];
@@ -2462,7 +2462,7 @@
 
     function resetGame() {
         if (animationId) cancelAnimationFrame(animationId);
-        mana = 100; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1;
+        mana = 120; villageLives = 10; totalKills = 0; burstKills = 0; currentWave = 1;
         enemies = []; orbes = []; gravitones = []; projectiles = []; floatingTexts = []; orbShockwaves = []; hasteTimer = 0;
         healMessageTimer = 0; elitesKilled = 0; bossesKilled = 0;
         charge1 = 0; charge2 = 0; comboCount = 0; lastKillTime = 0;
