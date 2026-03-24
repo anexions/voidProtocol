@@ -674,7 +674,7 @@
                                 <div class="guide-text">
                                     <b data-i18n="tut_orb_click">CLIC: ORBE ENERGÍA</b>
                                     <span data-i18n="tut_orb_desc">Ataque rápido y letal.</span>
-                                    <div class="cost-tag"><span data-i18n="cost_lbl">Coste:</span> <span id="tut-orb-cost">15</span> Rc + <span data-i18n="inflation_lbl">Inflación</span></div>
+                                    <div class="cost-tag"><span data-i18n="cost_lbl">Coste:</span> <span id="tut-orb-cost">15</span> Rc</div>
                                 </div>
                             </div>
                             <div class="guide-item">
@@ -688,7 +688,7 @@
                                 <div class="guide-text">
                                     <b data-i18n="tut_grav_click">CTRL+CLIC: GRAVITÓN</b>
                                     <span data-i18n="tut_grav_desc">Ralentiza y atrae enemigos.</span>
-                                    <div class="cost-tag"><span data-i18n="cost_lbl">Coste:</span> <span id="tut-grav-cost">65</span> Rc + <span data-i18n="inflation_lbl">Inflación</span></div>
+                                    <div class="cost-tag"><span data-i18n="cost_lbl">Coste:</span> <span id="tut-grav-cost">65</span> Rc</div>
                                 </div>
                             </div>
                         </div>
@@ -2216,7 +2216,7 @@
         const distToVillage = Math.sqrt((getVillagePos().x - x) ** 2 + (getVillagePos().y - y) ** 2);
         
         if (!overlaps && distToVillage > 100) {
-            const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 8; // Inflación 8 (antes 4)
+            const currentOrbCost = ORBE_BASE_COST; 
             if (mana >= currentOrbCost) {
                 mana -= currentOrbCost; 
                 orbes.push(new Orbe(x, y)); 
@@ -2245,7 +2245,7 @@
                              gravitones.some(g => Math.sqrt((g.x - mouseX) ** 2 + (g.y - mouseY) ** 2) < 40);
             const distToVillage = Math.sqrt((getVillagePos().x - mouseX) ** 2 + (getVillagePos().y - mouseY) ** 2);
             if (!overlaps && distToVillage > 100) {
-                const currentCost = GRAVITON_BASE_COST + (currentWave - 1) * 15; // Inflación 15
+                const currentCost = GRAVITON_BASE_COST; 
                 if (mana >= currentCost) {
                     if ((orbes.length + gravitones.length) >= MAX_UNITS) {
                         floatingTexts.push(new FloatingText(mouseX, mouseY, "MÁX UNIDADES", NEON.RED));
@@ -2378,9 +2378,9 @@
         if (mana > MAX_RC) mana = MAX_RC;
         manaDisplay.innerText = Math.floor(mana); 
         
-        // Actualizar costes en el HUD con inflación balanceada (V3)
-        const currentOrbCost = ORBE_BASE_COST + (currentWave - 1) * 5; // Antes 8
-        const currentGravitonCost = GRAVITON_BASE_COST + (currentWave - 1) * 15; // Antes 20
+        // Actualizar costes en el HUD (Coste Fijo)
+        const currentOrbCost = ORBE_BASE_COST;
+        const currentGravitonCost = GRAVITON_BASE_COST;
         
         const orbCostEl = document.querySelector('#unit-orb .unit-cost');
         const gravCostEl = document.querySelector('#unit-grav .unit-cost');
