@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Void Protocol v1.0 - Defensa del Pueblo</title>
+    <title>Void Protocol V NEUTRON - Defensa del Pueblo</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23050505'/><polygon points='32,10 54,32 32,54 10,32' fill='none' stroke='%2300f3ff' stroke-width='6'/><circle cx='32' cy='32' r='8' fill='%23ff00ff'/></svg>" type="image/svg+xml">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
@@ -635,7 +635,7 @@
             <div class="start-container">
                 <div class="system-status">SYSTEM_STATUS: ONLINE</div>
                 <div id="player-title" style="color: #00f3ff; font-size: 0.9rem; font-weight: bold; letter-spacing: 6px; margin-bottom: -5px; text-shadow: 0 0 15px #00f3ff; text-transform: uppercase;">[RECLUTA] JUGADOR</div>
-                <h2 data-i18n="title_main">VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span></h2>
+                <h2 data-i18n="title_main">VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span></h2>
                 
                 <div style="margin: 20px 0; display: flex; align-items: center; justify-content: center; gap: 10px;">
                     <input type="text" id="player-name-input" maxlength="15" placeholder="TU NOMBRE" style="background: rgba(0, 243, 255, 0.05); border: 1px solid rgba(0, 243, 255, 0.4); color: #00f3ff; padding: 12px 20px; font-size: 1.2rem; font-family: 'Inter', sans-serif; text-align: center; font-weight: bold; letter-spacing: 4px; border-radius: 4px; outline: none; box-shadow: inset 0 0 15px rgba(0, 243, 255, 0.1), 0 0 10px rgba(0, 243, 255, 0.2); text-transform: uppercase; width: 220px; transition: all 0.3s;" onfocus="this.style.boxShadow='inset 0 0 20px rgba(0, 243, 255, 0.4), 0 0 20px rgba(0, 243, 255, 0.6)'; this.style.borderColor='#00f3ff';" onblur="this.style.boxShadow='inset 0 0 15px rgba(0, 243, 255, 0.1), 0 0 10px rgba(0, 243, 255, 0.2)'; this.style.borderColor='rgba(0,243,255,0.4)';">
@@ -812,8 +812,23 @@
                         <circle cx="20" cy="22" r="3" fill="#f3ff00" />
                     </svg>
                 </div>
-                
-                <!-- Habilidad 2 Elimada para balanceo -->
+
+                <div id="ability-2" class="sidebar-unit">
+                    <div class="sidebar-text-top" style="color: #00f3ff;">[2] SINGULARIDAD</div>
+                    <svg class="ability-icon" viewBox="0 0 40 40">
+                        <circle cx="20" cy="20" r="14" fill="none" stroke="#00f3ff" stroke-width="3" style="filter: drop-shadow(0px 0px 8px #00f3ff);" />
+                        <circle cx="20" cy="20" r="4" fill="#00f3ff" />
+                        <path d="M20 10 L20 30 M10 20 L30 20" stroke="#00f3ff" stroke-width="2" />
+                    </svg>
+                </div>
+
+                <div id="ability-3" class="sidebar-unit">
+                    <div class="sidebar-text-top" style="color: #ff00ff;">[3] SUPERNOVA</div>
+                    <svg class="ability-icon" viewBox="0 0 40 40">
+                        <path d="M20 5 L22 15 L32 15 L24 22 L27 32 L20 25 L13 32 L16 22 L8 15 L18 15 Z" fill="none" stroke="#ff00ff" stroke-width="2" style="filter: drop-shadow(0px 0px 8px #ff00ff);" />
+                        <circle cx="20" cy="20" r="5" fill="#ff00ff" />
+                    </svg>
+                </div>
             </div>
             
             <!-- Right Line -->
@@ -882,7 +897,7 @@
 <script>
     const i18n = {
         es: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
             btn_achievements: '🏆 LOGROS', btn_instructions: '📋 INSTRUCCIONES', btn_ranking: '👑 RANKING', ach_modal_title: 'REGISTRO Y TÍTULOS', ach_unlocked: '¡LOGRO DESBLOQUEADO!', ach_reward_lbl: 'TÍTULO:',
             support_txt: 'APOYA EL PROYECTO:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'ERES EL VIAJERO NÚMERO:',
             ui_resources: 'RECURSOS:', ui_energy: 'ENERGÍA:', ui_kills: 'Bajas:', ui_time: 'Tiempo:', ui_waves: 'OLEADAS:',
@@ -912,7 +927,7 @@
             perks: ["", "DAÑO Y MANÁ x2", "RÁFAGA DE FUEGO", "GRAVEDAD LETAL", "PULSO EMP", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "RECURSOS MAX", "ANIQUILACIÓN TOTAL"]
         },
         fr: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
             btn_achievements: '🏆 SUCCÈS', btn_instructions: '📋 INSTRUCTIONS', btn_ranking: '👑 CLASSEMENT', ach_modal_title: 'REGISTRE DES TITRES', ach_unlocked: 'SUCCÈS DÉVERROUILLÉ!', ach_reward_lbl: 'TITRE:',
             support_txt: 'SOUTENIR LE PROJET:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'VOUS ÊTES LE VOYAGEUR:',
             ui_resources: 'RESSOURCES:', ui_energy: 'ÉNERGIE:', ui_kills: 'Élimin.:', ui_time: 'Temps:', ui_waves: 'VAGUES:',
@@ -944,7 +959,7 @@
             perks: ["", "DÉGÂTS & MANA x2", "TIR RAPIDE", "GRAVITÉ LÉTALE", "PULSION EMP", "PORTÉE SUPRÊME", "SURCHARGE CRITIQUE", "RESSOURCES MAX", "ANNIHILATION TOTALE"]
         },
         ru: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
             btn_achievements: '🏆 ДОСТИЖЕНИЯ', btn_instructions: '📋 ИНСТРУКЦИИ', btn_ranking: '👑 РЕЙТИНГ', ach_modal_title: 'РЕЕСТР ТИТУЛОВ', ach_unlocked: 'ДОСТИЖЕНИЕ РАЗБЛОКИРОВАНО!', ach_reward_lbl: 'ТИТУЛ:',
             support_txt: 'ПОДДЕРЖАТЬ ПРОЕКТ:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'ВЫ ПУТЕШЕСТВЕННИК НОМЕР:',
             ui_resources: 'РЕСУРСЫ:', ui_energy: 'ЭНЕРГИЯ:', ui_kills: 'Убийства:', ui_time: 'Время:', ui_waves: 'ВОЛНЫ:',
@@ -974,7 +989,7 @@
             perks: ["", "УРОН И МАНА x2", "БЫСТРЫЙ ОГОНЬ", "СМЕРТЕЛЬНАЯ ГРАВИТАЦИЯ", "ЭМП ИМПУЛЬС", "ВЫСШИЙ РАДИУС", "КРИТ. ПЕРЕГРУЗКА", "МАКС РЕСУРСЫ", "ПОЛНОЕ УНИЧТОЖЕНИЕ"]
         },
         pt: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
             btn_achievements: '🏆 CONQUISTAS', btn_instructions: '📋 INSTRUÇÕES', btn_ranking: '👑 RANKING', ach_modal_title: 'REGISTRO DE TÍTULOS', ach_unlocked: 'CONQUISTA DESBLOQUEADA!', ach_reward_lbl: 'TÍTULO:',
             support_txt: 'APOIE O PROJETO:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'VOCÊ É O VIAJANTE NÚMERO:',
             ui_resources: 'RECURSOS:', ui_energy: 'ENERGIA:', ui_kills: 'Abates:', ui_time: 'Tempo:', ui_waves: 'ONDAS:',
@@ -1003,7 +1018,7 @@
             perks: ["", "DANO E MANA x2", "TIRO RÁPIDO", "GRAVIDADE LETAL", "PULSO EMP", "ALCANCE SUPREMO", "SOBRECARGA CRÍTICA", "RECURSOS MAX", "ANIQUILAÇÃO TOTAL"]
         },
         en: {
-            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">v1.0</span>',
+            title_main: 'VOID PROTOCOL <span style="font-size: 1.1rem; opacity: 0.7; vertical-align: middle; letter-spacing: 2px;">V NEUTRON</span>',
             btn_achievements: '🏆 ACHIEVEMENTS', btn_instructions: '📋 INSTRUCTIONS', btn_ranking: '👑 RANKING', ach_modal_title: 'MILESTONES & TITLES', ach_unlocked: 'ACHIEVEMENT UNLOCKED!', ach_reward_lbl: 'TITLE:',
             support_txt: 'SUPPORT THE PROJECT:', donate_kofi: '☕ KO-FI', donate_paypal: '💳 PAYPAL', visit_counter: 'YOU ARE VOYAGER NUMBER:',
             ui_resources: 'RESOURCES:', ui_energy: 'ENERGY:', ui_kills: 'Kills:', ui_time: 'Time:', ui_waves: 'WAVES:',
@@ -1420,9 +1435,11 @@
     let projectiles = [];
     let orbShockwaves = [];
     let floatingTexts = [];
-    let charge1 = 0; const MAX_CHARGE_1 = 900; // 15s (Rebalanceado de 1500)
-    let charge2 = 0; const MAX_CHARGE_2 = 2400; // 40s
-    let shockwaveActive = false;
+    let charge1 = 0; const MAX_CHARGE_1 = 900; 
+    let charge2 = 0; const MAX_CHARGE_2 = 1800; // 30s
+    let charge3 = 0; const MAX_CHARGE_3 = 3600; // 60s
+    const COST_SINGULARITY = 500;
+    const COST_SUPERNOVA = 1000;
     let shockwaveRadius = 0;
     let hasteTimer = 0;
     const hasteAnnouncement = document.getElementById('haste-announcement');
@@ -1514,11 +1531,12 @@
             if (this.isFragmenter) this.radius *= 1.5;
             if (this.isMini) this.radius *= 0.6;
             if (this.isBoss) this.radius *= 3.5;
+            if (this.isInterceptor) this.radius *= 0.9;
 
             this.x = x !== undefined ? x : Math.random() * canvas.width;
             this.y = y !== undefined ? y : -50;
             
-            const baseSpeed = (wave < 15) ? (1.3 + (wave * 0.15)) : (3.5 + (wave - 15) * 0.18); // Velocidad y escalado aumentados
+            const baseSpeed = (wave < 15) ? (1.3 + (wave * 0.15)) : (3.5 + (wave - 15) * 0.18); 
             const lateGameMult = (totalKills > 800) ? 1 + (totalKills - 800) * 0.001 : 1;
             this.speed = baseSpeed * lateGameMult;
 
@@ -1526,12 +1544,14 @@
             if (this.isFragmenter) this.speed *= 0.9;
             if (this.isMini) this.speed *= 1.6;
             if (this.isBoss) this.speed *= 0.45;
+            if (this.isInterceptor) this.speed *= 1.8;
 
-            this.maxHealth = (50 + (wave * 45)); // Salud escala más (45 desde 30)
+            this.maxHealth = (50 + (wave * 45)); 
             if (this.isElite) this.maxHealth *= 1.8;
             if (this.isFragmenter) this.maxHealth *= 1.3;
             if (this.isMini) this.maxHealth *= 0.4;
-            if (this.isBoss) this.maxHealth *= 12;
+            if (this.isBoss) this.maxHealth *= (12 + (totalKills / 100)); // Escala con bajas
+            if (this.isInterceptor) this.maxHealth *= 0.5;
 
             this.health = this.maxHealth;
             this.villagePos = getVillagePos();
@@ -1541,6 +1561,7 @@
             if (this.isFragmenter) this.color = NEON.PURPLE;
             if (this.isMini) this.color = NEON.PURPLE; 
             if (this.isHealer) this.color = NEON.GREEN;
+            if (this.isInterceptor) this.color = '#fff';
 
             this.isShielded = (currentWave >= 3) && (Math.random() < 0.15 + (wave * 0.01)); 
             this.shieldStrength = this.isShielded ? 1.0 : 0;
@@ -1618,10 +1639,38 @@
                 
                 // Fuerza de atracción escala con el late game para compensar la masa enemiga
                 const lateGamePull = (totalKills > 800) ? 1 + (totalKills - 800) * 0.002 : 1;
-                const pullStrength = 1.8 * lateGamePull;
+                const pullStrength = (nearestGravitonForGravity.isSingularity ? 5.0 : 1.8) * lateGamePull;
                 
                 gravityForce.x = (dx / dist) * pullStrength;
                 gravityForce.y = (dy / dist) * pullStrength;
+            }
+
+            // Lógica Interceptor (Busca orbes)
+            if (this.isInterceptor) {
+                if (!this.targetOrbe || !orbes.includes(this.targetOrbe)) {
+                    let minDist = Infinity;
+                    this.targetOrbe = null;
+                    orbes.forEach(o => {
+                        const d = Math.sqrt((o.x - this.x)**2 + (o.y - this.y)**2);
+                        if (d < minDist) { minDist = d; this.targetOrbe = o; }
+                    });
+                }
+
+                if (this.targetOrbe) {
+                    const odx = this.targetOrbe.x - this.x;
+                    const ody = this.targetOrbe.y - this.y;
+                    const odist = Math.sqrt(odx*odx + ody*ody);
+                    if (odist < 15) {
+                        const idx = orbes.indexOf(this.targetOrbe);
+                        if (idx > -1) orbes.splice(idx, 1);
+                        createExplosion(this.x, this.y, '#fff', 5);
+                        this.health = 0; // Se autodestruye al comer orbe
+                        return true;
+                    }
+                    this.x += (odx / odist) * this.speed;
+                    this.y += (ody / odist) * this.speed;
+                    return false;
+                }
             }
 
             const dx = this.villagePos.x - this.x;
@@ -1730,6 +1779,7 @@
             this.lifetime = 20 * 60; // 20 Segundos
             this.color = NEON.BLUE;
             this.innerPulse = 0;
+            this.isSingularity = false;
         }
         update() {
             this.lifetime--;
@@ -1742,7 +1792,7 @@
             return this.lifetime <= 0;
         }
         draw() {
-            const color = NEON.BLUE;
+            const color = this.isSingularity ? NEON.PURPLE : NEON.BLUE;
             const currentGravityRange = (totalKills >= 500) ? 360 : GRAVITY_RANGE;
             // Área de Gravedad
             ctx.strokeStyle = `rgba(${color === '#ffffff' ? '255,255,255' : '0, 243, 255'}, 0.1)`;
@@ -2351,8 +2401,31 @@
                     hasteAnnouncement.classList.add('active');
                     document.getElementById('haste-subtitle').innerText = i18n[currentLang].haste_msg;
                 }
+            } else if ((e.code === 'Digit2' || e.code === 'Numpad2') && charge2 >= MAX_CHARGE_2 && mana >= COST_SINGULARITY) {
+                mana -= COST_SINGULARITY;
+                charge2 = 0;
+                document.getElementById('ability-2').classList.remove('ready-2');
+                // Singularity: Super Gravitón en el centro
+                const sing = new Gravitón(canvas.width/2, canvas.height/2);
+                sing.radius = 45; sing.lifetime = 600; // 10s
+                sing.isSingularity = true;
+                gravitones.push(sing);
+                playSound('ability');
+                updateUI();
+            } else if ((e.code === 'Digit3' || e.code === 'Numpad3') && charge3 >= MAX_CHARGE_3 && mana >= COST_SUPERNOVA) {
+                mana -= COST_SUPERNOVA;
+                charge3 = 0;
+                document.getElementById('ability-3').classList.remove('ready-3');
+                // Supernova: Explosión masiva
+                shockwaveActive = true; shockwaveRadius = 0;
+                enemies.forEach(en => {
+                    en.health -= 1500; 
+                    createExplosion(en.x, en.y, en.color, 10);
+                });
+                flashTimer = 30; shakeAmount = 60;
+                playSound('explosion');
+                updateUI();
             }
-            // Habilidad 2 Elimada para balanceo
         }
     });
 
@@ -2877,7 +2950,8 @@
             const roll = Math.random();
             if (roll < 0.08) type = 'elite';
             else if (roll < 0.20) type = 'fragmenter';
-            else if (roll < 0.205) type = 'healer'; // Reducido de 2% a 0.5%
+            else if (roll < 0.205) type = 'healer'; 
+            else if (totalKills >= 150 && roll < 0.25) type = 'interceptor'; 
             enemies.push(new Enemy(currentWave, type));
         }
 
@@ -2916,7 +2990,14 @@
             charge1++;
             if (charge1 >= MAX_CHARGE_1) document.getElementById('ability-1').classList.add('ready-1');
         }
-        // Habilidad 2 Desactivada
+        if (charge2 < MAX_CHARGE_2) {
+            charge2++;
+            if (charge2 >= MAX_CHARGE_2) document.getElementById('ability-2').classList.add('ready-2');
+        }
+        if (charge3 < MAX_CHARGE_3) {
+            charge3++;
+            if (charge3 >= MAX_CHARGE_3) document.getElementById('ability-3').classList.add('ready-3');
+        }
 
         // Autoreparación Eliminada para balanceo
 
@@ -3004,8 +3085,8 @@
                     playSound('ability');
                 }
 
-                // Generación de Boss (Cada 200 bajas tras las 800)
-                if (totalKills > 800 && totalKills % 200 === 0) {
+                // Generación de Boss (Cada 100 bajas)
+                if (totalKills > 0 && totalKills % 100 === 0) {
                     milestoneNotice = { text: i18n[currentLang].nemesis_warning, timer: 180 };
                     enemies.push(new Enemy(currentWave, 'boss'));
                     playSound('ability');
